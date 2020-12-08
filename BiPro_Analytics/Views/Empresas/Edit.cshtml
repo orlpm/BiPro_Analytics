@@ -1,0 +1,86 @@
+﻿@model BiPro_Analytics.Models.Empresa
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Empresa</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdEmpresa" />
+            <div class="form-group">
+                <label asp-for="NombreEmpresa" class="control-label"></label>
+                <input asp-for="NombreEmpresa" class="form-control" />
+                <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiroEmpresa" class="control-label"></label>
+                <input asp-for="GiroEmpresa" class="form-control" />
+                <span asp-validation-for="GiroEmpresa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubGiroEmpresa" class="control-label"></label>
+                <input asp-for="SubGiroEmpresa" class="form-control" />
+                <span asp-validation-for="SubGiroEmpresa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ciudad" class="control-label"></label>
+                <input asp-for="Ciudad" class="form-control" />
+                <span asp-validation-for="Ciudad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CP" class="control-label"></label>
+                <input asp-for="CP" class="form-control" />
+                <span asp-validation-for="CP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantEmpleados" class="control-label"></label>
+                <input asp-for="CantEmpleados" class="form-control" />
+                <span asp-validation-for="CantEmpleados" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinSueldo" class="control-label"></label>
+                <input asp-for="MinSueldo" class="form-control" />
+                <span asp-validation-for="MinSueldo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxSueldo" class="control-label"></label>
+                <input asp-for="MaxSueldo" class="form-control" />
+                <span asp-validation-for="MaxSueldo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaIngreso" class="control-label"></label>
+                <input asp-for="FechaIngreso" class="form-control" />
+                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HorasLaborales" class="control-label"></label>
+                <input asp-for="HorasLaborales" class="form-control" />
+                <span asp-validation-for="HorasLaborales" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasLaborales" class="control-label"></label>
+                <input asp-for="DiasLaborales" class="form-control" />
+                <span asp-validation-for="DiasLaborales" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
