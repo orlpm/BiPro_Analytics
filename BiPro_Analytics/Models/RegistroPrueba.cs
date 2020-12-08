@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace BiPro_Analytics.Models
     {
         public int Id { get; set; }
         public float Temperatura { get; set; }
+        [Required]
+        [DisplayName("Porcentaje O2")]
         public float PorcentajeO2 { get; set; }
         public string TipoSangre { get; set; }
         public string APOlfativa { get; set; }
@@ -26,9 +30,7 @@ namespace BiPro_Analytics.Models
         public string ResultadoIgG { get; set; }
         public string ResultadoPCR { get; set; }
 
-        
-        [ForeignKey("TrabajadorFK2")]
-        public int IdTrabajador { get; set; }
+        public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
 
     }

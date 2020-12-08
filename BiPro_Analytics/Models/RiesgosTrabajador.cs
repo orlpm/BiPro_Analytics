@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +11,14 @@ namespace BiPro_Analytics.Models
     public class RiesgosTrabajador
     {
         public int Id { get; set; }
+        [Required]
+        [DisplayName("Area de trabajo")]
         public string AreaTrabajo { get; set; }
+        [Required]
+        [DisplayName("Transporte usual")]
         public string TipoTransporte { get; set; }
+        [Required]
+        [DisplayName("Personas vivienda")]
         public string CantidadPersonas { get; set; }
         public bool DiagnosticoCovid { get; set; }
         public string ContactoCovid { get; set; }
@@ -52,9 +60,7 @@ namespace BiPro_Analytics.Models
         public bool Cianosis { get; set; }
         public bool Ninguna { get; set; }
         public bool TrabajoEnCasa { get; set; }
-
-        [ForeignKey("TrabajadorFK1")]
-        public int IdTrabajador { get; set; }
+        public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
 
     }

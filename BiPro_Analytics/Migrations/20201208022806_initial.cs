@@ -52,18 +52,18 @@ namespace BiPro_Analytics.Migrations
                 {
                     IdEmpresa = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NombreEmpresa = table.Column<string>(nullable: true),
-                    GiroEmpresa = table.Column<string>(nullable: true),
+                    NombreEmpresa = table.Column<string>(nullable: false),
+                    GiroEmpresa = table.Column<string>(nullable: false),
                     SubGiroEmpresa = table.Column<string>(nullable: true),
-                    Estado = table.Column<string>(nullable: true),
-                    Ciudad = table.Column<string>(nullable: true),
-                    CP = table.Column<string>(nullable: true),
-                    CantEmpleados = table.Column<int>(nullable: true),
-                    MinSueldo = table.Column<decimal>(nullable: true),
-                    MaxSueldo = table.Column<decimal>(nullable: true),
+                    Estado = table.Column<string>(nullable: false),
+                    Ciudad = table.Column<string>(nullable: false),
+                    CP = table.Column<string>(nullable: false),
+                    CantEmpleados = table.Column<int>(nullable: false),
+                    MinSueldo = table.Column<decimal>(nullable: false),
+                    MaxSueldo = table.Column<decimal>(nullable: false),
                     FechaIngreso = table.Column<DateTime>(nullable: true),
-                    HorasLaborales = table.Column<int>(nullable: true),
-                    DiasLaborales = table.Column<int>(nullable: true)
+                    HorasLaborales = table.Column<int>(nullable: false),
+                    DiasLaborales = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,14 +182,15 @@ namespace BiPro_Analytics.Migrations
                 {
                     IdTrabajador = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(nullable: true),
-                    Telefono = table.Column<string>(nullable: true),
+                    Nombre = table.Column<string>(nullable: false),
+                    Telefono = table.Column<string>(nullable: false),
                     Correo = table.Column<string>(nullable: true),
                     Ciudad = table.Column<string>(nullable: true),
                     CP = table.Column<string>(nullable: true),
-                    FechaNacimiento = table.Column<DateTime>(nullable: true),
-                    Genero = table.Column<string>(nullable: true),
-                    FK_EmpresasId = table.Column<int>(nullable: true)
+                    FechaNacimiento = table.Column<DateTime>(nullable: false),
+                    Genero = table.Column<string>(nullable: false),
+                    IdEmpresa = table.Column<int>(nullable: true),
+                    FK_EmpresasId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +200,7 @@ namespace BiPro_Analytics.Migrations
                         column: x => x.FK_EmpresasId,
                         principalTable: "Empresas",
                         principalColumn: "IdEmpresa",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,7 +251,7 @@ namespace BiPro_Analytics.Migrations
                     ResultadoIgM = table.Column<string>(nullable: true),
                     ResultadoIgG = table.Column<string>(nullable: true),
                     ResultadoPCR = table.Column<string>(nullable: true),
-                    IdTrabajador = table.Column<int>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: true),
                     TrabajadorIdTrabajador = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -270,9 +271,9 @@ namespace BiPro_Analytics.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AreaTrabajo = table.Column<string>(nullable: true),
-                    TipoTransporte = table.Column<string>(nullable: true),
-                    CantidadPersonas = table.Column<string>(nullable: true),
+                    AreaTrabajo = table.Column<string>(nullable: false),
+                    TipoTransporte = table.Column<string>(nullable: false),
+                    CantidadPersonas = table.Column<string>(nullable: false),
                     DiagnosticoCovid = table.Column<bool>(nullable: false),
                     ContactoCovid = table.Column<string>(nullable: true),
                     Mas65 = table.Column<bool>(nullable: false),
@@ -313,7 +314,7 @@ namespace BiPro_Analytics.Migrations
                     Cianosis = table.Column<bool>(nullable: false),
                     Ninguna = table.Column<bool>(nullable: false),
                     TrabajoEnCasa = table.Column<bool>(nullable: false),
-                    IdTrabajador = table.Column<int>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: true),
                     TrabajadorIdTrabajador = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

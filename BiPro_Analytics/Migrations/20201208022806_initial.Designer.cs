@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiPro_Analytics.Migrations
 {
     [DbContext(typeof(BiproAnalyticsDBContext))]
-    [Migration("20201208013302_initial")]
+    [Migration("20201208022806_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,36 +29,46 @@ namespace BiPro_Analytics.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CP")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CantEmpleados")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Ciudad")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DiasLaborales")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Estado")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FechaIngreso")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GiroEmpresa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("HorasLaborales")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<decimal?>("MaxSueldo")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("MinSueldo")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("NombreEmpresa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubGiroEmpresa")
@@ -126,7 +136,7 @@ namespace BiPro_Analytics.Migrations
                     b.Property<int>("Discriminacion")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdTrabajador")
+                    b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
                     b.Property<int>("Mas15cm")
@@ -189,6 +199,7 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("AreaTrabajo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Artralgias")
@@ -198,6 +209,7 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("CantidadPersonas")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Cianosis")
@@ -257,7 +269,7 @@ namespace BiPro_Analytics.Migrations
                     b.Property<bool>("Hipertension")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdTrabajador")
+                    b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
                     b.Property<bool>("Irritabilidad")
@@ -303,6 +315,7 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TipoTransporte")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Tos")
@@ -341,18 +354,26 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("FK_EmpresasId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaNacimiento")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Genero")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("IdEmpresa")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefono")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdTrabajador");
@@ -587,7 +608,9 @@ namespace BiPro_Analytics.Migrations
                 {
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany("Trabajadores")
-                        .HasForeignKey("FK_EmpresasId");
+                        .HasForeignKey("FK_EmpresasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

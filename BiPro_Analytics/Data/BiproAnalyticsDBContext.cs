@@ -28,7 +28,7 @@ namespace BiPro_Analytics.Data
             //    .WithMany(b => b.Trabajadores);
 
             modelBuilder.Entity<Trabajador>()
-                .HasOne(p => p.Empresa).WithMany(b => b.Trabajadores).HasForeignKey("FK_EmpresasId");
+                .HasOne(p => p.Empresa).WithMany(b => b.Trabajadores).HasForeignKey("FK_EmpresasId").IsRequired();
 
 
             base.OnModelCreating(modelBuilder);
