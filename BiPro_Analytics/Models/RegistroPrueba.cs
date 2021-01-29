@@ -32,6 +32,5 @@ namespace BiPro_Analytics.Models
 
         public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
-
     }
 }

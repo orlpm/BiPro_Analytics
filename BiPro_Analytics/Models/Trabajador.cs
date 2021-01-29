@@ -24,6 +24,9 @@ namespace BiPro_Analytics.Models
         public DateTime? FechaNacimiento { get; set; }
         [Required]
         public string Genero { get; set; }
+        public string NombreUnidad { get; set; }
+        public string NombreArea { get; set; }
+        
         public ICollection<RiesgosTrabajador> RiesgosTrabajadores { get; set; }
         public ICollection<RegistroPrueba> RegistroPruebas { get; set; }
         public ICollection<Incapacidad> Incapacidades { get; set; }
@@ -31,6 +34,13 @@ namespace BiPro_Analytics.Models
         [Required]
         public int? IdEmpresa { get; set; }
         public Empresa Empresa { get; set; }
+        public string NombreEmpresa { get; set; }
+
+        public int? IdUnidad { get; set; }
+        public Unidad Unidad { get; set; }
+
+        public int? IdArea { get; set; }
+        public Area Area { get; set; }
 
     }
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
 <h4>Trabajador</h4>
 <hr />
@@ -48,9 +48,20 @@
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdEmpresa" class="control-label"></label>
-                <input asp-for="IdEmpresa" class="form-control" />
-                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+                <label asp-for="NombreEmpresa" class="control-label"></label>
+                <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                    <option selected disabled>Seleccionar empresa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Unidad" class="control-label"></label>
+                <input asp-for="Unidad" class="form-control" />
+                <span asp-validation-for="Unidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Area" class="control-label"></label>
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -60,6 +71,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar a la lista</a>
 </div>
 

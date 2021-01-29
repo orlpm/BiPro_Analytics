@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -19,10 +22,50 @@ namespace BiPro_Analytics.Controllers
             _context = context;
         }
 
-        // GET: Empresas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> PreIndexAsync(int? idUnidad)
         {
-            return View(await _context.Empresas.ToListAsync());
+            List<DDLEmpresa> empresas = await _context.Empresas
+                .Select(x => new DDLEmpresa 
+                { 
+                    Id = x.IdEmpresa,
+                    Empresa = x.NombreEmpresa
+                }).ToListAsync();
+
+            ViewBag.Empresas = empresas;
+
+            List<Area> areas = await _context.Areas
+                .ToListAsync();
+                
+            //if (idUnidad != null)
+            //{
+            //    List<Unidad> unidades = await _context.Unidades
+            //    .Where(u => u == idArea).ToListAsync();
+            //}
+
+            return View();
+        }
+        // GET: Empresas
+        public async Task<IActionResult> Index(int? IdEmpresa)
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.IdEmpresa = IdEmpresa;
+
+            if (User.IsInRole("Admin"))
+            {
+                if (IdEmpresa != null)
+                    return View(await _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).ToListAsync());
+                else
+                    return View(await _context.Empresas.ToListAsync());
+            }
+            else
+            {
+                var usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId) );
+                var empresa = await _context.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+                
+                return View(await _context.Empresas.Where(x => x.IdEmpresa == empresa.IdEmpresa).ToListAsync());
+            }
         }
 
         // GET: Empresas/Details/5
@@ -58,6 +101,21 @@ namespace BiPro_Analytics.Controllers
         {
             if (ModelState.IsValid)
             {
+                Random rdn = new Random();
+                string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                int longitud = caracteres.Length;
+                char letra;
+                int longitudContrasenia = 10;
+                string codigoAleatorio = string.Empty;
+
+                for (int i = 0; i < longitudContrasenia; i++)
+                {
+                    letra = caracteres[rdn.Next(longitud)];
+                    codigoAleatorio += letra.ToString();
+                }
+
+                empresa.CodigoEmpresa = codigoAleatorio;
+
                 _context.Add(empresa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

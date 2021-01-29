@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BiPro_Analytics.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using BiPro_Analytics.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BiPro_Analytics.Areas.Identity.Pages.Account
 {
@@ -24,16 +27,20 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private readonly BiproAnalyticsDBContext _contex;
+
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, BiproAnalyticsDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            _contex = context;
         }
 
         [BindProperty]
@@ -62,6 +69,12 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Ingresa codigo de empresa")]
+            public string CodigoEmpresa { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -76,11 +89,25 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var empresas = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+
+                if (empresas == null)
+                    return NotFound();
+
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    UsuarioTrabajador usuarioTrabajador = new UsuarioTrabajador
+                    {
+                        UserId = Guid.Parse(user.Id),
+                        CodigoEmpresa = Input.CodigoEmpresa
+                    };
+
+                    _contex.UsuariosTrabajadores.Add(usuarioTrabajador);
+                    await _contex.SaveChangesAsync();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

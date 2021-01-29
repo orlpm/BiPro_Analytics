@@ -20,6 +20,9 @@ namespace BiPro_Analytics.Data
         public virtual DbSet<RiesgosTrabajador> RiesgosTrabajadores { get; set; }
         public virtual DbSet<RegistroPrueba> RegistroPruebas { get; set; }
         public virtual DbSet<Incapacidad> Incapacidades { get; set; }
+        public virtual DbSet<UsuarioTrabajador> UsuariosTrabajadores { get; set; }
+        public virtual DbSet<Area> Areas { get; set; }
+        public virtual DbSet<Unidad> Unidades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

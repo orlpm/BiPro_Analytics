@@ -11,8 +11,27 @@
     <title>@ViewData["Title"] - BiPro Analytics</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
-<body id="placeholder">
+<body id="placeholdertrabajadores">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -30,28 +49,28 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empresas" asp-action="Index">Empresas</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empresas" asp-action="PreIndex">Empresas</a>
                                 </li>
                             }
                             @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="Index">Trabajadores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="PreIndex">Trabajadores</a>
                                 </li>
                             }
                             @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa") || User.IsInRole("Trabajador"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="RiesgosTrabajadores" asp-action="Index">Riesgos Trabajadores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="RiesgosTrabajadores" asp-action="PreIndex">Riesgos Trabajadores</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="RegistroPruebas" asp-action="Index">Registro Pruebas</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="RegistroPruebas" asp-action="PreIndex">Registro Pruebas</a>
                                 </li>
                             }
                             @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="Index">Incapacidades</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Charts">Tablero</a>
@@ -72,12 +91,12 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - BiPro_Analytics - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Aplicación Privada de Mi Red Medica - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site2.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

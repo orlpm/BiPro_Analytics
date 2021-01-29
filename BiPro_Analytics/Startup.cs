@@ -30,12 +30,17 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-                    //Configuration.GetConnectionString("BiProConnection")));
-                    Configuration.GetConnectionString("BiProLocal")));
+            //Configuration.GetConnectionString("BiProConnection")));
+            Configuration.GetConnectionString("BiProLocal")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BiproAnalyticsDBContext>();
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = 483647;
+            });
             
             services.AddControllersWithViews();
             
@@ -61,9 +66,6 @@ namespace BiPro_Analytics
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-
-
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

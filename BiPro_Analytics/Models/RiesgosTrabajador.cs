@@ -20,6 +20,7 @@ namespace BiPro_Analytics.Models
         [Required]
         [DisplayName("Personas vivienda")]
         public string CantidadPersonas { get; set; }
+        [DisplayName("Diagnostico Covid")]
         public bool DiagnosticoCovid { get; set; }
         public string ContactoCovid { get; set; }
         public bool Mas65 { get; set; }
@@ -60,8 +61,8 @@ namespace BiPro_Analytics.Models
         public bool Cianosis { get; set; }
         public bool Ninguna { get; set; }
         public bool TrabajoEnCasa { get; set; }
+        
         public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
-
     }
 }

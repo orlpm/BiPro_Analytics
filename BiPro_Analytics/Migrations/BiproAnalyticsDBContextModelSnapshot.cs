@@ -19,6 +19,29 @@ namespace BiPro_Analytics.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("BiPro_Analytics.Models.Area", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("EmpresaIdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaIdEmpresa");
+
+                    b.ToTable("Areas");
+                });
+
             modelBuilder.Entity("BiPro_Analytics.Models.Empresa", b =>
                 {
                     b.Property<int>("IdEmpresa")
@@ -36,6 +59,9 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("Ciudad")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodigoEmpresa")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DiasLaborales")
@@ -342,6 +368,9 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AreaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CP")
                         .HasColumnType("nvarchar(max)");
 
@@ -363,22 +392,89 @@ namespace BiPro_Analytics.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("IdArea")
+                        .HasColumnType("int");
+
                     b.Property<int?>("IdEmpresa")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUnidad")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NombreArea")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreEmpresa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreUnidad")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UnidadId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdTrabajador");
+
+                    b.HasIndex("AreaId");
 
                     b.HasIndex("FK_EmpresasId");
 
+                    b.HasIndex("UnidadId");
+
                     b.ToTable("Trabajadores");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Unidad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("EmpresaIdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaIdEmpresa");
+
+                    b.ToTable("Unidades");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.UsuarioTrabajador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodigoEmpresa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrabajadorId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsuariosTrabajadores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -581,6 +677,13 @@ namespace BiPro_Analytics.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BiPro_Analytics.Models.Area", b =>
+                {
+                    b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
+                        .WithMany("Areas")
+                        .HasForeignKey("EmpresaIdEmpresa");
+                });
+
             modelBuilder.Entity("BiPro_Analytics.Models.Incapacidad", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
@@ -604,11 +707,26 @@ namespace BiPro_Analytics.Migrations
 
             modelBuilder.Entity("BiPro_Analytics.Models.Trabajador", b =>
                 {
+                    b.HasOne("BiPro_Analytics.Models.Area", "Area")
+                        .WithMany("Trabajadores")
+                        .HasForeignKey("AreaId");
+
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany("Trabajadores")
                         .HasForeignKey("FK_EmpresasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BiPro_Analytics.Models.Unidad", "Unidad")
+                        .WithMany("Trabajadores")
+                        .HasForeignKey("UnidadId");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Unidad", b =>
+                {
+                    b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
+                        .WithMany("Unidades")
+                        .HasForeignKey("EmpresaIdEmpresa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -40,6 +40,11 @@ namespace BiPro_Analytics.Models
         [DisplayName("Dias Laborales")]
         [Required]
         public int? DiasLaborales { get; set; }
+        
+        [DisplayName("Codigo de empresa")]
+        public string CodigoEmpresa { get; set; }
         public ICollection<Trabajador> Trabajadores { get; set; }
+        public ICollection<Unidad> Unidades { get; set; }
+        public ICollection<Area> Areas { get; set; }
     }
 }
