@@ -50,8 +50,11 @@ namespace BiPro_Analytics.Controllers
 
                 ViewBag.Trabajadores = trabajadores;
 
-                unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                unidades = await _context.Unidades.ToListAsync();
+                areas = await _context.Areas.ToListAsync();
+
                 ViewBag.Unidades = unidades;
+                ViewBag.areas = areas;
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
@@ -95,7 +98,13 @@ namespace BiPro_Analytics.Controllers
                             Id = x.IdTrabajador,
                             Trabajador = x.Nombre
                         }).ToListAsync();
+
+                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                    areas = await _context.Areas.Where(a => a.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+
                     ViewBag.Trabajadores = trabajadores;
+                    ViewBag.Unidades = unidades;
+                    ViewBag.areas = areas;
                 }
                 else
                 {

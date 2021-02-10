@@ -4,117 +4,123 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<section>
+    <div class="container">
+        <h1>Detalles</h1>
 
-<div>
-    <h4>RegistroPrueba</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Temperatura)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Temperatura)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeO2)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeO2)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoSangre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoSangre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.APOlfativa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.APOlfativa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.APGustativa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.APGustativa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mas15cm)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mas15cm)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Menos15cm)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Menos15cm)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PIE3)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PIE3)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PIE4)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PIE4)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PIE5)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PIE5)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Discriminacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Discriminacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Diagnostico)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Diagnostico)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ResultadoIgM)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ResultadoIgM)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ResultadoIgG)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ResultadoIgG)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ResultadoPCR)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ResultadoPCR)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdTrabajador)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdTrabajador)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div>
+            <h4>Registro de Prueba</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Temperatura)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Temperatura)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PorcentajeO2)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PorcentajeO2)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.TipoSangre)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TipoSangre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.APOlfativa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.APOlfativa)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.APGustativa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.APGustativa)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Mas15cm)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Mas15cm)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Menos15cm)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Menos15cm)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PIE3)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PIE3)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PIE4)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PIE4)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PIE5)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PIE5)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Discriminacion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Discriminacion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Total)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Diagnostico)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Diagnostico)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ResultadoIgM)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ResultadoIgM)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ResultadoIgG)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ResultadoIgG)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ResultadoPCR)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ResultadoPCR)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IdTrabajador)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdTrabajador)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+
+    </div>
+</section>
+

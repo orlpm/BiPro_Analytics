@@ -4,65 +4,71 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<section>
+    <div class="container">
+        <h1>Editar</h1>
 
-<h4>Incapacidad</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdIncapacidad" />
-            <div class="form-group">
-                <label asp-for="NombreEmpleado" class="control-label"></label>
-                <input asp-for="NombreEmpleado" class="form-control" />
-                <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
+        <h4>Incapacidad</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdIncapacidad" />
+                    <div class="form-group">
+                        <label asp-for="NombreEmpleado" class="control-label"></label>
+                        <input asp-for="NombreEmpleado" class="form-control" />
+                        <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaHoraInicio" class="control-label"></label>
+                        <input asp-for="FechaHoraInicio" class="form-control" />
+                        <span asp-validation-for="FechaHoraInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaHoraFin" class="control-label"></label>
+                        <input asp-for="FechaHoraFin" class="form-control" />
+                        <span asp-validation-for="FechaHoraFin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MotivoIncapacidad" class="control-label"></label>
+                        <input asp-for="MotivoIncapacidad" class="form-control" />
+                        <span asp-validation-for="MotivoIncapacidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoIncapacidad" class="control-label"></label>
+                        <input asp-for="TipoIncapacidad" class="form-control" />
+                        <span asp-validation-for="TipoIncapacidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SeEncuentraEn" class="control-label"></label>
+                        <select id="select1" asp-for="SeEncuentraEn" class="form-control">
+                            <option selected disabled>Seleccionar opción</option>
+                            <option>Asistiendo a Laborar</option>
+                            <option>Laborando desde Casa</option>
+                            <option>Inactivo con Incapacidad en Casa</option>
+                            <option>Inactivo con Incapacidad en Hospital</option>
+                            <option>Inactivo con Incapacidad en UCI</option>
+                        </select>
+                        <span asp-validation-for="SeEncuentraEn" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdTrabajador" class="control-label"></label>
+                        <input asp-for="IdTrabajador" class="form-control" />
+                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaHoraInicio" class="control-label"></label>
-                <input asp-for="FechaHoraInicio" class="form-control" />
-                <span asp-validation-for="FechaHoraInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaHoraFin" class="control-label"></label>
-                <input asp-for="FechaHoraFin" class="form-control" />
-                <span asp-validation-for="FechaHoraFin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MotivoIncapacidad" class="control-label"></label>
-                <input asp-for="MotivoIncapacidad" class="form-control" />
-                <span asp-validation-for="MotivoIncapacidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoIncapacidad" class="control-label"></label>
-                <input asp-for="TipoIncapacidad" class="form-control" />
-                <span asp-validation-for="TipoIncapacidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SeEncuentraEn" class="control-label"></label>
-                <select id="select1" asp-for="SeEncuentraEn" class="form-control">
-                    <option selected disabled>Seleccionar opción</option>
-                    <option>Asistiendo a Laborar</option>
-                    <option>Laborando desde Casa</option>
-                    <option>Inactivo con Incapacidad en Casa</option>
-                    <option>Inactivo con Incapacidad en Hospital</option>
-                    <option>Inactivo con Incapacidad en UCI</option>
-                </select>
-                <span asp-validation-for="SeEncuentraEn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdTrabajador" class="control-label"></label>
-                <input asp-for="IdTrabajador" class="form-control" />
-                <span asp-validation-for="IdTrabajador" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div>
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 

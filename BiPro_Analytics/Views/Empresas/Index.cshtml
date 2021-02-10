@@ -4,98 +4,105 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section id="empresas" class="d-flex align-items-center min-vh-100">
+    <div class="container">
+        <h1>Lista de empresas</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreEmpresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiroEmpresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubGiroEmpresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ciudad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantEmpleados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinSueldo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxSueldo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HorasLaborales)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiasLaborales)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreEmpresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiroEmpresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubGiroEmpresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ciudad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantEmpleados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinSueldo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxSueldo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngreso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HorasLaborales)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasLaborales)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdEmpresa">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdEmpresa">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <p>
+            <a asp-action="Create">Crear nueva</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreEmpresa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GiroEmpresa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SubGiroEmpresa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Estado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ciudad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CP)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CantEmpleados)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MinSueldo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MaxSueldo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaIngreso)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HorasLaborales)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiasLaborales)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreEmpresa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiroEmpresa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubGiroEmpresa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ciudad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CantEmpleados)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MinSueldo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaxSueldo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaIngreso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HorasLaborales)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiasLaborales)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.IdEmpresa">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdEmpresa">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</section>
+

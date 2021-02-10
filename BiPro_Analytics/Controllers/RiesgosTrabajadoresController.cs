@@ -15,8 +15,7 @@ namespace BiPro_Analytics.Controllers
     public class RiesgosTrabajadoresController : Controller
     {
         private readonly BiproAnalyticsDBContext _context;
-        private object riesgosTrabajadors;
-
+        
         public RiesgosTrabajadoresController(BiproAnalyticsDBContext context)
         {
             _context = context;
@@ -50,8 +49,12 @@ namespace BiPro_Analytics.Controllers
 
                 ViewBag.Trabajadores = trabajadores;
 
-                unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                //unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                unidades = await _context.Unidades.ToListAsync();
+                areas = await _context.Areas.ToListAsync();
+
                 ViewBag.Unidades = unidades;
+                ViewBag.areas = areas;
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
@@ -92,7 +95,14 @@ namespace BiPro_Analytics.Controllers
                         .Select(x => new DDLTrabajador { 
                             Id = x.IdTrabajador, 
                             Trabajador = x.Nombre }).ToListAsync();
+
+                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                    areas = await _context.Areas.Where(a => a.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+
                     ViewBag.Trabajadores = trabajadores;
+                    ViewBag.Unidades = unidades;
+                    ViewBag.areas = areas;
+
                 }
                 else
                 {
@@ -116,8 +126,12 @@ namespace BiPro_Analytics.Controllers
 
             usuarioTrabajador = await _context.UsuariosTrabajadores
                 .FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
-            empresa = await _context.Empresas
-                .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+            
+            if(usuarioTrabajador != null)
+            {
+                empresa = await _context.Empresas
+                    .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+            }
 
             if (currentUser.IsInRole("Admin"))
             {
