@@ -45,7 +45,7 @@
                 <a href="https://www.facebook.com/MiRedMedica" class="facebook"><i class="icofont-facebook"></i></a>
                 <a href="https://www.instagram.com/mired_medica/" class="instagram"><i class="icofont-instagram"></i></a>
                 <a href="https://www.youtube.com/channel/UCboyKbEI_3Ory1t2e21BDcA" class="youtube"><i class="icofont-youtube-play"></i></a>
-                <a href="https://www.linkedin.com/in/mi-red-medica-aa22a71a4/" class="linkedin"><i class="icofont-linkedin"></i></i></a>
+                <a href="https://www.linkedin.com/in/mi-red-medica-aa22a71a4/" class="linkedin"><i class="icofont-linkedin"></i></a>
             </div>
         </div>
     </div>
@@ -78,17 +78,45 @@
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa") || User.IsInRole("Trabajador"))
                         {
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RiesgosTrabajadores" asp-action="PreIndex">Riesgos Trabajadores</a>
+                            <li class="drop-down">
+                                <a class="nav-link text-dark">Riesgos</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="FactoresRiesgos" asp-action="PreIndex">Factores de riesgo</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="RiesgoContagios" asp-action="PreIndex">Riesgos de contagio</a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RegistroPruebas" asp-action="PreIndex">Registro Pruebas</a>
+
+                            <li class="drop-down">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="PreIndex">Seguimientos Covid</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ReportesContagios" asp-action="PreIndex">Reporte de Covid</a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
                         {
-                            <li>
+                            <li class="drop-down">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Reincorporaciones" asp-action="PreIndex">Reincorporaciones</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Charts">Tablero</a>
@@ -104,7 +132,7 @@
             </nav><!-- .nav-menu -->
         </div>
     </header>
-    <main id="main" >
+    <main id="main">
         @RenderBody()
     </main>
 
@@ -202,7 +230,7 @@
                 <div class="copyright">
                     &copy; Copyright <strong><span>Mi Red Medica</span></strong>. Todos los derechos reservados
                     &copy;  <strong><span><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a></span></strong>
-                    
+
                 </div>
 
 
@@ -211,7 +239,7 @@
                     <!-- You can delete the links only if you purchased the pro version. -->
                     <!-- Licensing information: https://bootstrapmade.com/license/ -->
                     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/ -->
-                    
+
                 </div>
             </div>
             <div class="social-links text-center text-md-right pt-3 pt-md-0">
@@ -234,8 +262,12 @@
     <script src="~/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
     <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
+
+    @*<script src="~/assets/js/charts/custom.js"></script>*@
 
     @RenderSection("Scripts", required: false)
 </body>

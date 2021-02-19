@@ -1,0 +1,97 @@
+﻿@model BiPro_Analytics.Models.Reincorporaciones
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Reincorporaciones</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Numero" class="control-label"></label>
+                <input asp-for="Numero" class="form-control" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aislados15Dias" class="control-label"></label>
+                <input asp-for="Aislados15Dias" class="form-control" />
+                <span asp-validation-for="Aislados15Dias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aislados30Dias" class="control-label"></label>
+                <input asp-for="Aislados30Dias" class="form-control" />
+                <span asp-validation-for="Aislados30Dias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReincorporanSemAnt" class="control-label"></label>
+                <input asp-for="ReincorporanSemAnt" class="form-control" />
+                <span asp-validation-for="ReincorporanSemAnt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpleadosIncapacidad" class="control-label"></label>
+                <input asp-for="EmpleadosIncapacidad" class="form-control" />
+                <span asp-validation-for="EmpleadosIncapacidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasPerdidosIncapacidadSemAnt" class="control-label"></label>
+                <input asp-for="DiasPerdidosIncapacidadSemAnt" class="form-control" />
+                <span asp-validation-for="DiasPerdidosIncapacidadSemAnt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasAcumuladosMenIncapacidad" class="control-label"></label>
+                <input asp-for="DiasAcumuladosMenIncapacidad" class="form-control" />
+                <span asp-validation-for="DiasAcumuladosMenIncapacidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasAcumuladosTot" class="control-label"></label>
+                <input asp-for="DiasAcumuladosTot" class="form-control" />
+                <span asp-validation-for="DiasAcumuladosTot" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RelTotalTrabajadoresTrabajadoresIncapacidad" class="control-label"></label>
+                <input asp-for="RelTotalTrabajadoresTrabajadoresIncapacidad" class="form-control" />
+                <span asp-validation-for="RelTotalTrabajadoresTrabajadoresIncapacidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RelDiasTrabajoDiasIncapacidad" class="control-label"></label>
+                <input asp-for="RelDiasTrabajoDiasIncapacidad" class="form-control" />
+                <span asp-validation-for="RelDiasTrabajoDiasIncapacidad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdTrabajador" class="control-label">Trabajador</label>
+                @if (ViewBag.Trabajadores != null)
+                {
+                    <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
+                        <option selected disabled>Seleccionar opción</option>
+                    </select>
+                }
+                else
+                {
+                    <input asp-for="IdTrabajador" class="form-control" />
+                }
+                <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+                <label asp-for="IdEmpresa" class="control-label"></label>
+                <input asp-for="IdEmpresa" class="form-control" />
+                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+            </div>*@
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

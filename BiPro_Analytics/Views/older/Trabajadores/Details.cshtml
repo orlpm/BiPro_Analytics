@@ -1,0 +1,84 @@
+﻿@model BiPro_Analytics.Models.Trabajador
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Detalles</h1>
+
+        <div>
+            <h4>Trabajador</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ciudad)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ciudad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CP)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CP)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FechaNacimiento)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Genero)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Genero)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Area)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Area)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Unidad)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Unidad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IdEmpresa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdEmpresa)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.IdTrabajador">Editar</a> |
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+
+    </div>
+</section>
+

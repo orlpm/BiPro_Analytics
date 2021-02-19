@@ -18,13 +18,31 @@
                         @Html.DisplayNameFor(model => model.Nombre)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Genero)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Edad)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Telefono)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Correo)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Calle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumeroExt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumeroInt)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Ciudad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Estado)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CP)
@@ -33,16 +51,25 @@
                         @Html.DisplayNameFor(model => model.FechaNacimiento)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Genero)
+                        @Html.DisplayNameFor(model => model.FechaIngreso)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreUnidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreArea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEmpresa)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.NombreEmpresa)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Unidad)
+                        @Html.DisplayNameFor(model => model.IdUnidad)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Area)
+                        @Html.DisplayNameFor(model => model.IdArea)
                     </th>
                     <th></th>
                 </tr>
@@ -55,13 +82,31 @@
                             @Html.DisplayFor(modelItem => item.Nombre)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Genero)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Edad)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Telefono)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Correo)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Calle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroExt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroInt)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Ciudad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estado)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CP)
@@ -70,27 +115,35 @@
                             @Html.DisplayFor(modelItem => item.FechaNacimiento)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Genero)
+                            @Html.DisplayFor(modelItem => item.FechaIngreso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreUnidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreArea)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdEmpresa)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.NombreEmpresa)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Unidad)
+                            @Html.DisplayFor(modelItem => item.IdUnidad)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Area)
+                            @Html.DisplayFor(modelItem => item.IdArea)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.IdTrabajador">Editar</a> |
-                            <a asp-action="Details" asp-route-id="@item.IdTrabajador">Detalles</a> |
-                            <a asp-action="Delete" asp-route-id="@item.IdTrabajador">Borrar</a>
+                            <a asp-action="Edit" asp-route-id="@item.IdTrabajador">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.IdTrabajador">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdTrabajador">Delete</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
 
     </div>
 </section>

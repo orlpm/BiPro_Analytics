@@ -5,15 +5,222 @@
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
-<div class="container-fluid" id="placeholder">
-    
-    <div class="row">
-        <div class="col-sm-12">
-            <h1 class="text-center">BIPROBOARD</h1>
-            <h3 class="text-center">ES TU HERRAMIENTA NECESARIA PARA EL CONTROL DE LA SALUD Y BIENESTAR DEL RECURSO HUMANO, ASÍ COMO UNA MÉTRICA FINANCIERA PARA LA GESTIÓN ÓPTIMA DE LA EMPRESA</h3>
+<section id="charts" class="d-flex align-items-center min-vh-100">
+
+    <div class="container-fluid" id="placeholder">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="text-center">BIPROBOARD</h1>
+                <h3 class="text-center">ES TU HERRAMIENTA NECESARIA PARA EL CONTROL DE LA SALUD Y BIENESTAR DEL RECURSO HUMANO, ASÍ COMO UNA MÉTRICA FINANCIERA PARA LA GESTIÓN ÓPTIMA DE LA EMPRESA</h3>
+            </div>
         </div>
-    </div>
-    <section id="pdfContainer">
+
+        <div class="row">
+
+            @*G1. Piramide poblacional*@
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Piramide Poblacional <small>Sessions</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="PiramidePoblacional"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            @*G2. Prevalencia de condiciones de salud de riesgo. -T2, T3-*@
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Prevalencia de condiciones de salud de riesgo <small>Sessions</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="CondicionesRiesgoBar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Empleados contacto COVID-19 <small>Sessions</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Line graph<small>Sessions</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @*G3. Prevalencia de riesgo de exposicion en casa y transporte*@
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Riesgo exposicion en casa y transporte</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="RiesgosExpocisionCasaTransporte"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Riesgo de espacio de trabajo abierto y sin ventilación</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="RiesgosEspacioLaboral"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            @*G3. Prevalencia de riesgo de exposicion en casa y transporte*@
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Personal con sintomas relacionados al Covid</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="SintomasCOVID"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Resultados Olfatometria</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="EmpleadosAnosmiaHiposmia"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="chart-container" width="600" height="400">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+
         <div class="row">
             <div class="col-sm-12">
                 <h3>​Riesgo de Trabajadores de estar contagiados de COVID</h3>
@@ -29,10 +236,10 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <iframe width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYjVkMzYzZGItN2M4NC00NjI0LTg1MjEtMmQ1OGNlYTIyODdiIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="600" height="373" src="https://app.powerbi.com/view?r=eyJrIjoiYjVkMzYzZGItN2M4NC00NjI0LTg1MjEtMmQ1OGNlYTIyODdiIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
             <div class="col-sm-6">
-                <iframe width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWY4ZjA3MjctMjdmMi00OTg5LWE2OTAtMGY5YThhNzAwNTI1IiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="600" height="373" src="https://app.powerbi.com/view?r=eyJrIjoiMWY4ZjA3MjctMjdmMi00OTg5LWE2OTAtMGY5YThhNzAwNTI1IiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
         </div>
         <div class="row">
@@ -44,7 +251,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiNzFhNTg5OGEtNmVkMi00OWI2LWIxOGMtYTY3YTQzYjliYjVhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiNzFhNTg5OGEtNmVkMi00OWI2LWIxOGMtYTY3YTQzYjliYjVhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
         </div>
         <div class="row">
@@ -56,7 +263,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiYzg2NzkzYmQtZjg5OC00ZGQxLTg2MmEtZGFjMDM0Mjk0ZmFmIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiYzg2NzkzYmQtZjg5OC00ZGQxLTg2MmEtZGFjMDM0Mjk0ZmFmIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
         </div>
         <div class="row">
@@ -68,7 +275,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiOGEzZGQ1ZjItODIxZS00YzhiLWEzNzYtOTdjZDIzYzgxNGZhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiOGEzZGQ1ZjItODIxZS00YzhiLWEzNzYtOTdjZDIzYzgxNGZhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
         </div>
         <div class="row">
@@ -80,19 +287,22 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiMjM0YmQyYTgtZGMzYy00MDJhLWFmYTctMmY5MjkwNmM0N2ViIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>
+                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiMjM0YmQyYTgtZGMzYy00MDJhLWFmYTctMmY5MjkwNmM0N2ViIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>*@
             </div>
         </div>
-    </section>
 
-    <button id="btnPDF" class="btn btn-primary">Generar PDF</button>
-</div>
+        <button id="btnPDF" class="btn btn-primary">Generar PDF</button>
+    </div>
+
+</section>
 
 <script type="text/javascript">
     $("#btnPDF").click(function () {
-        var sHTML = $("#pdfContainer").html();
+        var sHTML = $("#charts").html();
         sHTML = sHTML.replace(/</g, "StrTag").replace(/>/g, "EndTag");
         window.open('../Charts/GenerarPDF?html=' + sHTML, '_blank')
     });
+
+
 
 </script>

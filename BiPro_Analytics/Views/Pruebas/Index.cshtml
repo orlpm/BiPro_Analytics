@@ -1,0 +1,89 @@
+﻿@model IEnumerable<BiPro_Analytics.Models.Prueba>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+        <h1>Control de pruebas Covid19</h1>
+        <p>
+            <a asp-action="Create">Crear Nuevo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaDiagnostico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Lugar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoPrueba)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiagnosticoCovid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PruebaConfirmatoria)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SintomasCovid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RadiografiaTorax)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tomografía)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTrabajador)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaDiagnostico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lugar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoPrueba)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiagnosticoCovid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PruebaConfirmatoria)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SintomasCovid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RadiografiaTorax)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tomografía)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdTrabajador)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

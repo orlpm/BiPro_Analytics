@@ -21,6 +21,16 @@
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Genero" class="control-label"></label>
+                        <input asp-for="Genero" class="form-control" />
+                        <span asp-validation-for="Genero" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Edad" class="control-label"></label>
+                        <input asp-for="Edad" class="form-control" />
+                        <span asp-validation-for="Edad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Telefono" class="control-label"></label>
                         <input asp-for="Telefono" class="form-control" />
                         <span asp-validation-for="Telefono" class="text-danger"></span>
@@ -31,9 +41,29 @@
                         <span asp-validation-for="Correo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Calle" class="control-label"></label>
+                        <input asp-for="Calle" class="form-control" />
+                        <span asp-validation-for="Calle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NumeroExt" class="control-label"></label>
+                        <input asp-for="NumeroExt" class="form-control" />
+                        <span asp-validation-for="NumeroExt" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NumeroInt" class="control-label"></label>
+                        <input asp-for="NumeroInt" class="form-control" />
+                        <span asp-validation-for="NumeroInt" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Ciudad" class="control-label"></label>
                         <input asp-for="Ciudad" class="form-control" />
                         <span asp-validation-for="Ciudad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Estado" class="control-label"></label>
+                        <input asp-for="Estado" class="form-control" />
+                        <span asp-validation-for="Estado" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CP" class="control-label"></label>
@@ -46,28 +76,77 @@
                         <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Genero" class="control-label"></label>
-                        <input asp-for="Genero" class="form-control" />
-                        <span asp-validation-for="Genero" class="text-danger"></span>
+                        <label asp-for="FechaIngreso" class="control-label"></label>
+                        <input asp-for="FechaIngreso" class="form-control" />
+                        <span asp-validation-for="FechaIngreso" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Area" class="control-label"></label>
-                        <input asp-for="Area" class="form-control" />
-                        <span asp-validation-for="Area" class="text-danger"></span>
+                        <label asp-for="FechaRegistro" class="control-label"></label>
+                        <input asp-for="FechaRegistro" class="form-control" />
+                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Unidad" class="control-label"></label>
-                        <input asp-for="Unidad" class="form-control" />
-                        <span asp-validation-for="Unidad" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IdEmpresa" class="control-label"></label>
-                        <input asp-for="IdEmpresa" class="form-control" />
+                        <label asp-for="IdEmpresa" class="control-label">Empresa</label>
+                        @if (ViewBag.Empresas != null)
+                        {
+                            <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdEmpresa" class="form-control" />
+                        }
                         <span asp-validation-for="IdEmpresa" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="IdUnidad" class="control-label">Unidad</label>
+                        @if (ViewBag.Unidades != null)
+                        {
+                            <select asp-for="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdUnidad" class="form-control" />
+                        }
+                        <span asp-validation-for="IdUnidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdArea" class="control-label">Area</label>
+                        @if (ViewBag.Areas != null)
+                        {
+                            <select asp-for="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdArea" class="form-control" />
+                        }
+                        <span asp-validation-for="IdArea" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
+
+                    @*<div class="form-group">
+            <label asp-for="NombreEmpresa" class="control-label"></label>
+            <input asp-for="NombreEmpresa" class="form-control" />
+            <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NombreUnidad" class="control-label"></label>
+            <input asp-for="NombreUnidad" class="form-control" />
+            <span asp-validation-for="NombreUnidad" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NombreArea" class="control-label"></label>
+            <input asp-for="NombreArea" class="form-control" />
+            <span asp-validation-for="NombreArea" class="text-danger"></span>
+        </div>*@
                 </form>
             </div>
         </div>
@@ -78,5 +157,3 @@
 
     </div>
 </section>
-
-        

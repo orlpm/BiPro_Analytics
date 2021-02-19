@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
+using BiPro_Analytics.Responses;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -256,6 +257,15 @@ namespace BiPro_Analytics.Controllers
         // GET: Incapacidades/Create
         public IActionResult Create()
         {
+            //Para combo Trabajadores
+            List<DDLTrabajador> trabajadores = null;
+            trabajadores = _context.Trabajadores
+                    .Select(x => new DDLTrabajador
+                    {
+                        Id = x.IdTrabajador,
+                        Trabajador = x.Nombre
+                    }).ToList();
+
             return View();
         }
 
@@ -288,6 +298,16 @@ namespace BiPro_Analytics.Controllers
             {
                 return NotFound();
             }
+
+            //Para combo Trabajadores
+            List<DDLTrabajador> trabajadores = null;
+            trabajadores = _context.Trabajadores
+                    .Select(x => new DDLTrabajador
+                    {
+                        Id = x.IdTrabajador,
+                        Trabajador = x.Nombre
+                    }).ToList();
+
             return View(incapacidad);
         }
 

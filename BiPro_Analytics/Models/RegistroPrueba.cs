@@ -11,7 +11,9 @@ namespace BiPro_Analytics.Models
     public class RegistroPrueba
     {
         public int Id { get; set; }
+
         public float Temperatura { get; set; }
+
         [Required]
         [DisplayName("Porcentaje O2")]
         public float PorcentajeO2 { get; set; }

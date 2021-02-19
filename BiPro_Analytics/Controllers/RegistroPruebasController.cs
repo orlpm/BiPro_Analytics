@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
+using BiPro_Analytics.Responses;
 
 namespace BiPro_Analytics.Controllers
 {

@@ -1,0 +1,74 @@
+﻿@model BiPro_Analytics.Models.Prueba
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Crear</h1>
+
+        <h4>Prueba</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FechaDiagnostico" class="control-label"></label>
+                        <input asp-for="FechaDiagnostico" class="form-control" />
+                        <span asp-validation-for="FechaDiagnostico" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Lugar" class="control-label"></label>
+                        <input asp-for="Lugar" class="form-control" />
+                        <span asp-validation-for="Lugar" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoPrueba" class="control-label"></label>
+                        <input asp-for="TipoPrueba" class="form-control" />
+                        <span asp-validation-for="TipoPrueba" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DiagnosticoCovid" /> @Html.DisplayNameFor(model => model.DiagnosticoCovid)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="PruebaConfirmatoria" /> @Html.DisplayNameFor(model => model.PruebaConfirmatoria)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="SintomasCovid" /> @Html.DisplayNameFor(model => model.SintomasCovid)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="RadiografiaTorax" /> @Html.DisplayNameFor(model => model.RadiografiaTorax)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Tomografía" /> @Html.DisplayNameFor(model => model.Tomografía)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdTrabajador" class="control-label"></label>
+                        <input asp-for="IdTrabajador" class="form-control" />
+                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</section>

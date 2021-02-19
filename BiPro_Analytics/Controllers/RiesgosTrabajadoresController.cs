@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using BiPro_Analytics.Responses;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -20,7 +21,6 @@ namespace BiPro_Analytics.Controllers
         {
             _context = context;
         }
-
         public async Task<IActionResult> PreIndex(int? IdUnidad, int? IdArea)
         {
             ClaimsPrincipal currentUser = this.User;

@@ -1,0 +1,63 @@
+﻿@model BiPro_Analytics.Models.SeguimientoCovid
+@{
+    ViewData["Title"] = "Riesgos de contagio";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Seguimiento de covid</h2>
+        </div>
+
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
+                            <option selected disabled>Seleccionar trabajador</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <input type="submit" value="Buscar" class="btn btn-secondary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                <div class="form-row">
+                    <div class="col-md-3 form-group">
+                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Name"))">
+                            <option selected disabled>Seleccionar unidad</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Name"))">
+                            <option selected disabled>Seleccionar Area</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <input type="submit" value="Buscar" class="btn btn-secondary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="form-row">
+            <div class="col-md-4 form-group">
+                <a class="btn btn-secondary" asp-action="Index">Regresar lista completa</a>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-4 form-group">
+                <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+

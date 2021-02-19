@@ -52,16 +52,26 @@ namespace BiPro_Analytics.Migrations
                 {
                     IdEmpresa = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NombreEmpresa = table.Column<string>(nullable: false),
-                    GiroEmpresa = table.Column<string>(nullable: false),
-                    SubGiroEmpresa = table.Column<string>(nullable: true),
-                    Estado = table.Column<string>(nullable: false),
-                    Ciudad = table.Column<string>(nullable: false),
-                    CP = table.Column<string>(nullable: false),
+                    Nombre = table.Column<string>(maxLength: 50, nullable: false),
+                    RazonSocial = table.Column<string>(maxLength: 50, nullable: false),
+                    RFC = table.Column<string>(maxLength: 12, nullable: false),
+                    Aministrador = table.Column<string>(maxLength: 50, nullable: false),
+                    Puesto = table.Column<string>(nullable: true),
+                    Giro = table.Column<string>(maxLength: 40, nullable: false),
+                    SubGiro = table.Column<string>(maxLength: 30, nullable: true),
+                    Seccion = table.Column<string>(maxLength: 30, nullable: true),
+                    Telefono = table.Column<string>(nullable: false),
+                    Correo = table.Column<string>(nullable: false),
+                    Calle = table.Column<string>(maxLength: 40, nullable: false),
+                    NumeroExt = table.Column<string>(maxLength: 5, nullable: false),
+                    NumeroInt = table.Column<string>(maxLength: 4, nullable: false),
+                    Ciudad = table.Column<string>(maxLength: 40, nullable: false),
+                    Estado = table.Column<string>(maxLength: 30, nullable: false),
+                    CP = table.Column<string>(maxLength: 6, nullable: false),
                     CantEmpleados = table.Column<int>(nullable: false),
-                    MinSueldo = table.Column<decimal>(nullable: false),
-                    MaxSueldo = table.Column<decimal>(nullable: false),
-                    FechaIngreso = table.Column<DateTime>(nullable: true),
+                    MinSueldo = table.Column<decimal>(type: "decimal(8, 2)", nullable: false),
+                    MaxSueldo = table.Column<decimal>(type: "decimal(10, 2)", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
                     HorasLaborales = table.Column<int>(nullable: false),
                     DiasLaborales = table.Column<int>(nullable: false),
                     CodigoEmpresa = table.Column<string>(nullable: true)
@@ -214,6 +224,36 @@ namespace BiPro_Analytics.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ReporteContagio",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Semana = table.Column<int>(nullable: false),
+                    Anio = table.Column<int>(nullable: false),
+                    FechaRegistro = table.Column<DateTime>(nullable: false),
+                    PositivosSemPCR = table.Column<int>(nullable: false),
+                    PositivosSemLG = table.Column<int>(nullable: false),
+                    PositivosSemAntigeno = table.Column<int>(nullable: false),
+                    PositivosSemTAC = table.Column<int>(nullable: false),
+                    PositivosSemNeumoniaNoConfirmadaCOVID = table.Column<int>(nullable: false),
+                    PositivosSospechososNeumoniaNoConfirmadaCOVID = table.Column<int>(nullable: false),
+                    SospechososDescartados = table.Column<int>(nullable: false),
+                    IdEmpresa = table.Column<int>(nullable: true),
+                    EmpresaIdEmpresa = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReporteContagio", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReporteContagio_Empresas_EmpresaIdEmpresa",
+                        column: x => x.EmpresaIdEmpresa,
+                        principalTable: "Empresas",
+                        principalColumn: "IdEmpresa",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Unidades",
                 columns: table => new
                 {
@@ -240,17 +280,24 @@ namespace BiPro_Analytics.Migrations
                 {
                     IdTrabajador = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(nullable: false),
+                    Nombre = table.Column<string>(maxLength: 50, nullable: false),
+                    Genero = table.Column<string>(maxLength: 10, nullable: false),
+                    Edad = table.Column<int>(nullable: false),
                     Telefono = table.Column<string>(nullable: false),
-                    Correo = table.Column<string>(nullable: true),
-                    Ciudad = table.Column<string>(nullable: true),
-                    CP = table.Column<string>(nullable: true),
+                    Correo = table.Column<string>(maxLength: 30, nullable: false),
+                    Calle = table.Column<string>(maxLength: 40, nullable: false),
+                    NumeroExt = table.Column<string>(maxLength: 5, nullable: false),
+                    NumeroInt = table.Column<string>(maxLength: 4, nullable: false),
+                    Ciudad = table.Column<string>(maxLength: 40, nullable: false),
+                    Estado = table.Column<string>(maxLength: 30, nullable: false),
+                    CP = table.Column<string>(maxLength: 6, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
-                    Genero = table.Column<string>(nullable: false),
+                    FechaIngreso = table.Column<DateTime>(nullable: false),
+                    FechaRegistro = table.Column<DateTime>(nullable: true),
                     NombreUnidad = table.Column<string>(nullable: true),
                     NombreArea = table.Column<string>(nullable: true),
                     IdEmpresa = table.Column<int>(nullable: false),
-                    FK_EmpresasId = table.Column<int>(nullable: false),
+                    EmpresaIdEmpresa = table.Column<int>(nullable: true),
                     NombreEmpresa = table.Column<string>(nullable: true),
                     IdUnidad = table.Column<int>(nullable: true),
                     UnidadId = table.Column<int>(nullable: true),
@@ -267,16 +314,54 @@ namespace BiPro_Analytics.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Trabajadores_Empresas_FK_EmpresasId",
-                        column: x => x.FK_EmpresasId,
+                        name: "FK_Trabajadores_Empresas_EmpresaIdEmpresa",
+                        column: x => x.EmpresaIdEmpresa,
                         principalTable: "Empresas",
                         principalColumn: "IdEmpresa",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Trabajadores_Unidades_UnidadId",
                         column: x => x.UnidadId,
                         principalTable: "Unidades",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FactoresRiesgos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Diabetes = table.Column<bool>(nullable: false),
+                    Hipertencion = table.Column<bool>(nullable: false),
+                    Asma = table.Column<bool>(nullable: false),
+                    SobrePeso = table.Column<bool>(nullable: false),
+                    Obesidad = table.Column<bool>(nullable: false),
+                    Embarazo = table.Column<bool>(nullable: false),
+                    Cancer = table.Column<bool>(nullable: false),
+                    Tabaquismo = table.Column<bool>(nullable: false),
+                    Alcoholismo = table.Column<bool>(nullable: false),
+                    Drogas = table.Column<bool>(nullable: false),
+                    NoPersonasCasa = table.Column<int>(nullable: false),
+                    TipoCasa = table.Column<string>(maxLength: 20, nullable: false),
+                    TipoTransporte = table.Column<string>(maxLength: 20, nullable: false),
+                    EspacioTrabajo = table.Column<string>(maxLength: 20, nullable: false),
+                    TipoVentilacion = table.Column<string>(maxLength: 20, nullable: false),
+                    ContactoLaboral = table.Column<string>(maxLength: 20, nullable: false),
+                    TiempoContacto = table.Column<string>(maxLength: 15, nullable: false),
+                    FechaHoraRegistro = table.Column<DateTime>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: false),
+                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FactoresRiesgos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FactoresRiesgos_Trabajadores_TrabajadorIdTrabajador",
+                        column: x => x.TrabajadorIdTrabajador,
+                        principalTable: "Trabajadores",
+                        principalColumn: "IdTrabajador",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -300,6 +385,34 @@ namespace BiPro_Analytics.Migrations
                     table.PrimaryKey("PK_Incapacidades", x => x.IdIncapacidad);
                     table.ForeignKey(
                         name: "FK_Incapacidades_Trabajadores_TrabajadorIdTrabajador",
+                        column: x => x.TrabajadorIdTrabajador,
+                        principalTable: "Trabajadores",
+                        principalColumn: "IdTrabajador",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pruebas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FechaDiagnostico = table.Column<DateTime>(nullable: false),
+                    Lugar = table.Column<string>(maxLength: 40, nullable: false),
+                    TipoPrueba = table.Column<string>(maxLength: 15, nullable: false),
+                    DiagnosticoCovid = table.Column<bool>(nullable: false),
+                    PruebaConfirmatoria = table.Column<bool>(nullable: false),
+                    SintomasCovid = table.Column<bool>(nullable: false),
+                    RadiografiaTorax = table.Column<bool>(nullable: false),
+                    Tomografía = table.Column<bool>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: false),
+                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pruebas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pruebas_Trabajadores_TrabajadorIdTrabajador",
                         column: x => x.TrabajadorIdTrabajador,
                         principalTable: "Trabajadores",
                         principalColumn: "IdTrabajador",
@@ -336,6 +449,79 @@ namespace BiPro_Analytics.Migrations
                     table.PrimaryKey("PK_RegistroPruebas", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RegistroPruebas_Trabajadores_TrabajadorIdTrabajador",
+                        column: x => x.TrabajadorIdTrabajador,
+                        principalTable: "Trabajadores",
+                        principalColumn: "IdTrabajador",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reincorporaciones",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Numero = table.Column<int>(nullable: false),
+                    Aislados15Dias = table.Column<int>(nullable: false),
+                    Aislados30Dias = table.Column<int>(nullable: false),
+                    ReincorporanSemAnt = table.Column<int>(nullable: false),
+                    EmpleadosIncapacidad = table.Column<int>(nullable: false),
+                    DiasPerdidosIncapacidadSemAnt = table.Column<int>(nullable: false),
+                    DiasAcumuladosMenIncapacidad = table.Column<int>(nullable: false),
+                    DiasAcumuladosTot = table.Column<int>(nullable: false),
+                    RelTotalTrabajadoresTrabajadoresIncapacidad = table.Column<int>(nullable: false),
+                    RelDiasTrabajoDiasIncapacidad = table.Column<int>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: true),
+                    TrabajadorIdTrabajador = table.Column<int>(nullable: true),
+                    IdEmpresa = table.Column<int>(nullable: true),
+                    EmpresaIdEmpresa = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reincorporaciones", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Reincorporaciones_Empresas_EmpresaIdEmpresa",
+                        column: x => x.EmpresaIdEmpresa,
+                        principalTable: "Empresas",
+                        principalColumn: "IdEmpresa",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reincorporaciones_Trabajadores_TrabajadorIdTrabajador",
+                        column: x => x.TrabajadorIdTrabajador,
+                        principalTable: "Trabajadores",
+                        principalColumn: "IdTrabajador",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RiesgoContagios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContactoCovidCasa = table.Column<bool>(nullable: false),
+                    ContactoCovidTrabajo = table.Column<bool>(nullable: false),
+                    ContactoCovidFuera = table.Column<bool>(nullable: false),
+                    ViajesMultitudes = table.Column<bool>(nullable: false),
+                    TosRecurrente = table.Column<bool>(nullable: false),
+                    Tos = table.Column<bool>(nullable: false),
+                    DificultadRespirar = table.Column<bool>(nullable: false),
+                    TempMayor38 = table.Column<bool>(nullable: false),
+                    Resfriado = table.Column<bool>(nullable: false),
+                    Escalofrios = table.Column<bool>(nullable: false),
+                    DolorMuscular = table.Column<bool>(nullable: false),
+                    NauseaVomito = table.Column<bool>(nullable: false),
+                    Diarrea = table.Column<bool>(nullable: false),
+                    Olfatometria = table.Column<string>(maxLength: 20, nullable: true),
+                    FechaHoraRegistro = table.Column<DateTime>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: false),
+                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RiesgoContagios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RiesgoContagios_Trabajadores_TrabajadorIdTrabajador",
                         column: x => x.TrabajadorIdTrabajador,
                         principalTable: "Trabajadores",
                         principalColumn: "IdTrabajador",
@@ -405,6 +591,32 @@ namespace BiPro_Analytics.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SeguimientosCovid",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EstatusPaciente = table.Column<string>(maxLength: 20, nullable: false),
+                    SintomasMayores = table.Column<bool>(nullable: false),
+                    SintomasMenores = table.Column<bool>(nullable: false),
+                    EstatusEnCasa = table.Column<string>(maxLength: 20, nullable: false),
+                    EstatusEnHospital = table.Column<string>(maxLength: 20, nullable: false),
+                    FechaSeguimiento = table.Column<DateTime>(nullable: false),
+                    IdTrabajador = table.Column<int>(nullable: true),
+                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeguimientosCovid", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SeguimientosCovid_Trabajadores_TrabajadorIdTrabajador",
+                        column: x => x.TrabajadorIdTrabajador,
+                        principalTable: "Trabajadores",
+                        principalColumn: "IdTrabajador",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Areas_EmpresaIdEmpresa",
                 table: "Areas",
@@ -450,8 +662,18 @@ namespace BiPro_Analytics.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FactoresRiesgos_TrabajadorIdTrabajador",
+                table: "FactoresRiesgos",
+                column: "TrabajadorIdTrabajador");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Incapacidades_TrabajadorIdTrabajador",
                 table: "Incapacidades",
+                column: "TrabajadorIdTrabajador");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pruebas_TrabajadorIdTrabajador",
+                table: "Pruebas",
                 column: "TrabajadorIdTrabajador");
 
             migrationBuilder.CreateIndex(
@@ -460,8 +682,33 @@ namespace BiPro_Analytics.Migrations
                 column: "TrabajadorIdTrabajador");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reincorporaciones_EmpresaIdEmpresa",
+                table: "Reincorporaciones",
+                column: "EmpresaIdEmpresa");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reincorporaciones_TrabajadorIdTrabajador",
+                table: "Reincorporaciones",
+                column: "TrabajadorIdTrabajador");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReporteContagio_EmpresaIdEmpresa",
+                table: "ReporteContagio",
+                column: "EmpresaIdEmpresa");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RiesgoContagios_TrabajadorIdTrabajador",
+                table: "RiesgoContagios",
+                column: "TrabajadorIdTrabajador");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RiesgosTrabajadores_TrabajadorIdTrabajador",
                 table: "RiesgosTrabajadores",
+                column: "TrabajadorIdTrabajador");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeguimientosCovid_TrabajadorIdTrabajador",
+                table: "SeguimientosCovid",
                 column: "TrabajadorIdTrabajador");
 
             migrationBuilder.CreateIndex(
@@ -470,9 +717,9 @@ namespace BiPro_Analytics.Migrations
                 column: "AreaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trabajadores_FK_EmpresasId",
+                name: "IX_Trabajadores_EmpresaIdEmpresa",
                 table: "Trabajadores",
-                column: "FK_EmpresasId");
+                column: "EmpresaIdEmpresa");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trabajadores_UnidadId",
@@ -503,13 +750,31 @@ namespace BiPro_Analytics.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "FactoresRiesgos");
+
+            migrationBuilder.DropTable(
                 name: "Incapacidades");
+
+            migrationBuilder.DropTable(
+                name: "Pruebas");
 
             migrationBuilder.DropTable(
                 name: "RegistroPruebas");
 
             migrationBuilder.DropTable(
+                name: "Reincorporaciones");
+
+            migrationBuilder.DropTable(
+                name: "ReporteContagio");
+
+            migrationBuilder.DropTable(
+                name: "RiesgoContagios");
+
+            migrationBuilder.DropTable(
                 name: "RiesgosTrabajadores");
+
+            migrationBuilder.DropTable(
+                name: "SeguimientosCovid");
 
             migrationBuilder.DropTable(
                 name: "UsuariosTrabajadores");

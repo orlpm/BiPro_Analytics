@@ -4,105 +4,165 @@
     ViewData["Title"] = "Index";
 }
 
-<section id="empresas" class="d-flex align-items-center min-vh-100">
-    <div class="container">
-        <h1>Lista de empresas</h1>
+<h1>Index</h1>
 
-        <p>
-            <a asp-action="Create">Crear nueva</a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NombreEmpresa)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.GiroEmpresa)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SubGiroEmpresa)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Estado)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Ciudad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CP)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CantEmpleados)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MinSueldo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MaxSueldo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaIngreso)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.HorasLaborales)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DiasLaborales)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NombreEmpresa)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GiroEmpresa)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SubGiroEmpresa)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Estado)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ciudad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CP)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CantEmpleados)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MinSueldo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MaxSueldo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaIngreso)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HorasLaborales)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiasLaborales)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Editar</a> |
-                            <a asp-action="Details" asp-route-id="@item.IdEmpresa">Detalles</a> |
-                            <a asp-action="Delete" asp-route-id="@item.IdEmpresa">Borrar</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-    </div>
-</section>
-
+<p>
+    <a asp-action="Create">Crear nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RFC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aministrador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Puesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Giro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubGiro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Seccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroExt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroInt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ciudad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantEmpleados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinSueldo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxSueldo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HorasLaborales)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiasLaborales)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoEmpresa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RFC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aministrador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Puesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Giro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubGiro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Seccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroExt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroInt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantEmpleados)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinSueldo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxSueldo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaRegistro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HorasLaborales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiasLaborales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoEmpresa)
+            </td>
+            <td>
+                <a asp-controller="Unidades" asp-action="Create">Crear unidades</a> |
+                <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdEmpresa">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdEmpresa">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

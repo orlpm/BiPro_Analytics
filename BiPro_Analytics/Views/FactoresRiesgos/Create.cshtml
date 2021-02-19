@@ -1,0 +1,130 @@
+﻿@model BiPro_Analytics.Models.FactorRiesgo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Crear</h1>
+
+        <h4>Factores de Riesgo</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Diabetes" /> @Html.DisplayNameFor(model => model.Diabetes)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Hipertencion" /> @Html.DisplayNameFor(model => model.Hipertencion)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Asma" /> @Html.DisplayNameFor(model => model.Asma)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="SobrePeso" /> @Html.DisplayNameFor(model => model.SobrePeso)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Obesidad" /> @Html.DisplayNameFor(model => model.Obesidad)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Embarazo" /> @Html.DisplayNameFor(model => model.Embarazo)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Cancer" /> @Html.DisplayNameFor(model => model.Cancer)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Tabaquismo" /> @Html.DisplayNameFor(model => model.Tabaquismo)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Alcoholismo" /> @Html.DisplayNameFor(model => model.Alcoholismo)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Drogas" /> @Html.DisplayNameFor(model => model.Drogas)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NoPersonasCasa" class="control-label"></label>
+                        <input asp-for="NoPersonasCasa" class="form-control" />
+                        <span asp-validation-for="NoPersonasCasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoCasa" class="control-label"></label>
+                        <input asp-for="TipoCasa" class="form-control" />
+                        <span asp-validation-for="TipoCasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoTransporte" class="control-label"></label>
+                        <input asp-for="TipoTransporte" class="form-control" />
+                        <span asp-validation-for="TipoTransporte" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EspacioTrabajo" class="control-label"></label>
+                        <input asp-for="EspacioTrabajo" class="form-control" />
+                        <span asp-validation-for="EspacioTrabajo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TipoVentilacion" class="control-label"></label>
+                        <input asp-for="TipoVentilacion" class="form-control" />
+                        <span asp-validation-for="TipoVentilacion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContactoLaboral" class="control-label"></label>
+                        <input asp-for="ContactoLaboral" class="form-control" />
+                        <span asp-validation-for="ContactoLaboral" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TiempoContacto" class="control-label"></label>
+                        <input asp-for="TiempoContacto" class="form-control" />
+                        <span asp-validation-for="TiempoContacto" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IdTrabajador" class="control-label">Trabajador</label>
+                        @if (ViewBag.Trabajadores != null)
+                        {
+                            <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdTrabajador" class="form-control" />
+                        }
+                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+
+    </div>>
+</section>
+

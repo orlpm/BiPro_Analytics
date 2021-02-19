@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using BiPro_Analytics.Responses;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -22,20 +21,20 @@ namespace BiPro_Analytics.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> PreIndexAsync(int? idUnidad)
+        public async Task<IActionResult> PreIndex(int? idUnidad)
         {
             List<DDLEmpresa> empresas = await _context.Empresas
-                .Select(x => new DDLEmpresa 
-                { 
+                .Select(x => new DDLEmpresa
+                {
                     Id = x.IdEmpresa,
-                    Empresa = x.NombreEmpresa
+                    Empresa = x.Nombre
                 }).ToListAsync();
 
             ViewBag.Empresas = empresas;
 
             List<Area> areas = await _context.Areas
                 .ToListAsync();
-                
+
             //if (idUnidad != null)
             //{
             //    List<Unidad> unidades = await _context.Unidades
@@ -44,6 +43,7 @@ namespace BiPro_Analytics.Controllers
 
             return View();
         }
+
         // GET: Empresas
         public async Task<IActionResult> Index(int? IdEmpresa)
         {
@@ -61,9 +61,9 @@ namespace BiPro_Analytics.Controllers
             }
             else
             {
-                var usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId) );
+                var usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
                 var empresa = await _context.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
-                
+
                 return View(await _context.Empresas.Where(x => x.IdEmpresa == empresa.IdEmpresa).ToListAsync());
             }
         }
@@ -97,7 +97,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEmpresa,NombreEmpresa,GiroEmpresa,SubGiroEmpresa,Estado,Ciudad,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaIngreso,HorasLaborales,DiasLaborales")] Empresa empresa)
+        public async Task<IActionResult> Create([Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Giro,SubGiro,Seccion,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
         {
             if (ModelState.IsValid)
             {
@@ -115,6 +115,7 @@ namespace BiPro_Analytics.Controllers
                 }
 
                 empresa.CodigoEmpresa = codigoAleatorio;
+
 
                 _context.Add(empresa);
                 await _context.SaveChangesAsync();
@@ -144,7 +145,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEmpresa,NombreEmpresa,GiroEmpresa,SubGiroEmpresa,Estado,Ciudad,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaIngreso,HorasLaborales,DiasLaborales")] Empresa empresa)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Giro,SubGiro,Seccion,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
         {
             if (id != empresa.IdEmpresa)
             {

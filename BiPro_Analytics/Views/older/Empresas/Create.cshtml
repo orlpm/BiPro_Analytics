@@ -1,0 +1,90 @@
+﻿@model BiPro_Analytics.Models.Empresa
+
+@{
+    ViewData["Title"] = "Create";
+}
+<section id="empresas" class="d-flex align-items-center min-vh-100">
+    <div class="container">
+        <h1>Crear</h1>
+
+        <h4>Empresa</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Giro" class="control-label"></label>
+                        <input asp-for="Giro" class="form-control" />
+                        <span asp-validation-for="Giro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SubGiro" class="control-label"></label>
+                        <input asp-for="SubGiro" class="form-control" />
+                        <span asp-validation-for="SubGiro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Estado" class="control-label"></label>
+                        <input asp-for="Estado" class="form-control" />
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ciudad" class="control-label"></label>
+                        <input asp-for="Ciudad" class="form-control" />
+                        <span asp-validation-for="Ciudad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CP" class="control-label"></label>
+                        <input asp-for="CP" class="form-control" />
+                        <span asp-validation-for="CP" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CantEmpleados" class="control-label"></label>
+                        <input asp-for="CantEmpleados" class="form-control" />
+                        <span asp-validation-for="CantEmpleados" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MinSueldo" class="control-label"></label>
+                        <input asp-for="MinSueldo" class="form-control" />
+                        <span asp-validation-for="MinSueldo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaxSueldo" class="control-label"></label>
+                        <input asp-for="MaxSueldo" class="form-control" />
+                        <span asp-validation-for="MaxSueldo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaRegistro" class="control-label"></label>
+                        <input asp-for="FechaRegistro" class="form-control" />
+                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HorasLaborales" class="control-label"></label>
+                        <input asp-for="HorasLaborales" class="form-control" />
+                        <span asp-validation-for="HorasLaborales" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DiasLaborales" class="control-label"></label>
+                        <input asp-for="DiasLaborales" class="form-control" />
+                        <span asp-validation-for="DiasLaborales" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+
+
+    </div>
+</section>
+

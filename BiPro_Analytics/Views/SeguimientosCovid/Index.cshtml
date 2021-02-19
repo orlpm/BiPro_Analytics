@@ -1,0 +1,77 @@
+﻿@model IEnumerable<BiPro_Analytics.Models.SeguimientoCovid>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+        <h1>Lista de Seguimiento de Covid</h1>
+
+        <p>
+            <a asp-action="Create">Crear nuevo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EstatusPaciente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SintomasMayores)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SintomasMenores)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EstatusEnCasa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EstatusEnHospital)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaSeguimiento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTrabajador)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstatusPaciente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SintomasMayores)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SintomasMenores)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstatusEnCasa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstatusEnHospital)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaSeguimiento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdTrabajador)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,40 @@
+﻿@model BiPro_Analytics.Models.Empresa
+@{
+    ViewData["Title"] = "Empresas";
+}
+
+<section id="empresas" class="d-flex align-items-center min-vh-100">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Empresas dentro de Bipro Analytics</h2>
+        </div>
+
+        <div class="text-center">
+
+            <form asp-action="Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        Por empresa: <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                            <option selected disabled>Seleccionar opción</option>
+                        </select>
+                        <input type="submit" value="Buscar" class="btn btn-default" />
+                        <a asp-action="Index">Regresar lista completa</a>
+                    </p>
+                    @*@if ()
+                    {
+                        <p>
+                            Por empresa: <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                            <input type="submit" value="Buscar" class="btn btn-default" /> |
+                            <a asp-action="Index">Regresar lista completa</a>
+                        </p>
+                    }*@
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>

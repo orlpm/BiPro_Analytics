@@ -1,0 +1,66 @@
+﻿@model BiPro_Analytics.Models.SeguimientoCovid
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+        <h1>Editar</h1>
+
+        <h4>Seguimiento de Covid</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="EstatusPaciente" class="control-label"></label>
+                        <input asp-for="EstatusPaciente" class="form-control" />
+                        <span asp-validation-for="EstatusPaciente" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="SintomasMayores" /> @Html.DisplayNameFor(model => model.SintomasMayores)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="SintomasMenores" /> @Html.DisplayNameFor(model => model.SintomasMenores)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EstatusEnCasa" class="control-label"></label>
+                        <input asp-for="EstatusEnCasa" class="form-control" />
+                        <span asp-validation-for="EstatusEnCasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EstatusEnHospital" class="control-label"></label>
+                        <input asp-for="EstatusEnHospital" class="form-control" />
+                        <span asp-validation-for="EstatusEnHospital" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaSeguimiento" class="control-label"></label>
+                        <input asp-for="FechaSeguimiento" class="form-control" />
+                        <span asp-validation-for="FechaSeguimiento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdTrabajador" class="control-label"></label>
+                        <input asp-for="IdTrabajador" class="form-control" />
+                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+    </div>
+</section>
+
