@@ -16,11 +16,12 @@ namespace BiPro_Analytics.Models
         [Required]
         public string Nombre { get; set; }
 
+        [DisplayName("Razón Social")]
         [MaxLength(50)]
         [Required]
         public string RazonSocial { get; set; }
 
-        [MaxLength(12)]
+        [MaxLength(13)]
         [Required]
         public string RFC { get; set; }
 
@@ -42,7 +43,7 @@ namespace BiPro_Analytics.Models
         public string SubGiro { get; set; }
 
         [MaxLength(30)]
-        [DisplayName("Seccion")]
+        [DisplayName("Sección")]
         public string Seccion { get; set; }
 
         [Required]
@@ -65,7 +66,6 @@ namespace BiPro_Analytics.Models
 
         [MaxLength(4)]
         [DisplayName("Numero Int")]
-        [Required]
         public string NumeroInt { get; set; }
 
         [MaxLength(40)]

@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using BiPro_Analytics.Responses;
 using System.Security.Claims;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -28,9 +29,11 @@ namespace BiPro_Analytics.Controllers
             ClaimsPrincipal currentUser = this.User;
             Empresa empresa = null;
             UsuarioTrabajador usuarioTrabajador = null;
+            UsuarioEmpresa usuarioEmpresa = null;
 
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (currentUserId != null)
+                usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
                 usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
 
             if (usuarioTrabajador != null)
@@ -48,22 +51,22 @@ namespace BiPro_Analytics.Controllers
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
-                if (empresa != null)
+                if (usuarioEmpresa != null)
                 {
                     List<DDLEmpresa> empresas = await _context.Empresas
-                    .Where(e => e.IdEmpresa == empresa.IdEmpresa)
+                    .Where(e => e.IdEmpresa == usuarioEmpresa.IdEmpresa)
                     .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
                     ViewBag.Empresas = empresas;
 
                     List<DDLTrabajador> trabajadores = await _context.Trabajadores
-                        .Where(e => e.IdEmpresa == empresa.IdEmpresa)
+                        .Where(e => e.IdEmpresa == usuarioEmpresa.IdEmpresa)
                         .Select(x => new DDLTrabajador { Id = x.IdTrabajador, Trabajador = x.Nombre })
                         .ToListAsync();
                     ViewBag.Trabajadores = trabajadores;
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound("Usuario no asociado a ninguna empresa");
                 }
             }
             return View();
@@ -74,11 +77,16 @@ namespace BiPro_Analytics.Controllers
         {
             ClaimsPrincipal currentUser = this.User;
             UsuarioTrabajador usuarioTrabajador = null;
+            UsuarioEmpresa usuarioEmpresa = null;
             Empresa empresa = null;
 
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (currentUserId != null)
+            {
                 usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
+                usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
+            }
+                
             if (usuarioTrabajador != null)
                 empresa = await _context.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
 
@@ -98,19 +106,19 @@ namespace BiPro_Analytics.Controllers
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
-                if (empresa != null)
+                if (usuarioEmpresa != null)
                 {
                     var unidades = _context.Unidades
-                        .Where(x => x.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                        .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
 
                     var areas = _context.Areas
-                        .Where(x => x.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                        .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
 
                     ViewBag.Unidades = unidades;
                     ViewBag.Areas = areas;
 
                     return View(await _context.Trabajadores
-                        .Where(x => x.IdEmpresa == empresa.IdEmpresa).ToListAsync());
+                        .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync());
                 }
                 else
                 {
@@ -140,22 +148,16 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: Trabajadores/Create
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
-            List<DDLUnidad> unidades = await _context.Unidades
-                    .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Name }).ToListAsync();
-            if(unidades.Count > 0)
-                ViewBag.Unidades = unidades;
+            
 
-            List<DDLArea> areas = await _context.Areas
-                .Select(x => new DDLArea { Id = x.Id, Area = x.Name }).ToListAsync();
-            if(areas.Count > 0)
-                ViewBag.Areas = areas;
-
-            List<DDLEmpresa> empresas = await _context.Empresas
-                .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
-            if(empresas.Count > 0)
-                ViewBag.Empresas = empresas;
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
 
             return View();
         }
@@ -165,7 +167,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
+        public async Task<IActionResult> Create([Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
         {
             if (ModelState.IsValid)
             {
@@ -189,20 +191,13 @@ namespace BiPro_Analytics.Controllers
             {
                 return NotFound();
             }
-            List<DDLUnidad> unidades = await _context.Unidades
-                    .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Name }).ToListAsync();
-            if (unidades.Count > 0)
-                ViewBag.Unidades = unidades;
 
-            List<DDLArea> areas = await _context.Areas
-                .Select(x => new DDLArea { Id = x.Id, Area = x.Name }).ToListAsync();
-            if (areas.Count > 0)
-                ViewBag.Areas = areas;
-
-            List<DDLEmpresa> empresas = await _context.Empresas
-                .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
-            if (empresas.Count > 0)
-                ViewBag.Empresas = empresas;
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
 
             return View(trabajador);
         }
@@ -212,7 +207,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
         {
             if (id != trabajador.IdTrabajador)
             {

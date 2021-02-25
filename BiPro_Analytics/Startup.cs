@@ -30,7 +30,7 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-            //Configuration.GetConnectionString("BiProConnection")));
+            //Configuration.GetConnectionString("BiProGearhost")));
             Configuration.GetConnectionString("BiProLocal")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

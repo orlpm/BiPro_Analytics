@@ -10,6 +10,7 @@ using BiPro_Analytics.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -27,6 +28,7 @@ namespace BiPro_Analytics.Controllers
             ClaimsPrincipal currentUser = this.User;
             Empresa empresa = null;
             UsuarioTrabajador usuarioTrabajador = null;
+            UsuarioEmpresa usuarioEmpresa = null;
             List<DDLTrabajador> trabajadores = null;
             List<Unidad> unidades = null;
             List<Area> areas = null;
@@ -34,8 +36,11 @@ namespace BiPro_Analytics.Controllers
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             if (currentUserId != null)
-                usuarioTrabajador = await _context.UsuariosTrabajadores
-                    .FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
+            {
+                usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
+                usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
+            }
+                
 
             if (usuarioTrabajador != null)
                 empresa = await _context.Empresas
@@ -61,10 +66,10 @@ namespace BiPro_Analytics.Controllers
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
-                if (empresa != null)
+                if (usuarioEmpresa != null)
                 {
                     trabajadores = await _context.Trabajadores
-                        .Where(t => t.IdEmpresa == empresa.IdEmpresa)
+                        .Where(t => t.IdEmpresa == usuarioEmpresa.IdEmpresa)
                         .Select(x => new DDLTrabajador
                         {
                             Id = x.IdTrabajador,
@@ -73,7 +78,7 @@ namespace BiPro_Analytics.Controllers
 
                     ViewBag.Trabajadores = trabajadores;
 
-                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
                     ViewBag.Unidades = unidades;
 
                     if (IdUnidad != null)
@@ -81,7 +86,7 @@ namespace BiPro_Analytics.Controllers
                         ViewBag.Unidad = IdUnidad;
                     }
 
-                    areas = await _context.Areas.Where(a => a.IdEmpresa == empresa.IdEmpresa).ToListAsync();
+                    areas = await _context.Areas.Where(a => a.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
                     ViewBag.Areas = areas;
 
                 }
@@ -263,20 +268,17 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: FactoresRiesgos/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            //ViewBag.Unidades = perfilData.DDLUnidades;
+            //ViewBag.Areas = perfilData.DDLAreas;
+            //ViewBag.Empresas = perfilData.DDLEmpresas;
+
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if(trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
-
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View();
         }
@@ -286,11 +288,12 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Diabetes,Hipertencion,Asma,SobrePeso,Obesidad,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
+        public async Task<IActionResult> Create([Bind("Id,Diabetes,Hipertension,Asma,SobrePeso,Obesidad,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
         {
             if (ModelState.IsValid)
             {
                 factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+                factorRiesgo.FechaHoraRegistro = DateTime.Now;
 
                 _context.Add(factorRiesgo);
                 await _context.SaveChangesAsync();
@@ -313,17 +316,11 @@ namespace BiPro_Analytics.Controllers
                 return NotFound();
             }
 
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if(trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View(factorRiesgo);
         }
@@ -333,7 +330,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Diabetes,Hipertencion,Asma,SobrePeso,Obesidad,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Diabetes,Hipertension,Asma,SobrePeso,Obesidad,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
         {
             if (id != factorRiesgo.Id)
             {
@@ -345,6 +342,7 @@ namespace BiPro_Analytics.Controllers
                 try
                 {
                     factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+                    factorRiesgo.FechaHoraRegistro = DateTime.Now;
                     _context.Update(factorRiesgo);
                     await _context.SaveChangesAsync();
                 }

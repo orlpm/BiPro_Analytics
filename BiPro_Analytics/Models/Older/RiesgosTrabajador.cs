@@ -29,13 +29,20 @@ namespace BiPro_Analytics.Models
         public bool Asma { get; set; }
         public bool Fumador { get; set; }
         public int CigarrosDia { get; set; }
+        [DisplayName("Años fumando")]
         public int AniosFumar { get; set; }
         public bool Diabetes { get; set; }
+        [DisplayName("Hipertensión")]
         public bool Hipertension { get; set; }
+        [DisplayName("Enfermedad Cronica")]
         public bool EnfermedadCronica { get; set; }
+
+        [DisplayName("Nombre Enfermedad Cronica")]
         public string NombreECronica { get; set; }
         public bool Rinitis { get; set; }
         public bool Sinusitis { get; set; }
+
+        [DisplayName("Cirugía Nasal")]
         public bool CirugiaNasal { get; set; }
         public bool Rinofaringea { get; set; }
         public bool NombreRinofaringea { get; set; }

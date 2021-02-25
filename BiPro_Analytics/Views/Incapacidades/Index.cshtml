@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<section>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
         <h1>Lista de Incapacidades</h1>
 
@@ -14,9 +14,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NombreEmpleado)
-                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.FechaHoraInicio)
                     </th>
@@ -42,9 +39,6 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NombreEmpleado)
-                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FechaHoraInicio)
                         </td>

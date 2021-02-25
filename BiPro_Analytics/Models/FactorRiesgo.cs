@@ -16,7 +16,8 @@ namespace BiPro_Analytics.Models
         public bool Diabetes { get; set; }
 
         [Required]
-        public bool Hipertencion { get; set; }
+        [DisplayName("Hipertensión")]
+        public bool Hipertension { get; set; }
 
         [Required]
         public bool Asma { get; set; }
@@ -26,6 +27,12 @@ namespace BiPro_Analytics.Models
 
         [Required]
         public bool Obesidad { get; set; }
+        [Required]
+        [DisplayName("Enfermedad Autoinmune")]
+        public bool EnfermedadAutoinmune { get; set; }
+        [Required]
+        [DisplayName("Enfermedad del Corazón")]
+        public bool EnfermedadCorazon{ get; set; }
 
         [Required]
         public bool Embarazo { get; set; }
@@ -62,8 +69,8 @@ namespace BiPro_Analytics.Models
         public string EspacioTrabajo { get; set; }
 
         [Required]
-        [DisplayName("Ventilacion trabajo")]
-        [MaxLength(20)]
+        [DisplayName("Ventilación trabajo")]
+        [MaxLength(40)]
         public string TipoVentilacion { get; set; }
 
         [Required]

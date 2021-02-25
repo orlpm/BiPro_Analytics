@@ -69,15 +69,24 @@
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Empresas" asp-action="PreIndex">Empresas</a>
                             </li>
+
+                            <li class="drop-down">
+                                <a class="nav-link text-dark">Relaciones</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="UsuariosEmpresas" asp-action="Index">Rel. Usuario Empresa</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="UsuariosTrabajadores" asp-action="Index">Rel. Usuario Trabajador</a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
                         {
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="PreIndex">Trabajadores</a>
                             </li>
-                        }
-                        @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa") || User.IsInRole("Trabajador"))
-                        {
                             <li class="drop-down">
                                 <a class="nav-link text-dark">Riesgos</a>
                                 <ul>
@@ -89,7 +98,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                             <li class="drop-down">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas</a>
                                 <ul>
@@ -104,9 +112,6 @@
                                     </li>
                                 </ul>
                             </li>
-                        }
-                        @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
-                        {
                             <li class="drop-down">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
                                 <ul>
@@ -122,6 +127,34 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Charts">Tablero</a>
                             </li>
                         }
+                        @if (User.IsInRole("Trabajador"))
+                        {
+                            <li class="drop-down">
+                                <a class="nav-link text-dark">Cuestionarios Riesgos</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="FactoresRiesgos" asp-action="Create">Factores de riesgos</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="RiesgoContagios" asp-action="Create">Riesgos de contagio</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="drop-down">
+                                <a class="nav-link text-dark">Cuestionarios de Pruebas</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="Create">Pruebas</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="Create">Seguimientos Covid19</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="Create">Ingresar incapacidad</a>
+                            </li>
+                        }
 
                     }
                     <li>
@@ -129,7 +162,7 @@
                     </li>
                 </ul>
 
-            </nav><!-- .nav-menu -->
+</nav><!-- .nav-menu -->
         </div>
     </header>
     <main id="main">

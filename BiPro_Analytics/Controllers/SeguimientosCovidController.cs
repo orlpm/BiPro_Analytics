@@ -131,8 +131,10 @@ namespace BiPro_Analytics.Controllers
 
             usuarioTrabajador = await _context.UsuariosTrabajadores
                 .FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
-            empresa = await _context.Empresas
-                .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+
+            if(usuarioTrabajador!= null)
+                empresa = await _context.Empresas
+                    .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
 
             if (currentUser.IsInRole("Admin"))
             {
@@ -171,7 +173,7 @@ namespace BiPro_Analytics.Controllers
 
                     if (trabajadores.Count > 0)
                     {
-                        List<SeguimientoCovid> seguimientos = new List<SeguimientoCovid>();
+                        List<SeguimientoCovid> seguimientosCovid = new List<SeguimientoCovid>();
 
                         foreach (var trabajador in trabajadores)
                         {
@@ -179,11 +181,11 @@ namespace BiPro_Analytics.Controllers
                                 .FirstOrDefaultAsync(x => x.IdTrabajador == trabajador.IdTrabajador);
 
                             if (seguimientoCovid != null)
-                                seguimientos.Add(seguimientoCovid);
+                                seguimientosCovid.Add(seguimientoCovid);
                         }
 
-                        if (seguimientos.Count > 0)
-                            return View(seguimientos);
+                        if (seguimientosCovid.Count > 0)
+                            return View(seguimientosCovid);
                         else
                         {
                             return NotFound("Sin resultados");
@@ -196,7 +198,7 @@ namespace BiPro_Analytics.Controllers
                         .Where(u => u.Id == IdUnidad)
                         .SelectMany(t => t.Trabajadores)
                         .Where(q => q != null && q.IdArea == IdArea)
-                        .SelectMany(r => r.RegistroPruebas)
+                        .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync());
                 }
                 else if (IdUnidad != null && IdArea == null)
@@ -209,7 +211,7 @@ namespace BiPro_Analytics.Controllers
                     var pruebas = await _context.Unidades
                         .Where(u => u.Id == IdUnidad)
                         .SelectMany(t => t.Trabajadores)
-                        .SelectMany(r => r.RegistroPruebas)
+                        .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync();
 
                     return View(pruebas);
@@ -219,22 +221,22 @@ namespace BiPro_Analytics.Controllers
                     return View(await _context.Areas
                         .Where(a => a.Id == IdArea)
                         .SelectMany(t => t.Trabajadores)
-                        .SelectMany(r => r.RegistroPruebas)
+                        .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync());
                 }
             }
             else
             {
-                var registroPruebas = await _context.RegistroPruebas
+                var seguimientosCovid = await _context.SeguimientosCovid
                     .Where(r => r.IdTrabajador == usuarioTrabajador.TrabajadorId).ToListAsync();
 
-                if (registroPruebas.Count == 0)
+                if (seguimientosCovid.Count == 0)
                     return NotFound("Sin registros de pruebas");
 
-                return View(registroPruebas);
+                return View(seguimientosCovid);
             }
 
-            return View(await _context.RegistroPruebas.ToListAsync());
+            return View(await _context.SeguimientosCovid.ToListAsync());
 
         }
 
@@ -267,6 +269,9 @@ namespace BiPro_Analytics.Controllers
                         Id = x.IdTrabajador,
                         Trabajador = x.Nombre
                     }).ToList();
+
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
 
             return View();
         }
@@ -310,6 +315,9 @@ namespace BiPro_Analytics.Controllers
                         Id = x.IdTrabajador,
                         Trabajador = x.Nombre
                     }).ToList();
+
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
 
             return View(seguimientoCovid);
         }

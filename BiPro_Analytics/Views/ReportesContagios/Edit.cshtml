@@ -4,65 +4,93 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar</h1>
 
-<h4>ReporteContagio</h4>
+<h4>Reportes de Pruebas y Contagios</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Semana" class="control-label"></label>
                 <input asp-for="Semana" class="form-control" />
                 <span asp-validation-for="Semana" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Anio" class="control-label"></label>
                 <input asp-for="Anio" class="form-control" />
                 <span asp-validation-for="Anio" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="FechaRegistro" class="control-label"></label>
                 <input asp-for="FechaRegistro" class="form-control" />
                 <span asp-validation-for="FechaRegistro" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSemPCR" class="control-label"></label>
                 <input asp-for="PositivosSemPCR" class="form-control" />
                 <span asp-validation-for="PositivosSemPCR" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSemLG" class="control-label"></label>
                 <input asp-for="PositivosSemLG" class="form-control" />
                 <span asp-validation-for="PositivosSemLG" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSemAntigeno" class="control-label"></label>
                 <input asp-for="PositivosSemAntigeno" class="form-control" />
                 <span asp-validation-for="PositivosSemAntigeno" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSemTAC" class="control-label"></label>
                 <input asp-for="PositivosSemTAC" class="form-control" />
                 <span asp-validation-for="PositivosSemTAC" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="control-label"></label>
                 <input asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="form-control" />
                 <span asp-validation-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="control-label"></label>
                 <input asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="form-control" />
                 <span asp-validation-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="SospechososDescartados" class="control-label"></label>
                 <input asp-for="SospechososDescartados" class="form-control" />
                 <span asp-validation-for="SospechososDescartados" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="IdEmpresa" class="control-label">Empresa</label>
                 @if (ViewBag.Empresas != null)
@@ -77,12 +105,27 @@
                 }
                 <span asp-validation-for="IdEmpresa" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>

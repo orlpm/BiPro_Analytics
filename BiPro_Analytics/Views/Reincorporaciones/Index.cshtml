@@ -4,92 +4,92 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Reincorporaciones</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Numero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aislados15Dias)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aislados30Dias)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReincorporanSemAnt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmpleadosIncapacidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiasPerdidosIncapacidadSemAnt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiasAcumuladosMenIncapacidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiasAcumuladosTot)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RelTotalTrabajadoresTrabajadoresIncapacidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RelDiasTrabajoDiasIncapacidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEmpresa)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aislados15Dias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aislados30Dias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReincorporanSemAnt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmpleadosIncapacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasPerdidosIncapacidadSemAnt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasAcumuladosMenIncapacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasAcumuladosTot)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RelTotalTrabajadoresTrabajadoresIncapacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RelDiasTrabajoDiasIncapacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEmpresa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <p>
+            <a asp-action="Create">Crear nuevo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Aislados15Dias)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Aislados30Dias)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReincorporanSemAnt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmpleadosIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiasPerdidosIncapacidadSemAnt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiasAcumuladosMenIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiasAcumuladosTot)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RelTotalTrabajadoresTrabajadoresIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RelDiasTrabajoDiasIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEmpresa)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Aislados15Dias)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Aislados30Dias)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReincorporanSemAnt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpleadosIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiasPerdidosIncapacidadSemAnt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiasAcumuladosMenIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiasAcumuladosTot)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RelTotalTrabajadoresTrabajadoresIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RelDiasTrabajoDiasIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdEmpresa)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.id">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.id">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</section>

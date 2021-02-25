@@ -23,7 +23,7 @@ namespace BiPro_Analytics.Models
         public string Genero { get; set; }
 
         [Display(AutoGenerateField = false)]
-        public int Edad { get; set; }
+        public int? Edad { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
@@ -48,23 +48,27 @@ namespace BiPro_Analytics.Models
         [DisplayName("Numero Int")]
         [Required]
         public string NumeroInt { get; set; }
-
-        [MaxLength(40)]
+        
+        [MaxLength(6)]
         [Required]
-        public string Ciudad { get; set; }
+        public string CP { get; set; }
 
         [MaxLength(30)]
         [Required]
         public string Estado { get; set; }
 
-        [MaxLength(6)]
+        [MaxLength(50)]
         [Required]
-        public string CP { get; set; }
+        public string Municipio { get; set; }
+
+        [MaxLength(40)]
+        [Required]
+        public string Ciudad { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
         [DisplayName("Fecha de Nacimiento")]
-        public DateTime? FechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

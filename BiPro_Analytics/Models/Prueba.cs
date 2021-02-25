@@ -23,16 +23,13 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DisplayName("Tipo de Prueba")]
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string TipoPrueba { get; set; }
 
         [Required]
         [DisplayName("Diagnostico Covid")]
-        public bool DiagnosticoCovid { get; set; }
-
-        [Required]
-        [DisplayName("Prueba Confirmatoria")]
-        public bool PruebaConfirmatoria { get; set; }
+        [MaxLength(20)]
+        public string DiagnosticoCovid { get; set; }
 
         [Required]
         [DisplayName("Sintomas Covid")]
@@ -43,7 +40,10 @@ namespace BiPro_Analytics.Models
         public bool RadiografiaTorax { get; set; }
 
         [Required]
-        public bool Tomografía { get; set; }
+        [DisplayName("Tomografía")]
+        public bool Tomografia { get; set; }
+
+        public DateTime FechaHoraRegistro{ get; set; }
 
         [Required]
         public int? IdTrabajador { get; set; }

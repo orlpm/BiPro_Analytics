@@ -265,6 +265,8 @@ namespace BiPro_Analytics.Controllers
                         Id = x.IdTrabajador,
                         Trabajador = x.Nombre
                     }).ToList();
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
 
             return View();
         }
@@ -307,6 +309,8 @@ namespace BiPro_Analytics.Controllers
                         Id = x.IdTrabajador,
                         Trabajador = x.Nombre
                     }).ToList();
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
 
             return View(incapacidad);
         }

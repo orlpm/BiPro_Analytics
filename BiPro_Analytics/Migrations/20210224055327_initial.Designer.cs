@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiPro_Analytics.Migrations
 {
     [DbContext(typeof(BiproAnalyticsDBContext))]
-    [Migration("20210219002543_initial")]
+    [Migration("20210224055327_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.11")
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -117,7 +117,6 @@ namespace BiPro_Analytics.Migrations
                         .HasMaxLength(5);
 
                     b.Property<string>("NumeroInt")
-                        .IsRequired()
                         .HasColumnType("nvarchar(4)")
                         .HasMaxLength(4);
 
@@ -126,8 +125,8 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("RFC")
                         .IsRequired()
-                        .HasColumnType("nvarchar(12)")
-                        .HasMaxLength(12);
+                        .HasColumnType("nvarchar(13)")
+                        .HasMaxLength(13);
 
                     b.Property<string>("RazonSocial")
                         .IsRequired()
@@ -181,6 +180,12 @@ namespace BiPro_Analytics.Migrations
                     b.Property<bool>("Embarazo")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("EnfermedadAutoinmune")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EnfermedadCorazon")
+                        .HasColumnType("bit");
+
                     b.Property<string>("EspacioTrabajo")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
@@ -189,7 +194,7 @@ namespace BiPro_Analytics.Migrations
                     b.Property<DateTime>("FechaHoraRegistro")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Hipertencion")
+                    b.Property<bool>("Hipertension")
                         .HasColumnType("bit");
 
                     b.Property<int?>("IdTrabajador")
@@ -225,8 +230,8 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("TipoVentilacion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
 
                     b.Property<int?>("TrabajadorIdTrabajador")
                         .HasColumnType("int");
@@ -249,15 +254,14 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaHoraInicio")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdTrabajador")
                         .HasColumnType("int");
 
                     b.Property<string>("MotivoIncapacidad")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NombreEmpleado")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeEncuentraEn")
@@ -283,10 +287,15 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("DiagnosticoCovid")
-                        .HasColumnType("bit");
+                    b.Property<string>("DiagnosticoCovid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime>("FechaDiagnostico")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaHoraRegistro")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("IdTrabajador")
@@ -298,9 +307,6 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
-                    b.Property<bool>("PruebaConfirmatoria")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("RadiografiaTorax")
                         .HasColumnType("bit");
 
@@ -309,10 +315,10 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("TipoPrueba")
                         .IsRequired()
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
-                    b.Property<bool>("Tomografía")
+                    b.Property<bool>("Tomografia")
                         .HasColumnType("bit");
 
                     b.Property<int?>("TrabajadorIdTrabajador")
@@ -427,9 +433,6 @@ namespace BiPro_Analytics.Migrations
                     b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
-
                     b.Property<int>("ReincorporanSemAnt")
                         .HasColumnType("int");
 
@@ -437,6 +440,9 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RelTotalTrabajadoresTrabajadoresIncapacidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalReincorporados")
                         .HasColumnType("int");
 
                     b.Property<int?>("TrabajadorIdTrabajador")
@@ -794,7 +800,7 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<int>("Edad")
+                    b.Property<int?>("Edad")
                         .HasColumnType("int");
 
                     b.Property<int?>("EmpresaIdEmpresa")
@@ -809,8 +815,7 @@ namespace BiPro_Analytics.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaNacimiento")
-                        .IsRequired()
+                    b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaRegistro")
@@ -830,6 +835,11 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<int?>("IdUnidad")
                         .HasColumnType("int");
+
+                    b.Property<string>("Municipio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -894,6 +904,27 @@ namespace BiPro_Analytics.Migrations
                     b.HasIndex("EmpresaIdEmpresa");
 
                     b.ToTable("Unidades");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.UsuarioEmpresa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("IdUsuario")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Rol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsuariosEmpresas");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.UsuarioTrabajador", b =>

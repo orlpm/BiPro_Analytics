@@ -65,8 +65,47 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Estado" class="control-label"></label>
-                        <input asp-for="Estado" class="form-control" />
+                        <select asp-for="Estado">
+                            <option selected disabled>Seleccionar opción</option>
+                            <option>Aguascalientes</option>
+                            <option>Baja California</option>
+                            <option>Baja California Sur</option>
+                            <option>Campeche</option>
+                            <option>Coahuila</option>
+                            <option>Colima</option>
+                            <option>Chiapas</option>
+                            <option>Chihuahua</option>
+                            <option>Ciudad de México</option>
+                            <option>Durango</option>
+                            <option>Guanajuato</option>
+                            <option>Guerrero</option>
+                            <option>Hidalgo</option>
+                            <option>Jalisco</option>
+                            <option>Estado de México</option>
+                            <option>Michoacán</option>
+                            <option>Morelos</option>
+                            <option>Nayarit</option>
+                            <option>Nuevo León</option>
+                            <option>Oaxaca</option>
+                            <option>Puebla</option>
+                            <option>Querétaro</option>
+                            <option>Quintana Roo</option>
+                            <option>San Luis Potosí</option>
+                            <option>Sinaloa</option>
+                            <option>Sonora</option>
+                            <option>Tabasco</option>
+                            <option>Tamaulipas</option>
+                            <option>Tlaxcala</option>
+                            <option>Veracruz</option>
+                            <option>Yucatán</option>
+                            <option>Zacatecas</option>
+                        </select>
                         <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Municipio" class="control-label"></label>
+                        <input asp-for="Municipio" class="form-control" />
+                        <span asp-validation-for="Municipio" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CP" class="control-label"></label>
@@ -132,47 +171,47 @@
                     </div>
 
                     @*<div class="form-group">
-                        <label asp-for="NombreUnidad" class="control-label"></label>
-                        @if (ViewBag.Unidades != null)
-                        {
-                            <select asp-for="NombreUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
-                                <option selected disabled>Seleccionar opción</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <input asp-for="NombreUnidad" class="form-control" />
-                        }
-                        <span asp-validation-for="NombreUnidad" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NombreArea" class="control-label"></label>
-                        @if (ViewBag.Areas != null)
-                        {
-                            <select asp-for="NombreArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
-                                <option selected disabled>Seleccionar opción</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <input asp-for="NombreArea" class="form-control" />
-                        }
-                        <span asp-validation-for="NombreArea" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NombreEmpresa" class="control-label"></label>
-                        @if (ViewBag.Empresas != null)
-                        {
-                            <select asp-for="NombreEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                <option selected disabled>Seleccionar opción</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <input asp-for="NombreEmpresa" class="form-control" />
-                        }
-                        <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
-                    </div>*@
+            <label asp-for="NombreUnidad" class="control-label"></label>
+            @if (ViewBag.Unidades != null)
+            {
+                <select asp-for="NombreUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
+                    <option selected disabled>Seleccionar opción</option>
+                </select>
+            }
+            else
+            {
+                <input asp-for="NombreUnidad" class="form-control" />
+            }
+            <span asp-validation-for="NombreUnidad" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NombreArea" class="control-label"></label>
+            @if (ViewBag.Areas != null)
+            {
+                <select asp-for="NombreArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
+                    <option selected disabled>Seleccionar opción</option>
+                </select>
+            }
+            else
+            {
+                <input asp-for="NombreArea" class="form-control" />
+            }
+            <span asp-validation-for="NombreArea" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NombreEmpresa" class="control-label"></label>
+            @if (ViewBag.Empresas != null)
+            {
+                <select asp-for="NombreEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                    <option selected disabled>Seleccionar opción</option>
+                </select>
+            }
+            else
+            {
+                <input asp-for="NombreEmpresa" class="form-control" />
+            }
+            <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
+        </div>*@
 
 
                     <div class="form-group">

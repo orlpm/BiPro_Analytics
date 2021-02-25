@@ -1,0 +1,62 @@
+﻿@model BiPro_Analytics.Models.UsuarioEmpresa
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<section id="empresas" class="d-flex  min-vh-100">
+    <div class="container">
+        <h1>Create</h1>
+
+        <h4>UsuarioEmpresa</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="IdUsuario" class="control-label"></label>
+                        @if (ViewBag.Usuarios != null)
+                        {
+                            <select asp-for="IdUsuario" asp-items="@(new SelectList(@ViewBag.Usuarios,"IdUsuario","Usuario"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdUsuario" class="form-control" />
+                        }
+                        <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdEmpresa" class="control-label"></label>
+                        @if (ViewBag.Empresas != null)
+                        {
+                            <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdEmpresa" class="form-control" />
+                        }
+                        <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Rol" class="control-label"></label>
+                        <input asp-for="Rol" class="form-control" />
+                        <span asp-validation-for="Rol" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+</section>

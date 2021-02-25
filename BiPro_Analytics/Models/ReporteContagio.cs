@@ -13,7 +13,6 @@ namespace BiPro_Analytics.Models
 
         public int Semana { get; set; }
 
-        
         [DisplayName("Año")]
         [Required]
         public int Anio { get; set; }

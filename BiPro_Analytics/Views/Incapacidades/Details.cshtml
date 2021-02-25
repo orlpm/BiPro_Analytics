@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<section>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
         <h1>Detalles</h1>
 
@@ -12,12 +12,6 @@
             <h4>Incapacidad</h4>
             <hr />
             <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.NombreEmpleado)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.NombreEmpleado)
-                </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.FechaHoraInicio)
                 </dt>

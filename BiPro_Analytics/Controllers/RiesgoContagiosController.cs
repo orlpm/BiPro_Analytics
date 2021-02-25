@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -142,19 +143,14 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: RiesgoContagios/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            //Para combo Trabajadores
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View();
         }
@@ -169,6 +165,7 @@ namespace BiPro_Analytics.Controllers
             if (ModelState.IsValid)
             {
                 riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+                riesgoContagio.FechaHoraRegistro = DateTime.Now;
 
                 _context.Add(riesgoContagio);
                 await _context.SaveChangesAsync();
@@ -192,16 +189,11 @@ namespace BiPro_Analytics.Controllers
             }
 
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            //Para combo Trabajadores
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View(riesgoContagio);
         }
@@ -223,6 +215,8 @@ namespace BiPro_Analytics.Controllers
                 try
                 {
                     riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+                    riesgoContagio.FechaHoraRegistro = DateTime.Now;
+
                     _context.Update(riesgoContagio);
                     await _context.SaveChangesAsync();
                 }

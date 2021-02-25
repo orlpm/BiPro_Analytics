@@ -271,6 +271,9 @@ namespace BiPro_Analytics.Controllers
                         Trabajador = x.Nombre
                     }).ToList();
 
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
+
             return View();
         }
 
@@ -279,11 +282,12 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,PruebaConfirmatoria,SintomasCovid,RadiografiaTorax,Tomografía,IdTrabajador")] Prueba prueba)
+        public async Task<IActionResult> Create([Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,SintomasCovid,RadiografiaTorax,Tomografia,IdTrabajador")] Prueba prueba)
         {
             if (ModelState.IsValid)
             {
                 prueba.Trabajador = _context.Trabajadores.Find(prueba.IdTrabajador);
+                prueba.FechaHoraRegistro = DateTime.Now;
                 _context.Add(prueba);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -314,6 +318,9 @@ namespace BiPro_Analytics.Controllers
                         Trabajador = x.Nombre
                     }).ToList();
 
+            if (trabajadores.Count > 0)
+                ViewBag.Trabajadores = trabajadores;
+
             return View(prueba);
         }
 
@@ -322,7 +329,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,PruebaConfirmatoria,SintomasCovid,RadiografiaTorax,Tomografía,IdTrabajador")] Prueba prueba)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,SintomasCovid,RadiografiaTorax,Tomografia,IdTrabajador")] Prueba prueba)
         {
             if (id != prueba.Id)
             {
@@ -334,6 +341,7 @@ namespace BiPro_Analytics.Controllers
                 try
                 {
                     prueba.Trabajador = _context.Trabajadores.Find(prueba.IdTrabajador);
+                    prueba.FechaHoraRegistro = DateTime.Now;
                     _context.Update(prueba);
                     await _context.SaveChangesAsync();
                 }
