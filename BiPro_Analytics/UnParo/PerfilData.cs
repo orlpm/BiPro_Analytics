@@ -13,6 +13,8 @@ namespace BiPro_Analytics.UnParo
         public List<DDLUnidad> DDLUnidades { get; set; }
         public List<DDLArea> DDLAreas { get; set; }
         public List<DDLTrabajador> DDLTrabajadores { get; set; }
+        public int? IdEmpresa { get; set; }
+        public int? IdTrabajador { get; set; }
 
     }
 }

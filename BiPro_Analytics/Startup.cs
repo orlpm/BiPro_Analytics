@@ -30,8 +30,8 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-            //Configuration.GetConnectionString("BiProGearhost")));
-            Configuration.GetConnectionString("BiProLocal")));
+            Configuration.GetConnectionString("BiProGearhost")));
+            //Configuration.GetConnectionString("BiProLocal")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
@@ -43,6 +43,11 @@ namespace BiPro_Analytics
             });
             
             services.AddControllersWithViews();
+
+            services.AddSession(opions =>
+            {
+                opions.IdleTimeout = TimeSpan.FromSeconds(1800);
+            });
             
             services.AddRazorPages();
 
@@ -74,6 +79,8 @@ namespace BiPro_Analytics
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
-﻿
+﻿@model BiPro_Analytics.Models.Empresa
+
 @{
     ViewData["Title"] = "Charts";
 }
@@ -6,6 +7,8 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
 <section id="charts" class="d-flex align-items-center min-vh-100">
+
+    <input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa"/>
 
     <div class="container-fluid" id="placeholder">
 
@@ -216,81 +219,6 @@
 
         </div>
 
-
-        <div class="chart-container" width="600" height="400">
-            <canvas id="myChart" width="400" height="400"></canvas>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>​Riesgo de Trabajadores de estar contagiados de COVID</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <h4>Factores de Riesgo de Contagio</h4>
-            </div>
-            <div class="col-sm-6">
-                <h4>Factores de riesgo de complicaciones en caso de existir contagio</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                @*<iframe width="600" height="373" src="https://app.powerbi.com/view?r=eyJrIjoiYjVkMzYzZGItN2M4NC00NjI0LTg1MjEtMmQ1OGNlYTIyODdiIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-            <div class="col-sm-6">
-                @*<iframe width="600" height="373" src="https://app.powerbi.com/view?r=eyJrIjoiMWY4ZjA3MjctMjdmMi00OTg5LWE2OTAtMGY5YThhNzAwNTI1IiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <h4>
-                    Fuerza de Trabajo Activa
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiNzFhNTg5OGEtNmVkMi00OWI2LWIxOGMtYTY3YTQzYjliYjVhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <h4>
-                    ¿Qué porcentaje de trabajadores han sido consultados?
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiYzg2NzkzYmQtZjg5OC00ZGQxLTg2MmEtZGFjMDM0Mjk0ZmFmIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <h4>
-                    ¿A que porcentaje de trabajadores se les ha hecho prueba COVID?
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiOGEzZGQ1ZjItODIxZS00YzhiLWEzNzYtOTdjZDIzYzgxNGZhIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <h4>
-                    Cálculo de Impacto Promedio por Hora y por Día con respecto a Incapacidades y Permisos
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @*<iframe width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiMjM0YmQyYTgtZGMzYy00MDJhLWFmYTctMmY5MjkwNmM0N2ViIiwidCI6IjA4YzdhNzhkLTU4N2QtNDQ4Ny05NjJlLTkzYzVmYjU0YzdiZiIsImMiOjR9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>*@
-            </div>
-        </div>
-
         <button id="btnPDF" class="btn btn-primary">Generar PDF</button>
     </div>
 
@@ -298,11 +226,15 @@
 
 <script type="text/javascript">
     $("#btnPDF").click(function () {
-        var sHTML = $("#charts").html();
-        sHTML = sHTML.replace(/</g, "StrTag").replace(/>/g, "EndTag");
-        window.open('../Charts/GenerarPDF?html=' + sHTML, '_blank')
+
+        var sHTML = $("#placeholder").html();
+        var divContents = $("#dvContainer").html();
+
+        window.print();
+
+        
+        //sHTML = sHTML.replace(/</g, "StrTag").replace(/>/g, "EndTag");
+        //window.open('../Charts/GenerarPDF?html=' + sHTML, '_blank')
     });
-
-
 
 </script>

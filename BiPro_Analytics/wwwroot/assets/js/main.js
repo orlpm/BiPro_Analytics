@@ -251,12 +251,25 @@ if ($('#CondicionesRiesgoBar').length) {
             }
         }
     });
-
 }
+
+var varIdEmpresa = document.getElementById("HdnIdEmpresa").value
+
+//$.ajax({
+//    type: 'GET', //post method
+//    url: '/Tablero/GetIdEmpresa', //ajaxformexample url
+//    dataType: "json",
+//    success: function (result, textStatus, jqXHR) {
+//        //CondicionesRiesgoBar.data.labels = result.labels;
+//        varIdEmpresa = result;
+//    }
+//});
+
 
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/CondicionesRiesgo', //ajaxformexample url
+    data: { idEmpresa: varIdEmpresa},
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //CondicionesRiesgoBar.data.labels = result.labels;
@@ -293,12 +306,12 @@ if ($('#pieChart').length) {
             legend: false
         }
     });
-
 }
 
 $.ajax({
     type: 'GET', //post method
-    url: '/Tablero/EmpleadosContactoCovid', //ajaxformexample url
+    url: '/Tablero/EmpleadosContactoCovid', //ajaxformexample url,
+    data: { idEmpresa: varIdEmpresa },
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         pieChart.data.labels = result.labels;
@@ -346,6 +359,7 @@ var piramidePoblacional = new Chart(ctxPiramide, {
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/PiramidePoblacional', //ajaxformexample url
+    data: { idEmpresa: varIdEmpresa },
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //piramidePoblacional.data.labels = result.labels;
@@ -397,6 +411,7 @@ var RiesgosExpocisionCasaTransporte = new Chart(ctx, {
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/RiesgosExpocisionCasaTransporte', //ajaxformexample url
+    data: { idEmpresa: varIdEmpresa },
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //piramidePoblacional.data.labels = result.labels;
@@ -447,11 +462,11 @@ var RiesgosEspacioLaboral = new Chart(ctx, {
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/RiesgosEspacioLaboral', //ajaxformexample url
+    data: { idEmpresa: varIdEmpresa },
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //piramidePoblacional.data.labels = result.labels;
         RiesgosEspacioLaboral.data.datasets[0].data = result.counts;
-        
 
         RiesgosExpocisionCasaTransporte.update();
     }
@@ -499,12 +514,52 @@ var SintomasCOVID = new Chart(ctx, {
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/SintomasCOVID', //ajaxformexample url
+    data: { idEmpresa: varIdEmpresa },
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //piramidePoblacional.data.labels = result.labels;
         RiesgosEspacioLaboral.data.datasets[0].data = result.counts;
 
-
         RiesgosExpocisionCasaTransporte.update();
+    }
+});
+
+
+if ($('#EmpleadosAnosmiaHiposmia').length) {
+
+    var ctx = document.getElementById("EmpleadosAnosmiaHiposmia");
+    var data = {
+        datasets: [{
+            data: [],
+            backgroundColor: [
+                "#455C73",
+                "#9B59B6",
+                "#BDC3C7",
+                "#26B99A",
+                "#3498DB"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: []
+    };
+
+    var pieChartAnosmiaHiposmia = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+}
+
+$.ajax({
+    type: 'GET', //post method
+    url: '/Tablero/EmpleadosAnosmiaHiposmia', //ajaxformexample url,
+    data: { idEmpresa: varIdEmpresa },
+    dataType: "json",
+    success: function (result, textStatus, jqXHR) {
+        pieChartAnosmiaHiposmia.data.labels = result.labels;
+        pieChartAnosmiaHiposmia.data.datasets[0].data = result.counts;
+        pieChartAnosmiaHiposmia.update();
     }
 });

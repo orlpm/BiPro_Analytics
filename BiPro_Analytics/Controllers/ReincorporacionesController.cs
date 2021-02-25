@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -143,19 +144,14 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: Reincorporaciones/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
 
             return View();
         }
@@ -191,17 +187,12 @@ namespace BiPro_Analytics.Controllers
                 return NotFound();
             }
 
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
 
             return View(reincorporaciones);
         }

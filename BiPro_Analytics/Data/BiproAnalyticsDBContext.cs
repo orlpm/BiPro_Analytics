@@ -17,8 +17,6 @@ namespace BiPro_Analytics.Data
 
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Trabajador> Trabajadores { get; set; }
-        public virtual DbSet<RiesgosTrabajador> RiesgosTrabajadores { get; set; }
-        public virtual DbSet<RegistroPrueba> RegistroPruebas { get; set; }
         
         //Nueva version de tablero
         public virtual DbSet<FactorRiesgo> FactoresRiesgos { get; set; }

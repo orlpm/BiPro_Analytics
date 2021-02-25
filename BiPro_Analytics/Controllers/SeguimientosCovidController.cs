@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -21,120 +22,47 @@ namespace BiPro_Analytics.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> PreIndex(int? IdUnidad, int? IdArea)
+        public async Task<IActionResult> PreIndex()
         {
             ClaimsPrincipal currentUser = this.User;
-            Empresa empresa = null;
-            UsuarioTrabajador usuarioTrabajador = null;
-            List<DDLTrabajador> trabajadores = null;
-            List<Unidad> unidades = null;
-            List<Area> areas = null;
-
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            if (currentUserId != null)
-                usuarioTrabajador = await _context.UsuariosTrabajadores
-                    .FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
-            if (usuarioTrabajador != null)
-                empresa = await _context.Empresas
-                    .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
-
-            if (currentUser.IsInRole("Admin"))
+            if (currentUser.IsInRole("AdminEmpresa"))
             {
-                trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-                ViewBag.Trabajadores = trabajadores;
-
-                //unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
-                unidades = await _context.Unidades.ToListAsync();
-                areas = await _context.Areas.ToListAsync();
-
-                ViewBag.Unidades = unidades;
-                ViewBag.areas = areas;
-            }
-            else if (currentUser.IsInRole("AdminEmpresa"))
-            {
-                if (empresa != null)
-                {
-                    trabajadores = await _context.Trabajadores
-                        .Where(t => t.IdEmpresa == empresa.IdEmpresa)
-                        .Select(x => new DDLTrabajador
-                        {
-                            Id = x.IdTrabajador,
-                            Trabajador = x.Nombre
-                        }).ToListAsync();
-
-                    ViewBag.Trabajadores = trabajadores;
-
-                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
-                    ViewBag.Unidades = unidades;
-
-                    if (IdUnidad != null)
-                    {
-                        ViewBag.Unidad = IdUnidad;
-                    }
-
-                    areas = await _context.Areas.Where(a => a.IdEmpresa == empresa.IdEmpresa).ToListAsync();
-                    ViewBag.Areas = areas;
-
-                }
-                else
+                if (perfilData.IdEmpresa == null)
                 {
                     return NotFound("Datos de empresa no encontrados");
-                }
-            }
-            else if (currentUser.IsInRole("Trabajador"))
-            {
-                if (usuarioTrabajador != null)
-                {
-                    trabajadores = await _context.Trabajadores
-                        .Where(t => t.IdTrabajador == usuarioTrabajador.TrabajadorId)
-                        .Select(x => new DDLTrabajador
-                        {
-                            Id = x.IdTrabajador,
-                            Trabajador = x.Nombre
-                        }).ToListAsync();
-
-                    unidades = await _context.Unidades.Where(u => u.IdEmpresa == empresa.IdEmpresa).ToListAsync();
-                    areas = await _context.Areas.Where(a => a.IdEmpresa == empresa.IdEmpresa).ToListAsync();
-
-                    ViewBag.Trabajadores = trabajadores;
-                    ViewBag.Unidades = unidades;
-                    ViewBag.areas = areas;
-
-                }
-                else
-                {
-                    return NotFound("Usuario no vinculado a trabajador");
                 }
             }
 
             return View();
         }
         // GET: SeguimientosCovid
+
         public async Task<IActionResult> Index(int? IdTrabajador, int? IdUnidad, int? IdArea)
         {
             ClaimsPrincipal currentUser = this.User;
-            Empresa empresa = null;
-            UsuarioTrabajador usuarioTrabajador = null;
-
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            if (currentUserId == null)
-                return NotFound();
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
-            usuarioTrabajador = await _context.UsuariosTrabajadores
-                .FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
-
-            if(usuarioTrabajador!= null)
-                empresa = await _context.Empresas
-                    .FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                if (perfilData.IdEmpresa == null)
+                    return NotFound("Usuario no asociado a ninguna empresa");
+            }
 
             if (currentUser.IsInRole("Admin"))
             {
@@ -158,7 +86,6 @@ namespace BiPro_Analytics.Controllers
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
-                List<Trabajador> trabajadores;
 
                 if (IdTrabajador != null)
                 {
@@ -168,59 +95,36 @@ namespace BiPro_Analytics.Controllers
                 }
                 else if (IdUnidad == null && IdArea == null)
                 {
-                    trabajadores = await _context.Trabajadores
-                        .Where(t => t.IdEmpresa == empresa.IdEmpresa).ToListAsync();
 
-                    if (trabajadores.Count > 0)
-                    {
-                        List<SeguimientoCovid> seguimientosCovid = new List<SeguimientoCovid>();
+                    List<SeguimientoCovid> seguimientosCovid = new List<SeguimientoCovid>();
 
-                        foreach (var trabajador in trabajadores)
-                        {
-                            var seguimientoCovid = await _context.SeguimientosCovid
-                                .FirstOrDefaultAsync(x => x.IdTrabajador == trabajador.IdTrabajador);
+                    seguimientosCovid = await _context.Trabajadores
+                        .Where(t => t.IdEmpresa == perfilData.IdEmpresa)
+                        .SelectMany(t => t.SeguimientosCovid).ToListAsync();
 
-                            if (seguimientoCovid != null)
-                                seguimientosCovid.Add(seguimientoCovid);
-                        }
+                    return View(seguimientosCovid);
 
-                        if (seguimientosCovid.Count > 0)
-                            return View(seguimientosCovid);
-                        else
-                        {
-                            return NotFound("Sin resultados");
-                        }
-                    }
                 }
                 else if (IdUnidad != null && IdArea != null)
                 {
-                    return View(await _context.Unidades
-                        .Where(u => u.Id == IdUnidad)
-                        .SelectMany(t => t.Trabajadores)
-                        .Where(q => q != null && q.IdArea == IdArea)
+                    return View(await _context.Trabajadores
+                        .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea)
                         .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync());
                 }
                 else if (IdUnidad != null && IdArea == null)
                 {
-                    var vpruebas = await _context.Unidades
-                        .Where(u => u.Id == IdUnidad)
-                        .SelectMany(t => t.Trabajadores)
-                        .ToListAsync();
-
-                    var pruebas = await _context.Unidades
-                        .Where(u => u.Id == IdUnidad)
-                        .SelectMany(t => t.Trabajadores)
+                    var seguimientosCovid = await _context.Trabajadores
+                        .Where(u => u.IdUnidad == IdUnidad)
                         .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync();
 
-                    return View(pruebas);
+                    return View(seguimientosCovid);
                 }
                 else if (IdUnidad == null && IdArea != null)
                 {
-                    return View(await _context.Areas
-                        .Where(a => a.Id == IdArea)
-                        .SelectMany(t => t.Trabajadores)
+                    return View(await _context.Trabajadores
+                        .Where(a => a.IdArea == IdArea)
                         .SelectMany(r => r.SeguimientosCovid)
                         .ToListAsync());
                 }
@@ -228,10 +132,10 @@ namespace BiPro_Analytics.Controllers
             else
             {
                 var seguimientosCovid = await _context.SeguimientosCovid
-                    .Where(r => r.IdTrabajador == usuarioTrabajador.TrabajadorId).ToListAsync();
+                    .Where(r => r.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
 
                 if (seguimientosCovid.Count == 0)
-                    return NotFound("Sin registros de pruebas");
+                    return NotFound("Trabajador sin seguimiento covid");
 
                 return View(seguimientosCovid);
             }
@@ -259,19 +163,13 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: SeguimientosCovid/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View();
         }
@@ -307,17 +205,11 @@ namespace BiPro_Analytics.Controllers
                 return NotFound();
             }
 
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            if (trabajadores.Count > 0)
-                ViewBag.Trabajadores = trabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
             return View(seguimientoCovid);
         }

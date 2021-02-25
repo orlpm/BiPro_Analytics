@@ -9,6 +9,7 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -143,21 +144,14 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: ReportesContagios/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
-
-            List<DDLEmpresa> empresas =  _context.Empresas
-                .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToList();
-            if (empresas.Count > 0)
-                ViewBag.Empresas = empresas;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            ViewBag.Empresas =  perfilData.DDLEmpresas;
 
             return View();
         }
@@ -193,20 +187,12 @@ namespace BiPro_Analytics.Controllers
                 return NotFound();
             }
 
-            //Para combo Empresas
-            List<DDLEmpresa> empresas = await _context.Empresas
-                .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
-            if (empresas.Count > 0)
-                ViewBag.Empresas = empresas;
-
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
-            List<DDLTrabajador> trabajadores = null;
-            trabajadores = _context.Trabajadores
-                    .Select(x => new DDLTrabajador
-                    {
-                        Id = x.IdTrabajador,
-                        Trabajador = x.Nombre
-                    }).ToList();
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
 
             return View(reporteContagio);
         }

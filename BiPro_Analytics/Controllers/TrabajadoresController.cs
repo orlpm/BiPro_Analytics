@@ -27,48 +27,21 @@ namespace BiPro_Analytics.Controllers
         public async Task<IActionResult> PreIndex()
         {
             ClaimsPrincipal currentUser = this.User;
-            Empresa empresa = null;
-            UsuarioTrabajador usuarioTrabajador = null;
-            UsuarioEmpresa usuarioEmpresa = null;
-
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (currentUserId != null)
-                usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
-                usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
 
-            if (usuarioTrabajador != null)
-                empresa = await _context.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == usuarioTrabajador.CodigoEmpresa);
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
 
-            if (currentUser.IsInRole("Admin"))
+            if (currentUser.IsInRole("AdminEmpresa"))
             {
-                List<DDLEmpresa> empresas = await _context.Empresas
-                    .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
-                ViewBag.Empresas = empresas;
-
-                List<DDLTrabajador> trabajadores = await _context.Trabajadores
-                    .Select(x => new DDLTrabajador { Id = x.IdTrabajador, Trabajador = x.Nombre }).ToListAsync();
-                ViewBag.Trabajadores = trabajadores;
-            }
-            else if (currentUser.IsInRole("AdminEmpresa"))
-            {
-                if (usuarioEmpresa != null)
-                {
-                    List<DDLEmpresa> empresas = await _context.Empresas
-                    .Where(e => e.IdEmpresa == usuarioEmpresa.IdEmpresa)
-                    .Select(x => new DDLEmpresa { Id = x.IdEmpresa, Empresa = x.Nombre }).ToListAsync();
-                    ViewBag.Empresas = empresas;
-
-                    List<DDLTrabajador> trabajadores = await _context.Trabajadores
-                        .Where(e => e.IdEmpresa == usuarioEmpresa.IdEmpresa)
-                        .Select(x => new DDLTrabajador { Id = x.IdTrabajador, Trabajador = x.Nombre })
-                        .ToListAsync();
-                    ViewBag.Trabajadores = trabajadores;
-                }
-                else
-                {
+                if (perfilData.IdEmpresa == null)
                     return NotFound("Usuario no asociado a ninguna empresa");
-                }
             }
+
             return View();
         }
 
@@ -108,15 +81,6 @@ namespace BiPro_Analytics.Controllers
             {
                 if (usuarioEmpresa != null)
                 {
-                    var unidades = _context.Unidades
-                        .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
-
-                    var areas = _context.Areas
-                        .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync();
-
-                    ViewBag.Unidades = unidades;
-                    ViewBag.Areas = areas;
-
                     return View(await _context.Trabajadores
                         .Where(x => x.IdEmpresa == usuarioEmpresa.IdEmpresa).ToListAsync());
                 }
@@ -150,8 +114,6 @@ namespace BiPro_Analytics.Controllers
         // GET: Trabajadores/Create
         public async Task<IActionResult> Create()
         {
-            
-
             ClaimsPrincipal currentUser = this.User;
             Util util = new Util(_context);
             PerfilData perfilData = await util.DatosUserAsync(currentUser);

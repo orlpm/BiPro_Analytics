@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\older\_EmpresasController.cs" />
-    <Compile Remove="Controllers\older\_TrabajadoresController.cs" />
     <Compile Remove="Controllers\__EmpresasController.cs" />
   </ItemGroup>
 
@@ -30,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\older\" />
     <Folder Include="wwwroot\assets\img\ImgMRM\" />
   </ItemGroup>
 

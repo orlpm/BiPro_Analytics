@@ -85,9 +85,6 @@ namespace BiPro_Analytics.Models
         [DisplayName("Area")]
         public string NombreArea { get; set; }
 
-        public ICollection<RegistroPrueba> RegistroPruebas { get; set; }
-        public ICollection<RiesgosTrabajador> RiesgosTrabajadores { get; set; }
-
         public ICollection<FactorRiesgo> FactoresRiesgos { get; set; }
         public ICollection<RiesgoContagio> RiesgosContagios { get; set; }
         public ICollection<Prueba> Pruebas{ get; set; }

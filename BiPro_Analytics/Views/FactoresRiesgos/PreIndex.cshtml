@@ -29,12 +29,12 @@
             <div class="form-actions no-color">
                 <div class="form-row">
                     <div class="col-md-3 form-group">
-                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Name"))">
+                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
                             <option selected disabled>Seleccionar unidad</option>
                         </select>
                     </div>
                     <div class="col-md-3 form-group">
-                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Name"))">
+                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
                             <option selected disabled>Seleccionar Area</option>
                         </select>
                     </div>

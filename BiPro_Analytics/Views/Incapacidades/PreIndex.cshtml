@@ -22,7 +22,7 @@
                 <div class="form-actions no-color">
                     <p>
                         Buscar por Unidad:
-                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Name"))">
+                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
                             <option selected disabled>Seleccionar unidad</option>
                         </select>
                     </p>
@@ -30,7 +30,7 @@
                 <div class="form-actions no-color">
                     <p>
                         Area:
-                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Name"))">
+                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
                             <option selected disabled>Seleccionar unidad</option>
                         </select>
                     </p>
