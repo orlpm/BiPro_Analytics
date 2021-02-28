@@ -70,7 +70,6 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Ingresa codigo de empresa")]
             public string CodigoEmpresa { get; set; }
