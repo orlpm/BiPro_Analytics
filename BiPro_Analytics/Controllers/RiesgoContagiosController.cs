@@ -69,17 +69,21 @@ namespace BiPro_Analytics.Controllers
                     return View(await _context.RiesgoContagios
                         .Where(x => x.IdTrabajador == IdTrabajador).ToListAsync());
 
-                if (IdUnidad != null)
-                    return View(await _context.Unidades
-                        .Where(u => u.Id == IdUnidad)
-                        .SelectMany(t => t.Trabajadores)
+                if (IdUnidad != null && IdArea == null)
+                    return View(await _context.Trabajadores
+                        .Where(t => t.IdUnidad == IdUnidad)
+                        .SelectMany(r => r.RiesgosContagios)
+                        .ToListAsync());
+
+                if (IdUnidad == null && IdArea != null)
+                    return View(await _context.Trabajadores
+                        .Where(t => t.IdArea == IdArea)
                         .SelectMany(r => r.RiesgosContagios)
                         .ToListAsync());
 
                 if (IdUnidad != null && IdArea != null)
-                    return View(await _context.Areas
-                        .Where(a => a.Id == IdArea)
-                        .SelectMany(t => t.Trabajadores)
+                    return View(await _context.Trabajadores
+                        .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea)
                         .SelectMany(r => r.RiesgosContagios)
                         .ToListAsync());
             }
@@ -107,14 +111,14 @@ namespace BiPro_Analytics.Controllers
                 else if (IdUnidad != null && IdArea != null)
                 {
                     return View(await _context.Trabajadores
-                        .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea)
+                        .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea && t.IdEmpresa == perfilData.IdEmpresa)
                         .SelectMany(r => r.RiesgosContagios)
                         .ToListAsync());
                 }
                 else if (IdUnidad != null && IdArea == null)
                 {
                     var riesgosTrabajadores = await _context.Trabajadores
-                        .Where(u => u.IdUnidad == IdUnidad)
+                        .Where(t => t.IdUnidad == IdUnidad && t.IdEmpresa == perfilData.IdEmpresa)
                         .SelectMany(r => r.RiesgosContagios)
                         .ToListAsync();
 
