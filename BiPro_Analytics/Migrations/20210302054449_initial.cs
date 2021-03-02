@@ -437,42 +437,6 @@ namespace BiPro_Analytics.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RegistroPruebas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Temperatura = table.Column<float>(nullable: false),
-                    PorcentajeO2 = table.Column<float>(nullable: false),
-                    TipoSangre = table.Column<string>(nullable: true),
-                    APOlfativa = table.Column<string>(nullable: true),
-                    APGustativa = table.Column<string>(nullable: true),
-                    Mas15cm = table.Column<int>(nullable: false),
-                    Menos15cm = table.Column<int>(nullable: false),
-                    PIE3 = table.Column<int>(nullable: false),
-                    PIE4 = table.Column<int>(nullable: false),
-                    PIE5 = table.Column<int>(nullable: false),
-                    Discriminacion = table.Column<int>(nullable: false),
-                    Total = table.Column<int>(nullable: false),
-                    Diagnostico = table.Column<string>(nullable: true),
-                    ResultadoIgM = table.Column<string>(nullable: true),
-                    ResultadoIgG = table.Column<string>(nullable: true),
-                    ResultadoPCR = table.Column<string>(nullable: true),
-                    IdTrabajador = table.Column<int>(nullable: true),
-                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RegistroPruebas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RegistroPruebas_Trabajadores_TrabajadorIdTrabajador",
-                        column: x => x.TrabajadorIdTrabajador,
-                        principalTable: "Trabajadores",
-                        principalColumn: "IdTrabajador",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reincorporaciones",
                 columns: table => new
                 {
@@ -539,69 +503,6 @@ namespace BiPro_Analytics.Migrations
                     table.PrimaryKey("PK_RiesgoContagios", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RiesgoContagios_Trabajadores_TrabajadorIdTrabajador",
-                        column: x => x.TrabajadorIdTrabajador,
-                        principalTable: "Trabajadores",
-                        principalColumn: "IdTrabajador",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RiesgosTrabajadores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AreaTrabajo = table.Column<string>(nullable: false),
-                    TipoTransporte = table.Column<string>(nullable: false),
-                    CantidadPersonas = table.Column<string>(nullable: false),
-                    DiagnosticoCovid = table.Column<bool>(nullable: false),
-                    ContactoCovid = table.Column<string>(nullable: true),
-                    Mas65 = table.Column<bool>(nullable: false),
-                    Obesidad = table.Column<bool>(nullable: false),
-                    Embarazo = table.Column<bool>(nullable: false),
-                    Asma = table.Column<bool>(nullable: false),
-                    Fumador = table.Column<bool>(nullable: false),
-                    CigarrosDia = table.Column<int>(nullable: false),
-                    AniosFumar = table.Column<int>(nullable: false),
-                    Diabetes = table.Column<bool>(nullable: false),
-                    Hipertension = table.Column<bool>(nullable: false),
-                    EnfermedadCronica = table.Column<bool>(nullable: false),
-                    NombreECronica = table.Column<string>(nullable: true),
-                    Rinitis = table.Column<bool>(nullable: false),
-                    Sinusitis = table.Column<bool>(nullable: false),
-                    CirugiaNasal = table.Column<bool>(nullable: false),
-                    Rinofaringea = table.Column<bool>(nullable: false),
-                    NombreRinofaringea = table.Column<bool>(nullable: false),
-                    Picante = table.Column<string>(nullable: true),
-                    Fiebre = table.Column<bool>(nullable: false),
-                    Tos = table.Column<bool>(nullable: false),
-                    DolorCabeza = table.Column<bool>(nullable: false),
-                    Disnea = table.Column<bool>(nullable: false),
-                    Irritabilidad = table.Column<bool>(nullable: false),
-                    Diarrea = table.Column<bool>(nullable: false),
-                    Escalofrios = table.Column<bool>(nullable: false),
-                    Artralgias = table.Column<bool>(nullable: false),
-                    Mialgias = table.Column<bool>(nullable: false),
-                    Odinofagia = table.Column<bool>(nullable: false),
-                    Rinorrea = table.Column<bool>(nullable: false),
-                    Polipnea = table.Column<bool>(nullable: false),
-                    Vómito = table.Column<bool>(nullable: false),
-                    DolorAbdomina = table.Column<bool>(nullable: false),
-                    Conjuntivitis = table.Column<bool>(nullable: false),
-                    DolorToracico = table.Column<bool>(nullable: false),
-                    Anosmia = table.Column<bool>(nullable: false),
-                    Disgeusia = table.Column<bool>(nullable: false),
-                    Cianosis = table.Column<bool>(nullable: false),
-                    Ninguna = table.Column<bool>(nullable: false),
-                    TrabajoEnCasa = table.Column<bool>(nullable: false),
-                    IdTrabajador = table.Column<int>(nullable: true),
-                    TrabajadorIdTrabajador = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RiesgosTrabajadores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RiesgosTrabajadores_Trabajadores_TrabajadorIdTrabajador",
                         column: x => x.TrabajadorIdTrabajador,
                         principalTable: "Trabajadores",
                         principalColumn: "IdTrabajador",
@@ -694,11 +595,6 @@ namespace BiPro_Analytics.Migrations
                 column: "TrabajadorIdTrabajador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RegistroPruebas_TrabajadorIdTrabajador",
-                table: "RegistroPruebas",
-                column: "TrabajadorIdTrabajador");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reincorporaciones_EmpresaIdEmpresa",
                 table: "Reincorporaciones",
                 column: "EmpresaIdEmpresa");
@@ -716,11 +612,6 @@ namespace BiPro_Analytics.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_RiesgoContagios_TrabajadorIdTrabajador",
                 table: "RiesgoContagios",
-                column: "TrabajadorIdTrabajador");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RiesgosTrabajadores_TrabajadorIdTrabajador",
-                table: "RiesgosTrabajadores",
                 column: "TrabajadorIdTrabajador");
 
             migrationBuilder.CreateIndex(
@@ -776,9 +667,6 @@ namespace BiPro_Analytics.Migrations
                 name: "Pruebas");
 
             migrationBuilder.DropTable(
-                name: "RegistroPruebas");
-
-            migrationBuilder.DropTable(
                 name: "Reincorporaciones");
 
             migrationBuilder.DropTable(
@@ -786,9 +674,6 @@ namespace BiPro_Analytics.Migrations
 
             migrationBuilder.DropTable(
                 name: "RiesgoContagios");
-
-            migrationBuilder.DropTable(
-                name: "RiesgosTrabajadores");
 
             migrationBuilder.DropTable(
                 name: "SeguimientosCovid");

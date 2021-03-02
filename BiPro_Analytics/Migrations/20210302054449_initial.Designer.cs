@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiPro_Analytics.Migrations
 {
     [DbContext(typeof(BiproAnalyticsDBContext))]
-    [Migration("20210224055327_initial")]
+    [Migration("20210302054449_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -331,74 +331,6 @@ namespace BiPro_Analytics.Migrations
                     b.ToTable("Pruebas");
                 });
 
-            modelBuilder.Entity("BiPro_Analytics.Models.RegistroPrueba", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("APGustativa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("APOlfativa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Diagnostico")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Discriminacion")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdTrabajador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Mas15cm")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Menos15cm")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PIE3")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PIE4")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PIE5")
-                        .HasColumnType("int");
-
-                    b.Property<float>("PorcentajeO2")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ResultadoIgG")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResultadoIgM")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResultadoPCR")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Temperatura")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TipoSangre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrabajadorIdTrabajador");
-
-                    b.ToTable("RegistroPruebas");
-                });
-
             modelBuilder.Entity("BiPro_Analytics.Models.Reincorporaciones", b =>
                 {
                     b.Property<int>("id")
@@ -572,158 +504,6 @@ namespace BiPro_Analytics.Migrations
                     b.HasIndex("TrabajadorIdTrabajador");
 
                     b.ToTable("RiesgoContagios");
-                });
-
-            modelBuilder.Entity("BiPro_Analytics.Models.RiesgosTrabajador", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AniosFumar")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Anosmia")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AreaTrabajo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Artralgias")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Asma")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CantidadPersonas")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Cianosis")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CigarrosDia")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("CirugiaNasal")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Conjuntivitis")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ContactoCovid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Diabetes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DiagnosticoCovid")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Diarrea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Disgeusia")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Disnea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DolorAbdomina")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DolorCabeza")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DolorToracico")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Embarazo")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("EnfermedadCronica")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Escalofrios")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Fiebre")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Fumador")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Hipertension")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("IdTrabajador")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Irritabilidad")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Mas65")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Mialgias")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Ninguna")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NombreECronica")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("NombreRinofaringea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Obesidad")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Odinofagia")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Picante")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Polipnea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Rinitis")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Rinofaringea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Rinorrea")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Sinusitis")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TipoTransporte")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Tos")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("TrabajoEnCasa")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Vómito")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrabajadorIdTrabajador");
-
-                    b.ToTable("RiesgosTrabajadores");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.SeguimientoCovid", b =>
@@ -1176,13 +956,6 @@ namespace BiPro_Analytics.Migrations
                         .HasForeignKey("TrabajadorIdTrabajador");
                 });
 
-            modelBuilder.Entity("BiPro_Analytics.Models.RegistroPrueba", b =>
-                {
-                    b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
-                        .WithMany("RegistroPruebas")
-                        .HasForeignKey("TrabajadorIdTrabajador");
-                });
-
             modelBuilder.Entity("BiPro_Analytics.Models.Reincorporaciones", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
@@ -1205,13 +978,6 @@ namespace BiPro_Analytics.Migrations
                 {
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("RiesgosContagios")
-                        .HasForeignKey("TrabajadorIdTrabajador");
-                });
-
-            modelBuilder.Entity("BiPro_Analytics.Models.RiesgosTrabajador", b =>
-                {
-                    b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
-                        .WithMany("RiesgosTrabajadores")
                         .HasForeignKey("TrabajadorIdTrabajador");
                 });
 
