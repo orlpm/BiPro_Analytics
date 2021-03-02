@@ -135,6 +135,9 @@
                         }
                         @if (User.IsInRole("Trabajador"))
                         {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="Create">Trabajadores</a>
+                            </li>
                             <li class="drop-down">
                                 <a class="nav-link text-dark">Cuestionarios Riesgos</a>
                                 <ul>
