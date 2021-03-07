@@ -33,9 +33,12 @@ namespace BiPro_Analytics
             //Configuration.GetConnectionString("BiProGearhost")));
             Configuration.GetConnectionString("BiProLocal")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<BiproAnalyticsDBContext>();
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 8;
+                options.SignIn.RequireConfirmedEmail = false;
+             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<BiproAnalyticsDBContext>();
 
             services.Configure<IISServerOptions>(options =>
             {

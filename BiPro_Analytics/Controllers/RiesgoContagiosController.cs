@@ -10,6 +10,8 @@ using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
 using BiPro_Analytics.UnParo;
+using BiPro_Analytics.Responses.RiesgosContagios;
+using System.Text;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -43,6 +45,52 @@ namespace BiPro_Analytics.Controllers
             }
 
             return View();
+        }
+        public async Task<IActionResult> ExportPersonalContactoContagioCOVID19(int IdTrabajador)
+        {
+            int idEmpresa = IdTrabajador;
+            var personalContactoContagioCOVID19 = await GetPersonalContactoContagioCOVID19(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,ContactoCovidCasa,ContactoCovidTrabajo,ContactoCovidFuera,ViajesMultitudes");
+
+            foreach (var item in personalContactoContagioCOVID19)
+            {
+                builder.AppendLine($"{item.Nombre},{item.ContactoCovidCasa},{item.ContactoCovidTrabajo},{item.ContactoCovidFuera},{item.ViajesMultitudes}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalContactoContagioCOVID19.csv");
+        }
+
+        public async Task<IActionResult> ExportPersonalSintomasCOVID19 (int IdTrabajador)
+        {
+            int idEmpresa = IdTrabajador;
+            var PersonalSintomasCOVID19 = await GetPersonalSintomasCOVID19(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,TosRecurrente,Tos,DificultadRespirar,TempMayor38,Resfriado,Escalofrios,DolorMuscular,NauseaVomito,Diarrea");
+
+            foreach (var item in PersonalSintomasCOVID19)
+            {
+                builder.AppendLine($"{item.Nombre},{item.TosRecurrente},{item.Tos},{item.DificultadRespirar},{item.TempMayor38},{item.Resfriado},{item.Escalofrios},{item.DolorMuscular},{item.NauseaVomito},{item.Diarrea}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalSintomasCOVID19.csv");
+        }
+        public async Task<IActionResult> ExportaPersonalAnosmiaHiposmia(int IdTrabajador)
+        {
+            int idEmpresa = IdTrabajador;
+            var PersonalAnosmiaHiposmia = await GetPersonalAnosmiaHiposmia(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,Anosmia,Hiposmia");
+
+            foreach (var item in PersonalAnosmiaHiposmia)
+            {
+                builder.AppendLine($"{item.Nombre},{item.Anosmia}, {item.Hiposmia}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalAnosmiaHiposmia.csv");
         }
         // GET: RiesgoContagios
         public async Task<IActionResult> Index(int? IdTrabajador, int? IdUnidad, int? IdArea)
@@ -89,7 +137,7 @@ namespace BiPro_Analytics.Controllers
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
             {
-                
+
                 if (IdTrabajador != null)
                 {
                     return View(await _context.RiesgoContagios
@@ -289,6 +337,60 @@ namespace BiPro_Analytics.Controllers
         private bool RiesgoContagioExists(int id)
         {
             return _context.RiesgoContagios.Any(e => e.Id == id);
+        }
+
+        public async Task<IEnumerable<PersonalContactoContagioCOVID19>> GetPersonalContactoContagioCOVID19(int IdEmpresa)
+        {
+            var PCCC = await _context.Trabajadores
+                .Where(t => t.IdEmpresa == IdEmpresa)
+                .SelectMany(f => f.RiesgosContagios)
+                .Select(f => new PersonalContactoContagioCOVID19
+                {
+                    Nombre = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Nombre).FirstOrDefault(),
+                    ContactoCovidCasa = f.ContactoCovidCasa,
+                    ContactoCovidTrabajo = f.ContactoCovidTrabajo,
+                    ContactoCovidFuera = f.ContactoCovidFuera,
+                    ViajesMultitudes = f.ViajesMultitudes
+                }).ToListAsync();
+
+            return PCCC;
+        }
+
+        public async Task<IEnumerable<PersonalSintomasCOVID19>> GetPersonalSintomasCOVID19(int IdEmpresa)
+        {
+            var PSC = await _context.Trabajadores
+                .Where(t => t.IdEmpresa == IdEmpresa)
+                .SelectMany(f => f.RiesgosContagios)
+                .Select(f => new PersonalSintomasCOVID19
+                {
+                    Nombre = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Nombre).FirstOrDefault(),
+                    TosRecurrente = f.TosRecurrente,
+                    Tos = f.Tos,
+                    DificultadRespirar = f.DificultadRespirar,
+                    TempMayor38 = f.TempMayor38,
+                    Resfriado = f.Resfriado,
+                    Escalofrios = f.Escalofrios,
+                    DolorMuscular = f.DolorMuscular,
+                    NauseaVomito = f.NauseaVomito,
+                    Diarrea = f.Diarrea
+                }).ToListAsync();
+
+            return PSC;
+        }
+
+        public async Task<IEnumerable<PersonalAnosmiaHiposmia>> GetPersonalAnosmiaHiposmia(int IdEmpresa)
+        {
+            var PCCC = await _context.Trabajadores
+                .Where(t => t.IdEmpresa == IdEmpresa)
+                .SelectMany(f => f.RiesgosContagios)
+                .Select(f => new PersonalAnosmiaHiposmia
+                {
+                    Nombre = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Nombre).FirstOrDefault(),
+                    Anosmia = f.ContactoCovidCasa,
+                    Hiposmia = f.ContactoCovidTrabajo
+                }).ToListAsync();
+
+            return PCCC;
         }
     }
 }

@@ -3,6 +3,8 @@
     ViewData["Title"] = "Riesgos de contagio";
 }
 
+<input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
+
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
 
@@ -10,54 +12,153 @@
             <h2>Riesgos de contagio dentro de Bipro Analytics</h2>
         </div>
 
-        <form asp-action="Index" method="get">
-            <div class="form-actions no-color">
-                <div class="form-row">
-                    <div class="col-md-6 form-group">
-                        <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
-                            <option selected disabled>Seleccionar trabajador</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <input type="submit" value="Buscar" class="btn btn-secondary" />
-                    </div>
-                </div>
-            </div>
-        </form>
+        <a href="#graficos" class="btn btn-info active scrollto" role="button" aria-pressed="true">Graficos y estadisticas</a>
 
-        <form asp-action="Index" method="get">
-            <div class="form-actions no-color">
-                <div class="form-row">
-                    <div class="col-md-3 form-group">
-                        <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
-                            <option selected disabled>Seleccionar unidad</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
-                            <option selected disabled>Seleccionar Area</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <input type="submit" value="Buscar" class="btn btn-secondary" />
+        <hr />
+
+        <div>
+            <h4 class="title">Buscar por trabajador</h4>
+            <form asp-action="Index" method="get">
+                <div class="form-actions no-color">
+                    <div class="form-row">
+                        <div class="col-md-6 form-group">
+                            <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
+                                <option selected disabled>Seleccionar trabajador</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <input type="submit" value="Buscar" class="btn btn-secondary" />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
-        <div class="form-row">
+            </form>
+        </div>
+
+        <hr />
+
+        <div>
+            <h4 class="title">Buscar por Unidad y/o Area</h4>
+            <form asp-action="Index" method="get">
+                <div class="form-actions no-color">
+                    <div class="form-row">
+                        <div class="col-md-3 form-group">
+                            <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
+                                <option selected disabled>Seleccionar unidad</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
+                                <option selected disabled>Seleccionar Area</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <input type="submit" value="Buscar" class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
             <div class="col-md-4 form-group">
                 <a class="btn btn-secondary" asp-action="Index">Regresar lista completa</a>
             </div>
+            <div class="col-md-3 form-group">
+                <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr />
+
+<section id="graficos">
+    <input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
+    
+    <form asp-action="ExportPersonalContactoContagioCOVID19" method="get">
+        <div class="form-actions no-color">
+            <div class="form-row">
+                <div class="col-md-3 form-group">
+                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                        <option selected disabled>Seleccionar Empresa</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <input type="submit" value="Buscar" class="btn btn-secondary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form asp-action="ExportPersonalSintomasCOVID19" method="get">
+        <div class="form-actions no-color">
+            <div class="form-row">
+                <div class="col-md-3 form-group">
+                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                        <option selected disabled>Seleccionar Empresa</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <input type="submit" value="Buscar" class="btn btn-secondary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form asp-action="ExportaPersonalAnosmiaHiposmia" method="get">
+        <div class="form-actions no-color">
+            <div class="form-row">
+                <div class="col-md-3 form-group">
+                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                        <option selected disabled>Seleccionar Empresa</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <input type="submit" value="Buscar" class="btn btn-secondary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container-fluid">
+        <div class="row">
+            @*G1. Empleados con contacto COVID-19*@
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Empleados contacto COVID-19 </h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            @*G2. Síntomas COVID*@
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Personal con sintomas relacionados al Covid</h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="SintomasCOVID"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="form-row">
-            <div class="col-md-4 form-group">
-                <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
+        <div class="row">
+            @*G3. Empleados con anosmia e hiposmia*@
+            <div class="col-md-6 col-sm-6 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Resultados Olfatometria</h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="EmpleadosAnosmiaHiposmia"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
+
 </section>
-
-
-

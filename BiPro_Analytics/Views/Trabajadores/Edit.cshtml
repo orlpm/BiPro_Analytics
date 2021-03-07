@@ -26,11 +26,6 @@
                         <span asp-validation-for="Genero" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Edad" class="control-label"></label>
-                        <input asp-for="Edad" class="form-control" />
-                        <span asp-validation-for="Edad" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="Telefono" class="control-label"></label>
                         <input asp-for="Telefono" class="form-control" />
                         <span asp-validation-for="Telefono" class="text-danger"></span>
@@ -172,27 +167,30 @@
                     </div>
 
                     @*<div class="form-group">
-            <label asp-for="NombreEmpresa" class="control-label"></label>
-            <input asp-for="NombreEmpresa" class="form-control" />
-            <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="NombreUnidad" class="control-label"></label>
-            <input asp-for="NombreUnidad" class="form-control" />
-            <span asp-validation-for="NombreUnidad" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="NombreArea" class="control-label"></label>
-            <input asp-for="NombreArea" class="form-control" />
-            <span asp-validation-for="NombreArea" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="NombreEmpresa" class="control-label"></label>
+                        <input asp-for="NombreEmpresa" class="form-control" />
+                        <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreUnidad" class="control-label"></label>
+                        <input asp-for="NombreUnidad" class="form-control" />
+                        <span asp-validation-for="NombreUnidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreArea" class="control-label"></label>
+                        <input asp-for="NombreArea" class="form-control" />
+                        <span asp-validation-for="NombreArea" class="text-danger"></span>
+                    </div>*@
                 </form>
             </div>
         </div>
 
-        <div>
-            <a asp-action="Index">Regresar a la lista</a>
-        </div>
+        @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
+        {
+            <div>
+                <a asp-action="Index">Regresar a la lista</a>
+            </div>
+        }
 
     </div>
 </section>

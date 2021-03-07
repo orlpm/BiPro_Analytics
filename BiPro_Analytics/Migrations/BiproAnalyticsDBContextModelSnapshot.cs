@@ -175,6 +175,9 @@ namespace BiPro_Analytics.Migrations
                     b.Property<bool>("Drogas")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("EPOC")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Embarazo")
                         .HasColumnType("bit");
 
@@ -577,9 +580,6 @@ namespace BiPro_Analytics.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
-
-                    b.Property<int?>("Edad")
-                        .HasColumnType("int");
 
                     b.Property<int?>("EmpresaIdEmpresa")
                         .HasColumnType("int");

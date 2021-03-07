@@ -75,6 +75,15 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="EPOC" /> @Html.DisplayNameFor(model => model.EPOC)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <p><strong>Marque las casillas correspondientes si consume alcohol regularmente, tabaquismo o drogas.</strong></p>
             </div>
             <div class="row">
@@ -233,9 +242,12 @@
             </div>
         </form>
 
-        <div>
-            <a asp-action="Index">Regresar a la lista</a>
-        </div>
+        @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
+        {
+            <div>
+                <a asp-action="Index">Regresar a la lista</a>
+            </div>
+        }
 
     </div>
 </section>

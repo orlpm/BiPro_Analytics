@@ -119,7 +119,12 @@
         </div>
         <div>
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-            <a asp-action="Index">Regresar a la lista</a>
+            @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
+            {
+                <div>
+                    <a asp-action="Index">Regresar a la lista</a>
+                </div>
+            }
         </div>
 
     </div>
