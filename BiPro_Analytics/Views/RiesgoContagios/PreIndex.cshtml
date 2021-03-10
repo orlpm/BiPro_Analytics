@@ -74,55 +74,24 @@
 <section id="graficos">
     <input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
     
-    <form asp-action="ExportPersonalContactoContagioCOVID19" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportPersonalSintomasCOVID19" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportaPersonalAnosmiaHiposmia" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
     <div class="container-fluid">
         <div class="row">
             @*G1. Empleados con contacto COVID-19*@
             <div class="col-md-6 col-sm-6  ">
+                <form asp-action="ExportPersonalContactoContagioCOVID19" method="get">
+                    <div class="form-actions no-color">
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="x_panel">
                     <div class="x_title">
                         <h3>Empleados contacto COVID-19 </h3>
@@ -133,21 +102,49 @@
                 </div>
             </div>
             @*G2. Síntomas COVID*@
-            <div class="col-md-6 col-sm-6 ">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h3>Personal con sintomas relacionados al Covid</h3>
-                    </div>
-                    <div class="x_content">
-                        <canvas id="SintomasCOVID"></canvas>
+        <div class="col-md-6 col-sm-6 ">
+            <form asp-action="ExportPersonalSintomasCOVID19" method="get">
+                <div class="form-actions no-color">
+                    <div class="form-row">
+                        <div class="col-md-3 form-group">
+                            <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar Empresa</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <input type="submit" value="Buscar" class="btn btn-secondary" />
+                        </div>
                     </div>
                 </div>
+            </form>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3>Personal con sintomas relacionados al Covid</h3>
+                </div>
+                <div class="x_content">
+                    <canvas id="SintomasCOVID"></canvas>
+                </div>
             </div>
+        </div>
         </div>
 
         <div class="row">
             @*G3. Empleados con anosmia e hiposmia*@
             <div class="col-md-6 col-sm-6 ">
+                <form asp-action="ExportaPersonalAnosmiaHiposmia" method="get">
+                    <div class="form-actions no-color">
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="x_panel">
                     <div class="x_title">
                         <h3>Resultados Olfatometria</h3>

@@ -81,7 +81,7 @@ namespace BiPro_Analytics.Controllers
                 .Where(r => r.Genero == "Femenino" ).ToList();
 
                 edadesHombres = _context.Trabajadores
-                    .Where(r => r.Genero == "Hombre" ).ToList();
+                    .Where(r => r.Genero == "Masculino" ).ToList();
             }
             else
             {
@@ -89,31 +89,31 @@ namespace BiPro_Analytics.Controllers
                 .Where(r => r.Genero == "Femenino" && r.IdEmpresa == idEmpresa).ToList();
 
                 edadesHombres = _context.Trabajadores
-                    .Where(r => r.Genero == "Hombre" && r.IdEmpresa == idEmpresa).ToList();
+                    .Where(r => r.Genero == "Masculino" && r.IdEmpresa == idEmpresa).ToList();
             }
 
             string[] lbls = new string[] { " Covid" };
             int[] cntsMujeres = new int[]
             {
-                edadesMujeres.Where(r=>r.Edad > 18 && r.Edad < 25).Count(),
-                edadesMujeres.Where(r=>r.Edad > 25 && r.Edad < 35).Count(),
-                edadesMujeres.Where(r=>r.Edad > 35 && r.Edad < 45).Count(),
-                edadesMujeres.Where(r=>r.Edad > 48 && r.Edad < 55).Count(),
-                edadesMujeres.Where(r=>r.Edad > 55 && r.Edad < 65).Count(),
-                edadesMujeres.Where(r=>r.Edad > 65 && r.Edad < 75).Count(),
-                edadesMujeres.Where(r=>r.Edad > 75 && r.Edad < 85).Count(),
-                edadesMujeres.Where(r=>r.Edad > 85).Count()
+                edadesMujeres.Where(r=>r.Edad > 18 && r.Edad <= 25).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 25 && r.Edad <= 35).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 35 && r.Edad <= 45).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 45 && r.Edad <= 55).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 55 && r.Edad <= 65).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 65 && r.Edad <= 75).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 75 && r.Edad <= 85).ToList().Count(),
+                edadesMujeres.Where(r=>r.Edad > 85).ToList().Count()
             };
             int[] cntsHombres = new int[]
             {
-                edadesHombres.Where(r=>r.Edad > 18 && r.Edad < 25).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 25 && r.Edad < 35).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 35 && r.Edad < 45).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 48 && r.Edad < 55).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 55 && r.Edad < 65).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 65 && r.Edad < 75).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 75 && r.Edad < 85).Count() * -1,
-                edadesHombres.Where(r=>r.Edad > 85 ).Count() * -1
+                edadesHombres.Where(r=>r.Edad > 18 && r.Edad <= 25).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 25 && r.Edad <= 35).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 35 && r.Edad <= 45).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 45 && r.Edad <= 55).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 55 && r.Edad <= 65).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 65 && r.Edad <= 75).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 75 && r.Edad <= 85).ToList().Count() * -1,
+                edadesHombres.Where(r=>r.Edad > 85 ).ToList().Count() * -1
             };
 
             PiramidePoblacional piramidePoblacional = new PiramidePoblacional();

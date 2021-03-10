@@ -30,8 +30,8 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-            //Configuration.GetConnectionString("BiProGearhost")));
-            Configuration.GetConnectionString("BiProLocal")));
+            Configuration.GetConnectionString("BiProGearhost")));
+            //Configuration.GetConnectionString("BiProLocal")));
 
             services.AddDefaultIdentity<IdentityUser>(options =>
             {

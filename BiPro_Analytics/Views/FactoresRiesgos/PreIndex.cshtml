@@ -73,205 +73,224 @@
 
 <section id="graficos">
     <input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
-    <form asp-action="ExportEdadGeneroCSV" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportEnfermedadesCronicasCSV" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportAPNPCSV" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportRiesgosCasaTransporte" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportRiesgosLaboral" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportLlenadoFactoresRiesgos" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportCondicionesConstantesRiesgosContagios" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <form asp-action="ExportComplicacionCasoContagioMayor55" method="get">
-        <div class="form-actions no-color">
-            <div class="form-row">
-                <div class="col-md-3 form-group">
-                    <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar Empresa</option>
-                    </select>
-                </div>
-                <div class="col-md-3 form-group">
-                    <input type="submit" value="Buscar" class="btn btn-secondary" />
-                </div>
-            </div>
-        </div>
-    </form>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
+
+            @*T1. Edad y género *G1. Piramide poblacional*@
+            <div class="col-md-6 col-sm-6  ">
+                @*T1. Edad y género*@
+                <form asp-action="ExportEdadGeneroCSV" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Edad y género</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*G1. Piramide poblacional*@
                 <div class="x_panel">
                     <div class="x_title">
                         <h3>Piramide Poblacional </h3>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <canvas id="PiramidePoblacional"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            @*G2. Prevalencia de condiciones de salud de riesgo. -T2, T3-*@
+            <div class="col-md-6 col-sm-6  ">
+                @*T2.Enf. Crónicas DM, Hipertension Sobrepeso y Obesidad y asma, embarazo, cancer en tratamiento, enf. autoinmune en tx, EPOC*@
+                <form asp-action="ExportEnfermedadesCronicasCSV" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Enfermedades Cronicas </h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*T3. APNP. Tabaquismo, alcoholismo, drogas*@
+                <form asp-action="ExportAPNPCSV" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar APNP</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Prevalencia de condiciones de salud de riesgo </h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="CondicionesRiesgoBar"></canvas>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-6">
+            @*G3. Prevalencia de riesgo de exposicion en casa y transporte*@
+            <div class="col-md-6 col-sm-6 ">
+                @*T4. Numero de personas en casa, tipo de casa, tipo de transporte, publico, propio, etc.*@
+                <form asp-action="ExportRiesgosCasaTransporte" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Riesgos Casa Transporte</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Piramide Poblacional </h3>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
+                        <h3>Riesgo exposicion en casa y transporte</h3>
                     </div>
                     <div class="x_content">
-                        <canvas id="PiramidePoblacional"></canvas>
+                        <canvas id="RiesgosExpocisionCasaTransporte"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6">
+            @*G4. Prevalencia de riesgo dentro del espacio laboral*@
+            <div class="col-md-6 col-sm-6 ">
+                @*T5. Factores de riesgo laboral. Espacio, ventilacion, contacto, tiempo*@
+                <form asp-action="ExportRiesgosLaboral" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Riesgos Laboral</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Piramide Poblacional </h3>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
+                        <h3>Riesgo de espacio de trabajo abierto y sin ventilación</h3>
                     </div>
                     <div class="x_content">
-                        <canvas id="PiramidePoblacional"></canvas>
+                        <canvas id="RiesgosEspacioLaboral"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @*R1. Empleados que llenaron encuesta*@
+            <div class="col-md-6 col-sm-6 ">
+                @*M1. Empleados que llenaron su encuesta de identificacion y factores de riesgo.*@
+                <form asp-action="ExportLlenadoFactoresRiesgos" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Llenado Factores Riesgos</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Empleados que llenaron encuesta</h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="LlenadoEmpleadosFactoresRiesgos"></canvas>
+                    </div>
+                </div>
+
+            </div>
+            @*R2. Grafico de M2*@
+            <div class="col-md-6 col-sm-6 ">
+                @*M2. Empleados con condiciones constantes de riesgo de contagio. -T4, T5-*@
+                <form asp-action="ExportCondicionesConstantesRiesgosContagios" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Condiciones Constantes Riesgos Contagios</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Empleados con condiciones constantes de riesgo</h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="EmleadosCondicionesConstantes"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @*R3. Grafico de M3*@
+            <div class="col-md-6 col-sm-6 ">
+                @*M3. Empleados con mayor riesgo de complicarse en caso de contagio -T1: MAYORES DE 55 AÑOS, T2, T3-*@
+                <form asp-action="ExportComplicacionCasoContagioMayor55" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar Complicación Caso Contagio Mayor 55</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Empleados con mayor riesgo de complicarse</h3>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="EmpleadosRiesgoComplicaciones"></canvas>
                     </div>
                 </div>
             </div>

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace BiPro_Analytics.Responses.RiesgosContagios
 {
-    public class LlenadoRiesgosContagio
+    public class LlenadoRiesgosContagioNoVeces
     {
         public string Nombre { get; set; }
-        public string LlenadoEncuesta { get; set; }
+        public int VecesLlenado { get; set; }
     }
 }

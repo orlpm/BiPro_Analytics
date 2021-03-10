@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BiPro_Analytics.Responses.RiesgosContagios
 {
-    public class PacientesRiesgoCOVID
+    public class PersonalContactoContagiadosAnosmiaHiposmia
     {
         public string Nombre { get; set; }
         public bool TosRecurrente { get; set; }
@@ -19,6 +19,5 @@ namespace BiPro_Analytics.Responses.RiesgosContagios
         public bool Diarrea { get; set; }
         public bool Anosmia { get; set; }
         public bool Hiposmia { get; set; }
-
     }
 }

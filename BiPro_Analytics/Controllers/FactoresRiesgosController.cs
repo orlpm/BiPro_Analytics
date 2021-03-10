@@ -137,20 +137,24 @@ namespace BiPro_Analytics.Controllers
         public async Task<IActionResult> ExportLlenadoFactoresRiesgos(int IdTrabajador)
         {
             int idEmpresa = IdTrabajador;
-            var EmpleadosFactoresRiesgos = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(x => x.FactoresRiesgos).ToListAsync();
+            var EmpleadosFactoresRiesgos = await _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(x => x.FactoresRiesgos).ToListAsync();
+
             var factoresRiesgos = await _context.FactoresRiesgos.ToListAsync();
 
-            var llenado = await _context.Trabajadores
-                .Select(x => new LlenadoFactoresdeRiesgos
-                {
-                    Nombre = x.Nombre,
-                    LlenadoEncuesta = factoresRiesgos.Exists(y => y.IdTrabajador == x.IdTrabajador) ? "Si" : "No"
-                }).ToListAsync();
+            var trabajadores = await _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).ToListAsync();
+
+
+
+            var LlenadoFactoresRiesgos = trabajadores.Select(x => new LlenadoFactoresdeRiesgos
+            {
+                Nombre = x.Nombre,
+                LlenadoEncuesta = factoresRiesgos.Exists(y => y.IdTrabajador == x.IdTrabajador) ? "Si" : "No"
+            });
 
             var builder = new StringBuilder();
             builder.AppendLine("Nombre,LlenadoEncuesta");
 
-            foreach (var item in llenado)
+            foreach (var item in LlenadoFactoresRiesgos)
             {
                 builder.AppendLine($"{item.Nombre},{item.LlenadoEncuesta}");
             }

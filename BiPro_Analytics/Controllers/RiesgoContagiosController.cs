@@ -392,5 +392,20 @@ namespace BiPro_Analytics.Controllers
 
             return PCCC;
         }
+
+        public async Task<IEnumerable<PersonalAnosmiaHiposmia>> GetPersonalContactoContagiadosAnosmiaHiposmia (int IdEmpresa)
+        {
+            var PCCC = await _context.Trabajadores
+                .Where(t => t.IdEmpresa == IdEmpresa)
+                .SelectMany(f => f.RiesgosContagios)
+                .Select(f => new PersonalAnosmiaHiposmia
+                {
+                    Nombre = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Nombre).FirstOrDefault(),
+                    Anosmia = f.ContactoCovidCasa,
+                    Hiposmia = f.ContactoCovidTrabajo
+                }).ToListAsync();
+
+            return PCCC;
+        }
     }
 }
