@@ -161,7 +161,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Semana,Anio,FechaRegistro,PositivosSemPCR,PositivosSemLG,PositivosSemAntigeno,PositivosSemTAC,PositivosSemNeumoniaNoConfirmadaCOVID,PositivosSospechososNeumoniaNoConfirmadaCOVID,SospechososDescartados,IdEmpresa")] ReporteContagio reporteContagio)
+        public async Task<IActionResult> Create([Bind("Id,PositivosSemPCR,PositivosSemLG,PositivosSemAntigeno,PositivosSemTAC,PositivosSemNeumoniaNoConfirmadaCOVID,PositivosSospechososNeumoniaNoConfirmadaCOVID,SospechososDescartados,FechaRegistro,IdEmpresa")] ReporteContagio reporteContagio)
         {
             if (ModelState.IsValid)
             {

@@ -170,6 +170,8 @@ namespace BiPro_Analytics.Controllers
             PerfilData perfilData = await util.DatosUserAsync(currentUser);
             //Para combo Trabajadores
             ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            var ubicaciones = _context.Ubicacion.ToListAsync();
+            ViewBag.Ubicaciones = new SelectList(ubicaciones.Result, "Identificador", "Descripcion");
 
             return View();
         }
@@ -179,7 +181,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,SintomasCovid,RadiografiaTorax,Tomografia,IdTrabajador")] Prueba prueba)
+        public async Task<IActionResult> Create([Bind("Id,FechaDiagnostico,Lugar,TipoPrueba,DiagnosticoCovid,SintomasCovid,RadiografiaTorax,Tomografia,IdTrabajador,UbicacionId")] Prueba prueba)
         {
             if (ModelState.IsValid)
             {

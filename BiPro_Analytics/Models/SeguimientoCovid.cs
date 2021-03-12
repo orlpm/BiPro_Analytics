@@ -24,15 +24,23 @@ namespace BiPro_Analytics.Models
         [Required]
         public bool SintomasMenores { get; set; }
 
-        [MaxLength(20)]
+        [Required]
         [DisplayName("Estatus en casa")]
-        [Required]
-        public string EstatusEnCasa { get; set; }
+        public int EstatusEnCasa { get; set; }
 
-        [MaxLength(20)]
-        [DisplayName("Estatus en Hospital")]
         [Required]
-        public string EstatusEnHospital { get; set; }
+        [DisplayName("Estatus en Hospital")]
+        public int EstatusEnHospital { get; set; }
+
+        //[MaxLength(20)]
+        //[DisplayName("Estatus en casa")]
+        //[Required]
+        //public string EstatusEnCasa { get; set; }
+
+        //[MaxLength(20)]
+        //[DisplayName("Estatus en Hospital")]
+        //[Required]
+        //public string EstatusEnHospital { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BiPro_Analytics.Models
 {
@@ -11,11 +8,11 @@ namespace BiPro_Analytics.Models
     {
         public int Id { get; set; }
 
-        public int Semana { get; set; }
+        //public int Semana { get; set; }
 
-        [DisplayName("Año")]
-        [Required]
-        public int Anio { get; set; }
+        //[DisplayName("Año")]
+        //[Required]
+        //public int Anio { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -23,23 +20,23 @@ namespace BiPro_Analytics.Models
         public DateTime FechaRegistro { get; set; }
 
         [Required]
-        [DisplayName("Positivos Smenales PCR")]
+        [DisplayName("Positivos Semanales PCR")]
         public int PositivosSemPCR { get; set; }
 
         [Required]
-        [DisplayName("Positivos Smenales LG")]
+        [DisplayName("Positivos Semanales LG")]
         public int PositivosSemLG { get; set; }
 
         [Required]
-        [DisplayName("Positivos Smenales Antigeno")]
+        [DisplayName("Positivos Semanales Antigeno")]
         public int PositivosSemAntigeno { get; set; }
 
         [Required]
-        [DisplayName("Positivos Smenales TAC")]
+        [DisplayName("Positivos Semanales TAC")]
         public int PositivosSemTAC { get; set; }
 
         [Required]
-        [DisplayName("Positivos Smenales Neumonia No confirmada Covid")]
+        [DisplayName("Positivos Semanales Neumonia No confirmada Covid")]
         public int PositivosSemNeumoniaNoConfirmadaCOVID { get; set; }
 
         [Required]

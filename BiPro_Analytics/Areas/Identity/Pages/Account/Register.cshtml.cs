@@ -88,10 +88,12 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var empresas = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
-
-                if (empresas == null)
-                    return NotFound();
+                if (Input.CodigoEmpresa != null) 
+                {
+                    var empresas = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+                    if (empresas == null)
+                        return NotFound();
+                }
 
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);

@@ -15,6 +15,5 @@ namespace BiPro_Analytics.UnParo
         public List<DDLTrabajador> DDLTrabajadores { get; set; }
         public int? IdEmpresa { get; set; }
         public int? IdTrabajador { get; set; }
-
     }
 }

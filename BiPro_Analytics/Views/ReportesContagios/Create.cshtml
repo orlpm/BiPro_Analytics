@@ -4,129 +4,121 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Crear</h1>
-
-<h4>Reportes de Pruebas y Contagios </h4>
-<hr />
-
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Semana" class="control-label"></label>
-                <input asp-for="Semana" class="form-control" />
-                <span asp-validation-for="Semana" class="text-danger"></span>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h4>Reportes de Pruebas y Contagios </h4>
+        <hr />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <p><strong>Ingrese el número semanal de positivos :</strong></p>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSemPCR" class="control-label"></label>
+                        <input asp-for="PositivosSemPCR" class="form-control" />
+                        <span asp-validation-for="PositivosSemPCR" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSemLG" class="control-label"></label>
+                        <input asp-for="PositivosSemLG" class="form-control" />
+                        <span asp-validation-for="PositivosSemLG" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSemAntigeno" class="control-label"></label>
+                        <input asp-for="PositivosSemAntigeno" class="form-control" />
+                        <span asp-validation-for="PositivosSemAntigeno" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSemTAC" class="control-label"></label>
+                        <input asp-for="PositivosSemTAC" class="form-control" />
+                        <span asp-validation-for="PositivosSemTAC" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Anio" class="control-label"></label>
-                <input asp-for="Anio" class="form-control" />
-                <span asp-validation-for="Anio" class="text-danger"></span>
+            <hr />
+            <p><strong>Ingrese el número semanal de positivos y sospechosos:</strong></p>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="control-label"></label>
+                        <input asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="form-control" />
+                        <span asp-validation-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="control-label"></label>
+                        <input asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="form-control" />
+                        <span asp-validation-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+            <hr />
+            <p><strong>Ingrese el número de sospechosos descartados:</strong></p>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="SospechososDescartados" class="control-label"></label>
+                        <input asp-for="SospechososDescartados" class="form-control" />
+                        <span asp-validation-for="SospechososDescartados" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-9"></div>
             </div>
-        </div>
-        <div class="col-md-3">
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="FechaRegistro" class="control-label"></label>
+                        <input asp-for="FechaRegistro" class="form-control" />
+                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="IdEmpresa" class="control-label">Empresa</label>
+                        @if (ViewBag.Empresas != null)
+                        {
+                            <select class="form-control" asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar opción</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <input asp-for="IdEmpresa" class="form-control" />
+                        }
+                        <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-9"></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-3">
+                    <div class="form-group text-right">
+                        <input type="submit" value="Crear" class="btn btn-primary w-25" />
+                    </div>
+                </div>
+                <div class="col-md-9"></div>
+            </div>
+        </form>
 
+        <div class="row my-4">
+            <div class="col-md-3">
+                <a class="stretched-link" asp-action="Index">Regresar a la lista</a>
+            </div>
+            <div class="col-md-9"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSemPCR" class="control-label"></label>
-                <input asp-for="PositivosSemPCR" class="form-control" />
-                <span asp-validation-for="PositivosSemPCR" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSemLG" class="control-label"></label>
-                <input asp-for="PositivosSemLG" class="form-control" />
-                <span asp-validation-for="PositivosSemLG" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSemAntigeno" class="control-label"></label>
-                <input asp-for="PositivosSemAntigeno" class="form-control" />
-                <span asp-validation-for="PositivosSemAntigeno" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSemTAC" class="control-label"></label>
-                <input asp-for="PositivosSemTAC" class="form-control" />
-                <span asp-validation-for="PositivosSemTAC" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="control-label"></label>
-                <input asp-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="form-control" />
-                <span asp-validation-for="PositivosSemNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="control-label"></label>
-                <input asp-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="form-control" />
-                <span asp-validation-for="PositivosSospechososNeumoniaNoConfirmadaCOVID" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="SospechososDescartados" class="control-label"></label>
-                <input asp-for="SospechososDescartados" class="form-control" />
-                <span asp-validation-for="SospechososDescartados" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="IdEmpresa" class="control-label">Empresa</label>
-                @if (ViewBag.Empresas != null)
-                {
-                    <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar opción</option>
-                    </select>
-                }
-                else
-                {
-                    <input asp-for="IdEmpresa" class="form-control" />
-                }
-                <span asp-validation-for="IdEmpresa" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </div>
-        <div class="col-md-3">
-
-        </div>
-        <div class="col-md-3">
-
-        </div>
-        <div class="col-md-3">
-
-        </div>
-    </div>
-
-
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</section>

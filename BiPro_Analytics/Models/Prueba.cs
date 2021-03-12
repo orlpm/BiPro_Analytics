@@ -43,11 +43,14 @@ namespace BiPro_Analytics.Models
         [DisplayName("Tomografía")]
         public bool Tomografia { get; set; }
 
-        public DateTime FechaHoraRegistro{ get; set; }
+        public DateTime FechaHoraRegistro { get; set; }
 
         [Required]
         public int? IdTrabajador { get; set; }
+
         public Trabajador Trabajador { get; set; }
 
+        [Required]
+        public int UbicacionId { get; set; }
     }
 }
