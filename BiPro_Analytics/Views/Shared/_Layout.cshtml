@@ -19,6 +19,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
     <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -136,7 +138,7 @@
                         @if (User.IsInRole("Trabajador"))
                         {
                             <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="Create">Trabajadores</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="VerificaTrabajador">Trabajador</a>
                             </li>
                             <li class="drop-down">
                                 <a class="nav-link text-dark">Cuestionarios Riesgos</a>

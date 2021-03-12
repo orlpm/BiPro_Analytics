@@ -129,12 +129,29 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
+        public async Task<IActionResult> Create([Bind("IdTrabajador,Nombre,Genero,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (ModelState.IsValid)
             {
                 _context.Add(trabajador);
                 await _context.SaveChangesAsync();
+
+                if (currentUser.IsInRole("Trabajador"))
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Email == currentUser.Identity.Name);
+                    UsuarioTrabajador usuarioTrabajador = new UsuarioTrabajador
+                    {
+                        UserId = Guid.Parse(user.Id),
+                        TrabajadorId = trabajador.IdTrabajador
+                    };
+                    _context.UsuariosTrabajadores.Add(usuarioTrabajador);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(trabajador);
@@ -169,7 +186,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTrabajador,Nombre,Genero,Edad,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTrabajador,Nombre,Genero,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,Municipio,CP,FechaNacimiento,FechaIngreso,FechaRegistro,NombreUnidad,NombreArea,IdEmpresa,NombreEmpresa,IdUnidad,IdArea")] Trabajador trabajador)
         {
             if (id != trabajador.IdTrabajador)
             {
@@ -226,6 +243,19 @@ namespace BiPro_Analytics.Controllers
             _context.Trabajadores.Remove(trabajador);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> VerificaTrabajador()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            if (perfilData.IdTrabajador != null)
+                return RedirectToAction("Details", new { id = perfilData.IdTrabajador });
+            else
+                return RedirectToAction("Create");
+
         }
 
         private bool TrabajadorExists(int id)

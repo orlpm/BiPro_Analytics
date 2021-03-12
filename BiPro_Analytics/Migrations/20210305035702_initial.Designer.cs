@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiPro_Analytics.Migrations
 {
     [DbContext(typeof(BiproAnalyticsDBContext))]
-    [Migration("20210302054449_initial")]
+    [Migration("20210305035702_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,6 +175,9 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("Drogas")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EPOC")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Embarazo")
@@ -579,9 +582,6 @@ namespace BiPro_Analytics.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
-
-                    b.Property<int?>("Edad")
-                        .HasColumnType("int");
 
                     b.Property<int?>("EmpresaIdEmpresa")
                         .HasColumnType("int");

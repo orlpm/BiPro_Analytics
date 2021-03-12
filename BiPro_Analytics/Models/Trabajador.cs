@@ -17,13 +17,20 @@ namespace BiPro_Analytics.Models
         [Required]
         public string Nombre { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayName("Fecha de Nacimiento")]
+        public DateTime FechaNacimiento { get; set; }
+
+        public int Edad
+        {
+            get { return (int)((DateTime.Today - FechaNacimiento).Days / 365.25); }
+        }
+
         [DisplayName("Genero")]
         [MaxLength(10)]
         [Required]
         public string Genero { get; set; }
-
-        [Display(AutoGenerateField = false)]
-        public int? Edad { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
@@ -64,11 +71,6 @@ namespace BiPro_Analytics.Models
         [MaxLength(40)]
         [Required]
         public string Ciudad { get; set; }
-
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayName("Fecha de Nacimiento")]
-        public DateTime FechaNacimiento { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

@@ -33,6 +33,8 @@ namespace BiPro_Analytics.Models
         [Required]
         [DisplayName("Enfermedad del Corazón")]
         public bool EnfermedadCorazon{ get; set; }
+        [Required]
+        public bool EPOC { get; set; }
 
         [Required]
         public bool Embarazo { get; set; }

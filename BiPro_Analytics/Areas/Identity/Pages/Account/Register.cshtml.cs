@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using BiPro_Analytics.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BiPro_Analytics.Areas.Identity.Pages.Account
 {
@@ -101,13 +102,23 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    UsuarioTrabajador usuarioTrabajador = new UsuarioTrabajador
+                    var empresa = await _contex.Empresas.FirstAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+
+                    UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa
                     {
-                        UserId = Guid.Parse(user.Id),
-                        CodigoEmpresa = Input.CodigoEmpresa
+                        IdUsuario = Guid.Parse(user.Id),
+                        IdEmpresa = empresa.IdEmpresa
                     };
 
-                    _contex.UsuariosTrabajadores.Add(usuarioTrabajador);
+                    IdentityUserRole<string> identityUserRole = new IdentityUserRole<string>
+                    {
+                        RoleId = "1a4a4a49-02e6-442b-8b59-16adefed5dc9",
+                        UserId = user.Id
+                    };
+
+                    _contex.UserRoles.Add(identityUserRole);
+
+                    _contex.UsuariosEmpresas.Add(usuarioEmpresa);
                     await _contex.SaveChangesAsync();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
