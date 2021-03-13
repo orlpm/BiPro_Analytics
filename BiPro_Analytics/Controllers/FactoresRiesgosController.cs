@@ -38,7 +38,7 @@ namespace BiPro_Analytics.Controllers
             ViewBag.Unidades = perfilData.DDLUnidades;
             ViewBag.Areas = perfilData.DDLAreas;
             ViewBag.Empresas = perfilData.DDLEmpresas;
-            ViewBag.Trabajadores = perfilData.DDLTrabajadores;
+            ViewBag.Trabajadores = perfilData.DDLTrabajadores != null ? perfilData.DDLTrabajadores : new List<DDLTrabajador>();
 
             if (currentUser.IsInRole("AdminEmpresa"))
             {
