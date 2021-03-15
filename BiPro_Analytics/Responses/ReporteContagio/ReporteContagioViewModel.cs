@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace BiPro_Analytics.Responses
 {
-    public class ReporteContagioModel
+    public class ReporteContagioViewModel
     {
         public string NombreEmpresa { get; set; }
+        public string NombreArea { get; set; }
         public string Tipo { get; set; }
+        public string TipoId { get; set; }
         public int Cantidad { get; set; }
     }
 }

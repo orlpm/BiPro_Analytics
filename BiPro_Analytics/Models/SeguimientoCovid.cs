@@ -32,21 +32,10 @@ namespace BiPro_Analytics.Models
         [DisplayName("Estatus en Hospital")]
         public int EstatusEnHospital { get; set; }
 
-        //[MaxLength(20)]
-        //[DisplayName("Estatus en casa")]
-        //[Required]
-        //public string EstatusEnCasa { get; set; }
-
-        //[MaxLength(20)]
-        //[DisplayName("Estatus en Hospital")]
-        //[Required]
-        //public string EstatusEnHospital { get; set; }
-
         [Required]
         [DataType(DataType.Date)]
         [DisplayName("Fecha de Seguimiento")]
         public DateTime FechaSeguimiento { get; set; }
-
 
         public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }

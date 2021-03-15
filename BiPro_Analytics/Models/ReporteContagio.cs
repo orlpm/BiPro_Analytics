@@ -47,7 +47,14 @@ namespace BiPro_Analytics.Models
         [DisplayName("Sospechosos Descartados")]
         public int SospechososDescartados { get; set; }
 
-        public int? IdEmpresa { get; set; }
+        [Required]
+        [RegularExpression("(.*[1-9].*)|(.*[.].*[1-9].*)")]
+        public int IdEmpresa { get; set; }
         public Empresa Empresa { get; set; }
+
+        [Required]
+        [RegularExpression("(.*[1-9].*)|(.*[.].*[1-9].*)")]
+        public int IdArea { get; set; }
+        public Area Area { get; set; }
     }
 }

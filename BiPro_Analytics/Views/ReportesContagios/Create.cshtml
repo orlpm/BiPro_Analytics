@@ -102,7 +102,16 @@
                         <span asp-validation-for="IdEmpresa" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-9"></div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="IdArea" class="control-label">Area</label>
+                        <select class="form-control" asp-for="IdArea" asp-items="@(new SelectList(@ViewBag.Areas, "Id", "Area"))">
+                            <option selected disabled>Seleccionar opción</option>
+                        </select>
+                        <span asp-validation-for="IdArea" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
             </div>
             <div class="row mt-4">
                 <div class="col-md-3">

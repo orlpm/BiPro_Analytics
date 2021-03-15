@@ -159,6 +159,7 @@ namespace BiPro_Analytics.Controllers
             //Para combo Trabajadores
             ViewBag.Trabajadores = perfilData.DDLTrabajadores;
             ViewBag.Empresas =  perfilData.DDLEmpresas;
+            ViewBag.Areas = perfilData.DDLAreas;
 
             return View();
         }
@@ -168,7 +169,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PositivosSemPCR,PositivosSemLG,PositivosSemAntigeno,PositivosSemTAC,PositivosSemNeumoniaNoConfirmadaCOVID,PositivosSospechososNeumoniaNoConfirmadaCOVID,SospechososDescartados,FechaRegistro,IdEmpresa")] ReporteContagio reporteContagio)
+        public async Task<IActionResult> Create([Bind("Id,PositivosSemPCR,PositivosSemLG,PositivosSemAntigeno,PositivosSemTAC,PositivosSemNeumoniaNoConfirmadaCOVID,PositivosSospechososNeumoniaNoConfirmadaCOVID,SospechososDescartados,FechaRegistro,IdEmpresa,IdArea")] ReporteContagio reporteContagio)
         {
             if (ModelState.IsValid)
             {
@@ -177,6 +178,9 @@ namespace BiPro_Analytics.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            var areas = _context.Areas.Where(a => a.IdEmpresa == reporteContagio.IdEmpresa).ToList();
+            ViewBag.Areas = areas.Select(a => new DDLArea { Id = a.Id, Area = a.Name }).ToList();
             return View(reporteContagio);
         }
 
@@ -273,7 +277,7 @@ namespace BiPro_Analytics.Controllers
             return _context.ReporteContagio.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> ExportPruebasParaLaborar(int IdEmpresa)
+        public async Task<IActionResult> PositivosSospechososSemanales(int IdEmpresa)
         {
             var builder = new StringBuilder();
 
@@ -293,132 +297,1151 @@ namespace BiPro_Analytics.Controllers
             }
             var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioSemanal", dateTime, ".csv"));
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivoSemanal_", dateTime, ".csv"));
         }
 
-        private async Task<List<ReporteContagioModel>> ObtenerReporteContagioSemanal(int IdEmpresa)
+        public async Task<List<ReporteContagioViewModel>> ObtenerReporteContagioSemanal(int IdEmpresa)
         {
-            var reporteList = new List<ReporteContagioModel>();
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+
+                var fechaActual = DateTime.Now.Date;
+                var lunesSemanaPasada = fechaActual.AddDays(-(int)fechaActual.DayOfWeek - 6 - 7);
+                var fechaFinal = lunesSemanaPasada.AddDays(6);
+
+                var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemAntigeno)
+                    .Select(group => group.Sum(item => item.PositivosSemAntigeno))
+                    //.OrderBy(n => n.PosSemAntigeno)
+                    .ToListAsync();
+
+                var posSemAntigeno =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Tipo = "Positivos Semanales Antigeno",
+                    Cantidad = rcPosSemanalesAntigeno.Sum()
+                };
+                reporteList.Add(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemLG)
+                    .Select(group => group.Sum(item => item.PositivosSemLG))
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rcPosSemanalesLG.Sum()
+                };
+                reporteList.Add(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSemNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rcPosSemNeumoniaNoConfCOVID.Sum()
+                };
+                reporteList.Add(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemPCR)
+                    .Select(group => group.Sum(item => item.PositivosSemPCR))
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rcPositivosSemPCR.Sum()
+                };
+                reporteList.Add(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemTAC)
+                    .Select(group => group.Sum(item => item.PositivosSemTAC))
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rcPositivosSemTAC.Sum()
+                };
+                reporteList.Add(positivosSemTAC);
+
+                var rcPositivosSospechososNeuNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSospechososNeumoniaNoConfirmadaCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSospechososNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PositivosSospechososNeuNoConfCOVID)
+                    .ToListAsync();
+
+                var positivosSospechososNeuNoConfCOVID =
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rcPositivosSospechososNeuNoConfCOVID.Sum()
+                };
+                reporteList.Add(positivosSospechososNeuNoConfCOVID);
+            }
+            catch (Exception ex) 
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosSospechososSemanalesXArea(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerReporteContagioSemanalXArea(idEmpresa);
+
+            builder.AppendLine("Empresa,Area,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.NombreArea},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosSospAreaSemanal_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerReporteContagioSemanalXArea(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+                var areas = _context.Areas.Where(a => a.IdEmpresa == IdEmpresa).ToList();
+
+                var fechaActual = DateTime.Now.Date;
+                var lunesSemanaPasada = fechaActual.AddDays(-(int)fechaActual.DayOfWeek - 6 - 7);
+                var fechaFinal = lunesSemanaPasada.AddDays(6);
+
+                var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemAntigeno = rc.Key.PositivosSemAntigeno,
+                        Counter = rc.Sum(b => b.PositivosSemAntigeno)
+                    })
+                    //.OrderBy(n => n.IdArea)
+                    .ToListAsync();
+
+                var posSemAntigeno = rcPosSemanalesAntigeno.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Tipo = "Positivos Semanales Antigeno",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemLG = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemLG)
+                    })
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG = rcPosSemanalesLG.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemNeumoniaNoConfCOVID = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID = rcPosSemNeumoniaNoConfCOVID.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemPCR = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemPCR)
+                    })
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR = rcPositivosSemPCR.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea } )
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemTAC = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemTAC)
+                    })
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC = rcPositivosSemTAC.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemTAC);
+
+                var rcPositivosSospechososNeuNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea } )
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSospechososNeuNoConfCOVID = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSospechososNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PositivosSospechososNeuNoConfCOVID)
+                    .ToListAsync();
+
+                var positivosSospechososNeuNoConfCOVID = rcPositivosSospechososNeuNoConfCOVID.Select(rpt => 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSospechososNeuNoConfCOVID);
+            }
+            catch (Exception ex)
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosSemanalXArea(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerPositivosSemanalXArea(idEmpresa);
+
+            builder.AppendLine("Empresa,Area,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.NombreArea},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosAreaSemanal_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerPositivosSemanalXArea(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+                var areas = _context.Areas.Where(a => a.IdEmpresa == IdEmpresa).ToList();
+
+                var fechaActual = DateTime.Now.Date;
+                var lunesSemanaPasada = fechaActual.AddDays(-(int)fechaActual.DayOfWeek - 6);
+                var fechaFinal = lunesSemanaPasada.AddDays(7);
+
+                var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemAntigeno = rc.Key.PositivosSemAntigeno,
+                        Counter = rc.Sum(b => b.PositivosSemAntigeno)
+                    })
+                    //.OrderBy(n => n.PosSemAntigeno)
+                    .ToListAsync();
+
+                var posSemAntigeno = rcPosSemanalesAntigeno.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Tipo = "Positivos Semanales Antigeno",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemLG = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemLG)
+                    })
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG = rcPosSemanalesLG.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemNeumoniaNoConfCOVID = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID = rcPosSemNeumoniaNoConfCOVID.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemPCR = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemPCR)
+                    })
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR = rcPositivosSemPCR.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => lunesSemanaPasada <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemTAC = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemTAC)
+                    })
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC = rcPositivosSemTAC.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemTAC);
+            }
+            catch (Exception ex)
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosMensualXArea(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerPositivosMensualXArea(idEmpresa);
+
+            builder.AppendLine("Empresa,Area,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.NombreArea},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosAreaMensual_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerPositivosMensualXArea(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+                var areas = _context.Areas.Where(a => a.IdEmpresa == IdEmpresa).ToList();
+
+                var fechaRef = DateTime.Now.AddMonths(-1);
+                var anio = fechaRef.Year;
+                var month = fechaRef.Month;
+                var fechaInicio = new DateTime(anio, month, 1);
+                var ultimoDiaMes = DateTime.DaysInMonth(anio, month);
+                var fechaFinal = new DateTime(anio, month, ultimoDiaMes);
+
+                var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemAntigeno = rc.Key.PositivosSemAntigeno,
+                        Counter = rc.Sum(b => b.PositivosSemAntigeno)
+                    })
+                    //.OrderBy(n => n.PosSemAntigeno)
+                    .ToListAsync();
+
+                var posSemAntigeno = rcPosSemanalesAntigeno.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Tipo = "Positivos Semanales Antigeno",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemLG = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemLG)
+                    })
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG = rcPosSemanalesLG.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemNeumoniaNoConfCOVID = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID = rcPosSemNeumoniaNoConfCOVID.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemPCR = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemPCR)
+                    })
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR = rcPositivosSemPCR.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemTAC = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemTAC)
+                    })
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC = rcPositivosSemTAC.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemTAC);
+
+
+                var rcPositivosSospechososNeuNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        Counter = rc.Sum(b => b.PositivosSospechososNeumoniaNoConfirmadaCOVID)
+                    })
+                    .ToListAsync();
+
+                var positivosSospechososNeuNoConfCOVID = rcPositivosSospechososNeuNoConfCOVID.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSospechososNeuNoConfCOVID);
+            }
+            catch (Exception ex)
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosTotalXArea(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerPositivosTotalXArea(idEmpresa);
+
+            builder.AppendLine("Empresa,Area,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.NombreArea},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosAreaTotal_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerPositivosTotalXArea(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+                var areas = _context.Areas.Where(a => a.IdEmpresa == IdEmpresa).ToList();
+
+                var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemAntigeno = rc.Key.PositivosSemAntigeno,
+                        Counter = rc.Sum(b => b.PositivosSemAntigeno)
+                    })
+                    //.OrderBy(n => n.PosSemAntigeno)
+                    .ToListAsync();
+
+                var posSemAntigeno = rcPosSemanalesAntigeno.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Tipo = "Positivos Semanales Antigeno",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemLG = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemLG)
+                    })
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG = rcPosSemanalesLG.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PosSemNeumoniaNoConfCOVID = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID = rcPosSemNeumoniaNoConfCOVID.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemPCR = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemPCR)
+                    })
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR = rcPositivosSemPCR.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemTAC = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSemTAC)
+                    })
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC = rcPositivosSemTAC.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSemTAC);
+
+                var rcPositivosSosNeuNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => new { rc.IdArea })
+                    .Select(rc => new
+                    {
+                        IdArea = rc.Key.IdArea,
+                        //PositivosSemTAC = rc.Key,
+                        Counter = rc.Sum(b => b.PositivosSospechososNeumoniaNoConfirmadaCOVID)
+                    })
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSosNeuNoConfCOVID = rcPositivosSosNeuNoConfCOVID.Select(rpt =>
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    NombreArea = areas.Where(x => x.Id == rpt.IdArea).Select(y => y.Name).FirstOrDefault(),
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rpt.Counter
+                }).ToList();
+                reporteList.AddRange(positivosSosNeuNoConfCOVID);
+            }
+            catch (Exception ex)
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosSospechososMensuales(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerReporteContagioMensuales(idEmpresa);
+
+            builder.AppendLine("Empresa,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosSospMensual_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerReporteContagioMensuales(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
+
+            try
+            {
+                var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
+
+                var fechaRef = DateTime.Now.AddMonths(-1);
+                var anio = fechaRef.Year;
+                var month = fechaRef.Month;
+                var fechaInicio = new DateTime(anio, month, 1);
+                var ultimoDiaMes = DateTime.DaysInMonth(anio, month);
+                var fechaFinal = new DateTime(anio, month, ultimoDiaMes);
+
+                 var rcPosSemanalesAntigeno = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemAntigeno)
+                    .Select(group => group.Sum(item => item.PositivosSemAntigeno))
+                    //.OrderBy(n => n.PosSemAntigeno)
+                    .ToListAsync();
+
+                var posSemAntigeno = 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales Antigeno",
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Cantidad = rcPosSemanalesAntigeno.Sum()
+                };
+                reporteList.Add(posSemAntigeno);
+
+                var rcPosSemanalesLG = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemLG)
+                    .Select(group => group.Sum(item => item.PositivosSemLG))
+                    //.OrderBy(n => n.PosSemLG)
+                    .ToListAsync();
+
+                var posSemanalesLG = 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales LG",
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rcPosSemanalesLG.Sum()
+                };
+                reporteList.Add(posSemanalesLG);
+
+                var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemNeumoniaNoConfirmadaCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSemNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .ToListAsync();
+
+                var posSemNeumoniaNoConfCOVID =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rcPosSemNeumoniaNoConfCOVID.Sum()
+                };
+                reporteList.Add(posSemNeumoniaNoConfCOVID);
+
+                var rcPositivosSemPCR = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemPCR)
+                    .Select(group => group.Sum(item => item.PositivosSemPCR))
+                    //.OrderBy(n => n.PositivosSemPCR)
+                    .ToListAsync();
+
+                var positivosSemPCR =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rcPositivosSemPCR.Sum()
+                };
+                reporteList.Add(positivosSemPCR);
+
+                var rcPositivosSemTAC = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSemTAC)
+                    .Select(group => group.Sum(item => item.PositivosSemTAC))
+                    //.OrderBy(n => n.PositivosSemTAC)
+                    .ToListAsync();
+
+                var positivosSemTAC =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rcPositivosSemTAC.Sum()
+                };
+                reporteList.Add(positivosSemTAC);
+
+                var rcPositivosSospechososNeuNoConfCOVID = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .Where(rep => fechaInicio <= rep.FechaRegistro && fechaFinal >= rep.FechaRegistro)
+                    .GroupBy(rc => rc.PositivosSospechososNeumoniaNoConfirmadaCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSospechososNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PositivosSospechososNeuNoConfCOVID)
+                    .ToListAsync();
+
+                var positivosSospechososNeuNoConfCOVID = 
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rcPositivosSospechososNeuNoConfCOVID.Sum()
+                };
+                reporteList.Add(positivosSospechososNeuNoConfCOVID);
+            }
+            catch (Exception ex)
+            { }
+
+            return reporteList;
+        }
+
+        public async Task<IActionResult> PositivosSospechososEmpresa(int IdEmpresa)
+        {
+            var builder = new StringBuilder();
+
+            int idEmpresa = IdEmpresa;
+            if (idEmpresa == 0)
+            {
+                return RedirectToAction(nameof(PreIndex));
+            }
+
+            var reporteContagios = await ObtenerReporteContagioEmpresa(idEmpresa);
+
+            builder.AppendLine("Empresa,Tipo,Cantidad");
+
+            foreach (var item in reporteContagios)
+            {
+                builder.AppendLine($"{item.NombreEmpresa},{item.Tipo},{item.Cantidad}");
+            }
+            var dateTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", string.Concat("rptContagioPositivosSospEmpresa_", dateTime, ".csv"));
+        }
+
+        public async Task<List<ReporteContagioViewModel>> ObtenerReporteContagioEmpresa(int IdEmpresa)
+        {
+            var reporteList = new List<ReporteContagioViewModel>();
 
             try
             {
                 var nombreEmpresa = _context.Empresas.Where(x => x.IdEmpresa == IdEmpresa).Select(y => y.Nombre).FirstOrDefault();
 
                 var rcPosSemanalesAntigeno = await _context.ReporteContagio
-                    .Where(emp => emp.IdEmpresa == IdEmpresa)
-                    .GroupBy(rc => rc.PositivosSemAntigeno)
-                    .Select(rc => new
-                    {
-                        PosSemAntigeno = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PosSemAntigeno)
-                    .ToListAsync();
+                   .Where(emp => emp.IdEmpresa == IdEmpresa)
+                   .GroupBy(rc => rc.PositivosSemAntigeno)
+                   .Select(group => group.Sum(item => item.PositivosSemAntigeno))
+                   //.OrderBy(n => n.PosSemAntigeno)
+                   .ToListAsync();
 
-                var posSemAntigeno = new ReporteContagioModel
+                var posSemAntigeno =  
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
                     Tipo = "Positivos Semanales Antigeno",
-                    Cantidad = rcPosSemanalesAntigeno.Count
+                    TipoId = "rcPosSemanalesAntigeno",
+                    Cantidad = rcPosSemanalesAntigeno.Sum()
                 };
                 reporteList.Add(posSemAntigeno);
 
                 var rcPosSemanalesLG = await _context.ReporteContagio
                     .Where(emp => emp.IdEmpresa == IdEmpresa)
                     .GroupBy(rc => rc.PositivosSemLG)
-                    .Select(rc => new
-                    {
-                        PosSemLG = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PosSemLG)
+                    .Select(group => group.Sum(item => item.PositivosSemLG))
+                    //.OrderBy(n => n.PosSemLG)
                     .ToListAsync();
 
-                var posSemanalesLG = new ReporteContagioModel
+                var posSemanalesLG = 
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
                     Tipo = "Positivos Semanales LG",
-                    Cantidad = rcPosSemanalesLG.Count
+                    TipoId = "rcPosSemanalesLG",
+                    Cantidad = rcPosSemanalesLG.Sum()
                 };
                 reporteList.Add(posSemanalesLG);
 
                 var rcPosSemNeumoniaNoConfCOVID = await _context.ReporteContagio
                     .Where(emp => emp.IdEmpresa == IdEmpresa)
                     .GroupBy(rc => rc.PositivosSemNeumoniaNoConfirmadaCOVID)
-                    .Select(rc => new
-                    {
-                        PosSemNeumoniaNoConfCOVID = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSemNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PosSemNeumoniaNoConfCOVID)
                     .ToListAsync();
 
-                var posSemNeumoniaNoConfCOVID = new ReporteContagioModel
+                var posSemNeumoniaNoConfCOVID =  
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
-                    Tipo = "Positivos Semanales Antigeno",
-                    Cantidad = rcPosSemNeumoniaNoConfCOVID.Count
+                    Tipo = "Positivos Semanales Neumonia No confirmada Covid",
+                    TipoId = "rcPosSemNeumoniaNoConfCOVID",
+                    Cantidad = rcPosSemNeumoniaNoConfCOVID.Sum()
                 };
                 reporteList.Add(posSemNeumoniaNoConfCOVID);
 
                 var rcPositivosSemPCR = await _context.ReporteContagio
                     .Where(emp => emp.IdEmpresa == IdEmpresa)
                     .GroupBy(rc => rc.PositivosSemPCR)
-                    .Select(rc => new
-                    {
-                        PositivosSemPCR = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PositivosSemPCR)
+                    .Select(group => group.Sum(item => item.PositivosSemPCR))
+                    //.OrderBy(n => n.PositivosSemPCR)
                     .ToListAsync();
 
-                var positivosSemPCR = new ReporteContagioModel
+                var positivosSemPCR =  
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
-                    Tipo = "Positivos Semanales Antigeno",
-                    Cantidad = rcPositivosSemPCR.Count
+                    Tipo = "Positivos Semanales PCR",
+                    TipoId = "rcPositivosSemPCR",
+                    Cantidad = rcPositivosSemPCR.Sum()
                 };
                 reporteList.Add(positivosSemPCR);
 
                 var rcPositivosSemTAC = await _context.ReporteContagio
                     .Where(emp => emp.IdEmpresa == IdEmpresa)
                     .GroupBy(rc => rc.PositivosSemTAC)
-                    .Select(rc => new
-                    {
-                        PositivosSemTAC = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PositivosSemTAC)
+                    .Select(group => group.Sum(item => item.PositivosSemTAC))
+                    //.OrderBy(n => n.PositivosSemTAC)
                     .ToListAsync();
 
-                var positivosSemTAC = new ReporteContagioModel
+                var positivosSemTAC =  
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
-                    Tipo = "Positivos Semanales Antigeno",
-                    Cantidad = rcPositivosSemTAC.Count
+                    Tipo = "Positivos Semanales TAC",
+                    TipoId = "rcPositivosSemTAC",
+                    Cantidad = rcPositivosSemTAC.Sum()
                 };
                 reporteList.Add(positivosSemTAC);
 
                 var rcPositivosSospechososNeuNoConfCOVID = await _context.ReporteContagio
                     .Where(emp => emp.IdEmpresa == IdEmpresa)
                     .GroupBy(rc => rc.PositivosSospechososNeumoniaNoConfirmadaCOVID)
-                    .Select(rc => new
-                    {
-                        PositivosSospechososNeuNoConfCOVID = rc.Key,
-                        Counter = rc.Count()
-                    })
-                    .OrderBy(n => n.PositivosSospechososNeuNoConfCOVID)
+                    .Select(group => group.Sum(item => item.PositivosSospechososNeumoniaNoConfirmadaCOVID))
+                    //.OrderBy(n => n.PositivosSospechososNeuNoConfCOVID)
                     .ToListAsync();
 
-                var positivosSospechososNeuNoConfCOVID = new ReporteContagioModel
+                var positivosSospechososNeuNoConfCOVID =  
+                new ReporteContagioViewModel
                 {
                     NombreEmpresa = nombreEmpresa,
-                    Tipo = "Positivos Semanales Antigeno",
-                    Cantidad = rcPositivosSospechososNeuNoConfCOVID.Count
+                    Tipo = "Positivos Sospechosos Neumonia no confirmada Covid",
+                    TipoId = "rcPositivosSospechososNeuNoConfCOVID",
+                    Cantidad = rcPositivosSospechososNeuNoConfCOVID.Sum()
                 };
                 reporteList.Add(positivosSospechososNeuNoConfCOVID);
+
+                var rcSospechososDescartados = await _context.ReporteContagio
+                    .Where(emp => emp.IdEmpresa == IdEmpresa)
+                    .GroupBy(rc => rc.SospechososDescartados)
+                    .Select(group => group.Sum(item => item.SospechososDescartados))
+                    //.OrderBy(n => n.SospechososDescartados)
+                    .ToListAsync();
+
+                var sospechososDescartados =  
+                new ReporteContagioViewModel
+                {
+                    NombreEmpresa = nombreEmpresa,
+                    Tipo = "Sospechosos Descartados",
+                    TipoId = "rcSospechososDescartados",
+                    Cantidad = rcSospechososDescartados.Sum()
+                };
+                reporteList.Add(sospechososDescartados);
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             { }
 
             return reporteList;
