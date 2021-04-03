@@ -25,35 +25,15 @@ namespace BiPro_Analytics.Models
         [Required]
         public string RFC { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(30)]
         [Required]
-        [DisplayName("Aministrador de tablero")]
-        public string Aministrador { get; set; }
-
-        [DisplayName("Puesto")]
-        public string Puesto { get; set; }
+        [DisplayName("Actividad Principal")]
+        public string ActividadPrincipal { get; set; }
 
         [Required]
-        [DisplayName("Giro")]
+        [DisplayName("Sector")]
         [MaxLength(40)]
-        public string Giro { get; set; }
-
-        [MaxLength(30)]
-        [DisplayName("Subgiro")]
-        public string SubGiro { get; set; }
-
-        [MaxLength(30)]
-        [DisplayName("Sección")]
-        public string Seccion { get; set; }
-
-        [Required]
-        [DataType(DataType.PhoneNumber)]
-        public string Telefono { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Correo { get; set; }
-
+        public string Sector { get; set; }
         [MaxLength(40)]
         [DisplayName("Calle")]
         [Required]
@@ -80,28 +60,71 @@ namespace BiPro_Analytics.Models
         [Required]
         public string CP { get; set; }
 
+        [MaxLength(50)]
+        [Required]
+        [DisplayName("Aministrador de tablero")]
+        public string Aministrador { get; set; }
+
+        [DisplayName("Puesto")]
+        public string Puesto { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Correo { get; set; }
+
         [DisplayName("No. de Empleados")]
-        public int CantEmpleados { get; set; }
+        public int CantidadEmpleados { get; set; }
 
         [Column(TypeName = "decimal(8, 2)")]
         [DisplayName("Sueldo Mínimo")]
-        public decimal MinSueldo { get; set; }
+        public decimal SueldoMinimo { get; set; }
 
         [Column(TypeName = "decimal(10, 2)")]
         [DisplayName("Sueldo Máximo")]
-        public decimal MaxSueldo { get; set; }
+        public decimal SueldoMaximo { get; set; }
 
-        [DisplayName("Fecha de registro")]
-        [DataType(DataType.Date)]
-        public DateTime FechaRegistro{ get; set; }
+        [Column(TypeName = "decimal(10, 2)")]
+        [DisplayName("Sueldo Promedio")]
+        public decimal SueldoPromedio { get; set; }
+        
+        [DisplayName("Número de sucursales")]
+        public int NumeroSucursales { get; set; }
+
+        public bool Comedor { get; set; }
+        
+        [DisplayName("Transporte para trabajadores")]
+        public bool TransporteTrabajadores { get; set; }
+
+        [DisplayName("Servicio médico")]
+        public bool ServicioMedico { get; set; }
+
+        [DisplayName("Seguro de gastos médicos mayores")]
+        public bool SGMM { get; set; }
+
+        [DisplayName("Trabajadores con SGMM")]
+        public int TrabajadoresConSGMM { get; set; }
+
+        [DisplayName("Nombre de Aseguradora")]
+        public string NombreAseguradora { get; set; }
+
+        [DisplayName("Nombre de agente de seguros")]
+        public string NombreAgenteSeguros{ get; set; }
 
         [DisplayName("Horas Laborales")]
         [Required]
         public int HorasLaborales { get; set; }
 
-        [DisplayName("Dias Laborales")]
+        [DisplayName("Días Laborales")]
         [Required]
         public int DiasLaborales { get; set; }
+
+        [DisplayName("Fecha de registro")]
+        [DataType(DataType.Date)]
+        public DateTime FechaRegistro { get; set; }
 
         [Display(AutoGenerateField = false)]
         public string CodigoEmpresa { get; set; }

@@ -71,7 +71,7 @@ function CrearGrG5TrabajadoresSeguimientoGral() {
         var GrG5TrabajadoresSeguimientoGral = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Genero"],
+                labels: ["Género"],
                 datasets: [{
                     label: 'Masculino',
                     backgroundColor: "#F9CC66",

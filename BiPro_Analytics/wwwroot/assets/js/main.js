@@ -213,7 +213,7 @@ if ($('#PiramidePoblacional').length) {
         options: {
             title: {
                 display: true,
-                text: 'Distrubución de Edades'
+                text: 'Distrubuci\u00F3n de Edades'
             },
             scales: {
                 xAxes: [{
@@ -388,7 +388,7 @@ if ($('#RiesgosEspacioLaboral').length) {
     var RiesgosEspacioLaboral = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Espacio de trabajo cerrado', 'Sin ventilación'],
+            labels: ['Espacio de trabajo cerrado', 'Sin ventilaci\u00F3n'],
             datasets: [{
                 label: 'Riesgo Espacion Laboral',
                 data: [12, 19, 3],
@@ -442,9 +442,9 @@ if ($('#SintomasCOVID').length) {
     var SintomasCOVID = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Síntomas COVID', 'Otros'],
+            labels: ['S\u00EDntomas COVID', 'Otros'],
             datasets: [{
-                label: 'Sítomas Covid',
+                label: 'S\u00EDtomas Covid',
                 data: [12, 19, 3],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

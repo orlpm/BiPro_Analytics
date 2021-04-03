@@ -336,9 +336,19 @@ namespace BiPro_Analytics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Diabetes,Hipertension,Asma,SobrePeso,Obesidad,EnfermedadAutoinmune,EnfermedadCorazon,EPOC,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (ModelState.IsValid)
             {
-                factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+                if (currentUser.IsInRole("Trabajador"))
+                    factorRiesgo.Trabajador = _context.Trabajadores.Find(perfilData.IdTrabajador);
+                else
+                    factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+
                 factorRiesgo.FechaHoraRegistro = DateTime.Now;
 
                 _context.Add(factorRiesgo);
@@ -378,6 +388,12 @@ namespace BiPro_Analytics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Diabetes,Hipertension,Asma,SobrePeso,Obesidad,EnfermedadAutoinmune,EnfermedadCorazon,EPOC,Embarazo,Cancer,Tabaquismo,Alcoholismo,Drogas,NoPersonasCasa,TipoCasa,TipoTransporte,EspacioTrabajo,TipoVentilacion,ContactoLaboral,TiempoContacto,IdTrabajador")] FactorRiesgo factorRiesgo)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (id != factorRiesgo.Id)
             {
                 return NotFound();
@@ -387,7 +403,11 @@ namespace BiPro_Analytics.Controllers
             {
                 try
                 {
-                    factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+                    if (currentUser.IsInRole("Trabajador"))
+                        factorRiesgo.Trabajador = _context.Trabajadores.Find(perfilData.IdTrabajador);
+                    else
+                        factorRiesgo.Trabajador = _context.Trabajadores.Find(factorRiesgo.IdTrabajador);
+
                     factorRiesgo.FechaHoraRegistro = DateTime.Now;
                     _context.Update(factorRiesgo);
                     await _context.SaveChangesAsync();
@@ -524,7 +544,7 @@ namespace BiPro_Analytics.Controllers
             return riesgosLaborales;
 
         }
-        private async Task<IEnumerable<CondicionesConstantesRiesgoContagio>> CondicionesConstantesRiesgosContagios (int IdEmpresa)
+        private async Task<IEnumerable<CondicionesConstantesRiesgoContagio>> CondicionesConstantesRiesgosContagios(int IdEmpresa)
         {
             var CondicionesCRContagios = await _context.Trabajadores
                 .Where(t => t.IdEmpresa == IdEmpresa)
@@ -545,8 +565,34 @@ namespace BiPro_Analytics.Controllers
         }
         public async Task<IEnumerable<ComplicacionCasoContagioMayor55>> ComplicacionesCasosContagiosMayor55(int? IdEmpresa)
         {
-            var ComplicacionCasoContagioM55 = await _context.Trabajadores
-                .Where(t => t.IdEmpresa == IdEmpresa )
+            List<ComplicacionCasoContagioMayor55> ComplicacionCasoContagioM55;
+
+            if (IdEmpresa == null)
+            {
+                ComplicacionCasoContagioM55 = await _context.FactoresRiesgos
+                .Select(f => new ComplicacionCasoContagioMayor55
+                {
+                    Nombre = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Nombre).FirstOrDefault(),
+                    Edad = _context.Trabajadores.Where(x => x.IdTrabajador == f.IdTrabajador).Select(y => y.Edad).FirstOrDefault(),
+                    Diabetes = f.Diabetes ? "Si" : "No",
+                    Hipertension = f.Hipertension ? "Si" : "No",
+                    Asma = f.Asma ? "Si" : "No",
+                    Embarazo = f.Embarazo ? "Si" : "No",
+                    Sobrepeso = f.SobrePeso ? "Si" : "No",
+                    Obesidad = f.Obesidad ? "Si" : "No",
+                    EnfAutoinmune = f.EnfermedadAutoinmune ? "Si" : "No",
+                    EnfermedadCorazon = f.EnfermedadCorazon ? "Si" : "No",
+                    EPOC = f.EPOC ? "Si" : "No",
+                    Tabaquismo = f.Tabaquismo ? "Si" : "No",
+                    Alcoholismo = f.Alcoholismo ? "Si" : "No",
+                    Drogas = f.Drogas ? "Si" : "No"
+
+                }).ToListAsync();
+            }
+            else
+            {
+                ComplicacionCasoContagioM55 = await _context.Trabajadores
+                .Where(t => t.IdEmpresa == IdEmpresa)
                 .SelectMany(f => f.FactoresRiesgos)
                 .Select(f => new ComplicacionCasoContagioMayor55
                 {
@@ -566,8 +612,9 @@ namespace BiPro_Analytics.Controllers
                     Drogas = f.Drogas ? "Si" : "No"
 
                 }).ToListAsync();
+            }
 
-            return ComplicacionCasoContagioM55.Where(x=>x.Edad > 55);
+            return ComplicacionCasoContagioM55.Where(x => x.Edad > 55);
         }
     }
 }

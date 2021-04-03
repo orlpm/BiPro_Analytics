@@ -57,22 +57,22 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             public int id { get; set; }
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Correo Electrónico")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La {0} debe de ser al menos {2} y de máximo {1} caracteres de largo.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirma Contraseña")]
+            [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
             public string ConfirmPassword { get; set; }
 
             [DataType(DataType.Text)]
-            [Display(Name = "Ingresa codigo de empresa")]
+            [Display(Name = "(Opcional) Ingresa código de empresa")]
             public string CodigoEmpresa { get; set; }
 
         }
@@ -89,37 +89,38 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                if (Input.CodigoEmpresa != null) 
-                {
-                    var empresas = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
-                    if (empresas == null)
-                        return NotFound();
-                }
-
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var empresa = await _contex.Empresas.FirstAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
-
-                    UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa
+                    if (Input.CodigoEmpresa != null)
                     {
-                        IdUsuario = Guid.Parse(user.Id),
-                        IdEmpresa = empresa.IdEmpresa
-                    };
+                        var empresa = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+                        if (empresa != null)
+                        {
+                            UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa
+                            {
+                                IdUsuario = Guid.Parse(user.Id),
+                                IdEmpresa = empresa.IdEmpresa
+                            };
 
-                    IdentityUserRole<string> identityUserRole = new IdentityUserRole<string>
-                    {
-                        RoleId = "1a4a4a49-02e6-442b-8b59-16adefed5dc9",
-                        UserId = user.Id
-                    };
+                            _contex.UsuariosEmpresas.Add(usuarioEmpresa);
 
-                    _contex.UserRoles.Add(identityUserRole);
+                            IdentityUserRole<string> identityUserRole = new IdentityUserRole<string>
+                            {
+                                //Id del Rol trabajador
+                                RoleId = "1a4a4a49-02e6-442b-8b59-16adefed5dc9",
+                                UserId = user.Id
+                            };
 
-                    _contex.UsuariosEmpresas.Add(usuarioEmpresa);
-                    await _contex.SaveChangesAsync();
+                            _contex.UserRoles.Add(identityUserRole);
+
+                            await _contex.SaveChangesAsync();
+                        }
+                    }
+
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

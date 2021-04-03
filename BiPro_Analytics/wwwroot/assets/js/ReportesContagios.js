@@ -124,7 +124,7 @@ function CrearGrG7PositivosSospechososSemXArea() {
             options: {
                 title: {
                     display: true,
-                    text: 'Semanal De Positivos Y Sospechosos Por Área'
+                    text: 'Semanal De Positivos Y Sospechosos Por \u00C1rea'
                 },
                 scales: {
                     yAxes: [{
@@ -359,7 +359,7 @@ function CrearGrR13PositivosXArea() {
             options: {
                 title: {
                     display: true,
-                    text: 'Positivos Por Área'
+                    text: 'Positivos Por \u00C1rea'
                 },
                 scales: {
                     yAxes: [{
@@ -433,7 +433,7 @@ function CrearGrR14PositivosSospechososSemXArea() {
             options: {
                 title: {
                     display: true,
-                    text: 'Mensual De Positivos Y Sospechosos Por Área'
+                    text: 'Mensual De Positivos Y Sospechosos Por \u00C1rea'
                 },
                 scales: {
                     yAxes: [{
@@ -514,7 +514,7 @@ function CrearGrR15PositivosSospechososTotalXArea() {
             options: {
                 title: {
                     display: true,
-                    text: 'Acumulado Total De Positivos Y Sospechosos Por Área'
+                    text: 'Acumulado Total De Positivos Y Sospechosos Por \u00C1rea'
                 },
                 scales: {
                     yAxes: [{

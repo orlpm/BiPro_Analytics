@@ -7,9 +7,8 @@
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
 
-        <h1>Crear</h1>
+        <h1>Cuestionario de factores de riesgos</h1>
 
-        <h4>Factores de Riesgos</h4>
         <hr />
 
         <form asp-action="Create">
@@ -17,7 +16,7 @@
             <div class="row">
             </div>
             <div class="row">
-                <p><strong>¿Usted padece alguna de las siguientes enfermedades? Marque las casillas correspondientes</strong></p>
+                <p><strong>¿Tienes alguno de los factores de riesgo? Marque las casillas correspondientes</strong></p>
             </div>
             <div class="row">
                 <div class="col-md-3">
@@ -122,9 +121,42 @@
             </div>
 
             <div class="row">
-                <p><strong>A continuación ingresé la información correspondiente a cada campo.</strong></p>
+                <p><strong>¿Cuál es el tipo de casa con la cuentas?</strong></p>
             </div>
 
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="TipoCasa" class="control-label"></label>
+                        <select asp-for="TipoCasa">
+                            <option selected disabled>Seleccionar opción</option>
+                            <option value=1>1. Es mi casa y solo vive una familia, la mía.</option>
+                            <option value=2>2. Es casa de mis papás o algún otro familiar y vivimos ambas familias</option>
+                            <option value=3>3. En una misma casa, se ampliaron cuartos y pisos y viven más de 2 familias pero en casas separadas</option>
+                            <option value=4>4. En un mismo terreno se contruyeron multiples casas con distancias entre sí y vivimos varias familias todos familiares</option>
+                        </select>
+                        <span asp-validation-for="TipoCasa" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p><strong>En caso de haber respondido las opciones 3,4 o 5 de la pregunta anterior, por favor responde cuantas personas en total conviven en el mismo terreno o edificio, aunqeu sean de familias diferentes o no estén en mucho contacto..</strong></p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="NoPersonasTerreno" class="control-label"></label>
+                        <input asp-for="NoPersonasTerreno" class="form-control" />
+                        <span asp-validation-for="NoPersonasTerreno" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p><strong>¿Cuántas personas conviven en la misma casa? Aquí menciona a tu familia nuclear, con los vives dentro de la misma casa, incluyéndote a ti mismo.</strong></p>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -133,70 +165,94 @@
                         <span asp-validation-for="NoPersonasCasa" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="TipoCasa" class="control-label"></label>
-                        <select asp-for="TipoCasa">
-                            <option selected disabled>Seleccionar opción</option>
-                            <option>Familias Multiples</option>
-                            <option>Familia Unica</option>
-                        </select>
-                        <span asp-validation-for="TipoCasa" class="text-danger"></span>
-                    </div>
-                </div>
+            </div>
+
+            <div class="row">
+                <p><strong>¿Cómo te transportas al trabajo? </strong></p>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="TipoTransporte" class="control-label">Seleccione el tipo de transporte</label>
                         <select asp-for="TipoTransporte">
                             <option selected disabled>Seleccionar opción</option>
-                            <option>Publico</option>
-                            <option>Propio</option>
-                            <option>Taxi-Uber</option>
-                            <option>Autobus de trabajo</option>
-                            <option>Camina</option>
+                            <option>Vehiculo Propio</option>
+                            <option>Caminando</option>
+                            <option>Autobús</option>
+                            <option>Metro</option>
+                            <option>Taxi o Uber</option>
+                            <option>Autobus de Empresa</option>
+                            <option>Comparto automóvil con otro empleado</option>
+                            <option>Combi</option>
                         </select>
                         <span asp-validation-for="TipoTransporte" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            <div class="row">
 
+            <div class="row">
+                <p><strong>¿Qué características tiene el espacio dónde laboras en tu empresa? Describe el espacio físico del área de tu empresa, aunque estés haciendo home office.</strong></p>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="EspacioTrabajo" class="control-label">Tipo de espacio de trabajo</label>
                         <select asp-for="EspacioTrabajo">
                             <option selected disabled>Seleccionar opción</option>
                             <option>Espacio abierto</option>
-                            <option>Salon</option>
+                            <option>Salón amplio</option>
                             <option>Cuarto</option>
                         </select>
                         <span asp-validation-for="EspacioTrabajo" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="row">
+                <p><strong>¿Cuál es el tipo de ventilación que tienen en tu área de trabajo? </strong></p>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="TipoVentilacion" class="control-label"></label>
                         <select asp-for="TipoVentilacion">
                             <option selected disabled>Seleccionar opción</option>
-                            <option>Sin ventilación</option>
-                            <option>Ventilación con entrada</option>
-                            <option>Ventilación con entrada y salidad de aire</option>
+                            <option>No se cuentan con ventanas o las ventanas se mantienen cerradas y no tenemos extractor de aire o aire acondicionado</option>
+                            <option>No se cuentan con ventanas o las ventas se mantienen cerradas pero tenemos extractor de aire o aire acondicionado</option>
+                            <option>Se cuentan con ventanas y están abiertas</option>
+                            <option>Se cuentan con ventanas abiertas y además contamos con ventilador o extractor</option>
                         </select>
                         <span asp-validation-for="TipoVentilacion" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
 
+            <div class="row">
+                <p><strong></strong></p>
+            </div>
+
+            <div class="row">
+                <p><strong></strong></p>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="ContactoLaboral" class="control-label">Distancia con sus compañeros</label>
                         <select asp-for="ContactoLaboral">
                             <option selected disabled>Seleccionar opción</option>
-                            <option>Menor de 2mts</option>
-                            <option>Mayor a 2mts</option>
+                            <option>Mantengo contacto físico con otras personas</option>
+                            <option>Mantengo una distancia mayor de 1.5 metros</option>
+                            <option>Mantento una distancia menor de 1.5 metros</option>
                         </select>
                         <span asp-validation-for="ContactoLaboral" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="row">
+                <p><strong></strong></p>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -206,25 +262,32 @@
                         <span asp-validation-for="TiempoContacto" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="IdTrabajador" class="control-label">Trabajador del cuestionario</label>
-                        @if (ViewBag.Trabajadores != null)
-                        {
-                            <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
-                                <option selected disabled>Seleccionar opción</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <input asp-for="IdTrabajador" class="form-control" />
-                        }
-                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+            </div>
+
+            @if (!User.IsInRole("Trabajador"))
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="IdTrabajador" class="control-label">Trabajador del cuestionario</label>
+                            @if (ViewBag.Trabajadores != null)
+                            {
+                                <select asp-for="IdTrabajador" asp-items="@(new SelectList(@ViewBag.Trabajadores,"Id","Trabajador"))">
+                                    <option selected disabled>Seleccionar opción</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <input asp-for="IdTrabajador" class="form-control" />
+                            }
+                            <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                     </div>
                 </div>
-                <div class="col-md-4">
-                </div>
-            </div>
+            }
+
             <div class="row">
                 <div class="col-md-4">
                 </div>

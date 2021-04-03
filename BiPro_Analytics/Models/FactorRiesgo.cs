@@ -56,6 +56,10 @@ namespace BiPro_Analytics.Models
         public int NoPersonasCasa{ get; set; }
 
         [Required]
+        [DisplayName("No. Personas en Terreno o edificio")]
+        public int NoPersonasTerreno { get; set; }
+
+        [Required]
         [DisplayName("Tipo de casa")]
         [MaxLength(20)]
         public string TipoCasa{ get; set; }
@@ -67,12 +71,12 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DisplayName("Espacio de trabajo")]
-        [MaxLength(20)]
+        [MaxLength(120)]
         public string EspacioTrabajo { get; set; }
 
         [Required]
         [DisplayName("Ventilación trabajo")]
-        [MaxLength(40)]
+        [MaxLength(120)]
         public string TipoVentilacion { get; set; }
 
         [Required]

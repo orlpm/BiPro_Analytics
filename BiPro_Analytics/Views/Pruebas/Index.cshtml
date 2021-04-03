@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<BiPro_Analytics.Models.Prueba>
+@using BiPro_Analytics.UnParo
+@using BiPro_Analytics.Models.Files
+@inject Util util
+
 
 @{
     ViewData["Title"] = "Index";
@@ -28,18 +32,17 @@
                         @Html.DisplayNameFor(model => model.DiagnosticoCovid)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.SintomasCovid)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.RadiografiaTorax)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Tomografia)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.IdTrabajador)
                     </th>
-                    <th></th>
+                    <th>
+
+                    </th>
+                    <th>
+                        Subir Archivos
+                    </th>
+                    <th>
+                        Descargar Archivos
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -59,21 +62,38 @@
                             @Html.DisplayFor(modelItem => item.DiagnosticoCovid)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.SintomasCovid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RadiografiaTorax)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Tomografia)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.IdTrabajador)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                             <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                             <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                            <a asp-action="AdministrarArchivos" asp-route-id="@item.Id">Administrar Archivos</a>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <form method="post" enctype="multipart/form-data" asp-controller="Pruebas" asp-action="SubirArchivos" asp-route-id="@item.Id">
+                                    <div class="form-group">
+                                        <label> Select File </label>
+                                        <input class="form-control" name="files" multiple="multiple" type="file" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="btn btn-success" type="submit" value="Submit" />
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                        <td>
+                            @{
+                                IEnumerable<Archivos> archivos = new List<Archivos>();
+
+                                archivos = await util.GetArchivosAsync(item.Id);
+                                foreach (var i in archivos)
+                                {
+                                    <a href="@i.Url">@i.NombreArchivo</a>
+                                }
+                            }
+
                         </td>
                     </tr>
                 }

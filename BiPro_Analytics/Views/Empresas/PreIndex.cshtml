@@ -10,6 +10,19 @@
             <h2>Empresas dentro de Bipro Analytics</h2>
         </div>
 
+
+        @if (!User.IsInRole("AdminEmpresa"))
+        {
+            @if (ViewBag.EmpresaCreada == 1)
+            {
+                <div class="alert alert-warning" role="alert">Ya cuenta con con datos de empresa creados.</div>
+            }
+            else if (ViewBag.EmpresaCreada == 1)
+            {
+                <div class="alert alert-info" role="alert">Bien ya tienes tus datos de empresa creados</div>
+            }
+        }
+
         <div class="row text-center">
             <div class="col">
                 <form asp-action="Index" method="get">
@@ -28,6 +41,6 @@
                 <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
             </div>
         </div>
-        
+
     </div>
 </section>

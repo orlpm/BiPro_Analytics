@@ -74,7 +74,7 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayName("Ingreso")]
+        [DisplayName("Fecha de Ingreso")]
         public DateTime? FechaIngreso { get; set; }
 
         [DataType(DataType.Date)]
@@ -84,7 +84,7 @@ namespace BiPro_Analytics.Models
         [DisplayName("Unidad")]
         public string NombreUnidad { get; set; }
 
-        [DisplayName("Area")]
+        [DisplayName("Área")]
         public string NombreArea { get; set; }
 
         public ICollection<FactorRiesgo> FactoresRiesgos { get; set; }
@@ -98,7 +98,7 @@ namespace BiPro_Analytics.Models
         public Empresa Empresa { get; set; }
 
         //[Display(AutoGenerateField = false)]
-        [DisplayName("Area")]
+        [DisplayName("Nombre de Empresa")]
         public string NombreEmpresa { get; set; }
 
         public int? IdUnidad { get; set; }

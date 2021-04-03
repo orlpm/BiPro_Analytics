@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +11,26 @@ using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
 using BiPro_Analytics.UnParo;
+using Microsoft.AspNetCore.Hosting;
+using BiPro_Analytics.Models.Files;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace BiPro_Analytics.Controllers
 {
     public class PruebasController : Controller
     {
         private readonly BiproAnalyticsDBContext _context;
+        private readonly IWebHostEnvironment _enviroment;
+        private readonly IConfiguration _configuration;
 
-        public PruebasController(BiproAnalyticsDBContext context)
+        public PruebasController(BiproAnalyticsDBContext context, IWebHostEnvironment env, IConfiguration configuration)
         {
             _context = context;
+            _enviroment = env;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> PreIndex()
@@ -282,6 +293,69 @@ namespace BiPro_Analytics.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> AdministrarArchivos(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prueba = await _context.Pruebas.FindAsync(id);
+            if (prueba == null)
+            {
+                return NotFound();
+            }
+
+            return View(prueba);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubirArchivos( IFormFile files, int? id )
+        {
+            TempData["Message"] = "Archivo arriba";
+            
+
+            string blobstorageconnection = _configuration.GetValue<string>("blobstorage");
+
+            byte[] dataFiles;
+
+            // Create a BlobServiceClient object which will be used to create a container client
+            BlobServiceClient blobServiceClient = new BlobServiceClient(blobstorageconnection);
+            // Retrieve a reference to a container.
+            BlobContainerClient containerClient =  blobServiceClient.GetBlobContainerClient("biprocovid19");
+
+            // Create the blob client.
+            BlobClient cloudBlobClient = containerClient.GetBlobClient(files.FileName);
+
+            try
+            {
+                await using (var target = new MemoryStream())
+                {
+                    files.CopyTo(target);
+                    dataFiles = target.ToArray();
+                    target.Position = 0;
+                    await cloudBlobClient.UploadAsync(target, true);
+                }
+
+                Archivos archivos = new Archivos
+                {
+                    NombreArchivo = files.FileName,
+                    Url = cloudBlobClient.Uri.AbsoluteUri,
+                    IdPrueba = (int)id
+                };
+
+                await _context.Archivos.AddAsync(archivos);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         private bool PruebaExists(int id)
         {

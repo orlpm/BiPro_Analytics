@@ -31,6 +31,7 @@ namespace BiPro_Analytics.Data
         public virtual DbSet<Unidad> Unidades { get; set; }
         public virtual DbSet<UsuarioEmpresa> UsuariosEmpresas { get; set; }
         public virtual DbSet<UbicacionActual> Ubicacion { get; set; }
+        public virtual DbSet<Archivos> Archivos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -232,9 +232,19 @@ namespace BiPro_Analytics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ContactoCovidCasa,ContactoCovidTrabajo,ContactoCovidFuera,ViajesMultitudes,TosRecurrente,Tos,DificultadRespirar,TempMayor38,Resfriado,Escalofrios,DolorMuscular,NauseaVomito,Diarrea,Olfatometria,IdTrabajador")] RiesgoContagio riesgoContagio)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (ModelState.IsValid)
             {
-                riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+                if (currentUser.IsInRole("Trabajador"))
+                    riesgoContagio.Trabajador = _context.Trabajadores.Find(perfilData.IdTrabajador);
+                else
+                    riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+
                 riesgoContagio.FechaHoraRegistro = DateTime.Now;
 
                 _context.Add(riesgoContagio);
@@ -274,6 +284,12 @@ namespace BiPro_Analytics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ContactoCovidCasa,ContactoCovidTrabajo,ContactoCovidFuera,ViajesMultitudes,TosRecurrente,Tos,DificultadRespirar,TempMayor38,Resfriado,Escalofrios,DolorMuscular,NauseaVomito,Diarrea,Olfatometria,IdTrabajador")] RiesgoContagio riesgoContagio)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (id != riesgoContagio.Id)
             {
                 return NotFound();
@@ -283,7 +299,11 @@ namespace BiPro_Analytics.Controllers
             {
                 try
                 {
-                    riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+                    if (currentUser.IsInRole("Trabajador"))
+                        riesgoContagio.Trabajador = _context.Trabajadores.Find(perfilData.IdTrabajador);
+                    else
+                        riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+
                     riesgoContagio.FechaHoraRegistro = DateTime.Now;
 
                     _context.Update(riesgoContagio);

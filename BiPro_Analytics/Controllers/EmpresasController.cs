@@ -9,6 +9,8 @@ using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using System.Security.Claims;
 using BiPro_Analytics.Responses;
+using BiPro_Analytics.UnParo;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -87,8 +89,26 @@ namespace BiPro_Analytics.Controllers
         }
 
         // GET: Empresas/Create
-        public IActionResult Create()
+        [Authorize(Roles = "Admin,AdminEmpresa")]
+        public async Task<IActionResult> Create()
         {
+            ClaimsPrincipal currentUser = this.User;
+            
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                if (perfilData.IdEmpresa == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    ViewBag.EmpresaCreada = 1;
+                }
+            }
             return View();
         }
 
@@ -97,8 +117,15 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Giro,SubGiro,Seccion,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
+        [Authorize(Roles = "Admin,AdminEmpresa")]
+        public async Task<IActionResult> Create([Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantidadEmpleados,SueldoMinimo,SueldoMaximo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             if (ModelState.IsValid)
             {
                 Random rdn = new Random();
@@ -117,8 +144,26 @@ namespace BiPro_Analytics.Controllers
                 empresa.CodigoEmpresa = codigoAleatorio;
 
 
-                _context.Add(empresa);
-                await _context.SaveChangesAsync();
+                if (currentUser.IsInRole("AdminEmpresa"))
+                {
+                    if (perfilData.IdEmpresa == null)
+                    {
+                        _context.Add(empresa);
+                        await _context.SaveChangesAsync();
+                        ViewBag.EmpresaCreada = 2;
+                    }
+                    else
+                    {
+                        return Forbid("Ya se registró datos de empresa");
+                    }
+                }
+                else
+                {
+                    _context.Add(empresa);
+                    await _context.SaveChangesAsync();
+                }
+
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(empresa);
@@ -145,7 +190,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Giro,SubGiro,Seccion,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantEmpleados,MinSueldo,MaxSueldo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEmpresa,Nombre,RazonSocial,RFC,Aministrador,Puesto,Telefono,Correo,Calle,NumeroExt,NumeroInt,Ciudad,Estado,CP,CantidadEmpleados,SueldoMinimo,SueldoMaximo,FechaRegistro,HorasLaborales,DiasLaborales,CodigoEmpresa")] Empresa empresa)
         {
             if (id != empresa.IdEmpresa)
             {

@@ -75,13 +75,13 @@ namespace BiPro_Analytics.Controllers
             List<Trabajador> edadesMujeres;
             List<Trabajador> edadesHombres;
 
-            if(idEmpresa == null)
+            if (idEmpresa == null)
             {
                 edadesMujeres = _context.Trabajadores
-                .Where(r => r.Genero == "Femenino" ).ToList();
+                .Where(r => r.Genero == "Femenino").ToList();
 
                 edadesHombres = _context.Trabajadores
-                    .Where(r => r.Genero == "Masculino" ).ToList();
+                    .Where(r => r.Genero == "Masculino").ToList();
             }
             else
             {
@@ -134,9 +134,9 @@ namespace BiPro_Analytics.Controllers
 
             if (idEmpresa == null)
             {
-                factorRiesgosM = _context.Trabajadores.Where(t => t.Genero == "Femenino" )
+                factorRiesgosM = _context.Trabajadores.Where(t => t.Genero == "Femenino")
                     .SelectMany(f => f.FactoresRiesgos).ToList();
-                factorRiesgosH = _context.Trabajadores.Where(t => t.Genero == "Masculino" )
+                factorRiesgosH = _context.Trabajadores.Where(t => t.Genero == "Masculino")
                     .SelectMany(f => f.FactoresRiesgos).ToList();
             }
             else
@@ -201,10 +201,22 @@ namespace BiPro_Analytics.Controllers
         {
             List<PieData> pieDatas = new List<PieData>();
             PieData pieData = new PieData();
+            int mayor3;
+            int multiplesFamilias;
+            int transportePublico;
 
-            var mayor3 = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.NoPersonasCasa > 3).Count();
-            var multiplesFamilias = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoCasa == "Familias Multiples").Count();
-            var transportePublico = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoTransporte == "Publico").Count();
+            if (idEmpresa == null)
+            {
+                mayor3 = _context.FactoresRiesgos.Where(f => f.NoPersonasCasa > 3).Count();
+                multiplesFamilias = _context.FactoresRiesgos.Where(f => f.TipoCasa == "Familias Multiples").Count();
+                transportePublico = _context.FactoresRiesgos.Where(f => f.TipoTransporte == "Publico").Count();
+            }
+            else
+            {
+                mayor3 = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.NoPersonasCasa > 3).Count();
+                multiplesFamilias = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoCasa == "Familias Multiples").Count();
+                transportePublico = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoTransporte == "Publico").Count();
+            }
 
             pieData.Counts = new int[]
             {
@@ -220,9 +232,19 @@ namespace BiPro_Analytics.Controllers
         {
             List<PieData> pieDatas = new List<PieData>();
             PieData pieData = new PieData();
+            int espacioTrabajo;
+            int tipoVentilacion;
 
-            var espacioTrabajo = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salon").Count();
-            var tipoVentilacion = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
+            if (idEmpresa == null)
+            {
+                espacioTrabajo = _context.FactoresRiesgos.Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salon").Count();
+                tipoVentilacion = _context.FactoresRiesgos.Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
+            }
+            else
+            {
+                espacioTrabajo = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salon").Count();
+                tipoVentilacion = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
+            }
 
             pieData.Counts = new int[]
             {
@@ -299,7 +321,7 @@ namespace BiPro_Analytics.Controllers
             PieData pieData = new PieData();
             int anosmia;
 
-            if (idEmpresa==null)
+            if (idEmpresa == null)
                 anosmia = _context.RiesgoContagios.Where(r => r.Olfatometria == "Anosmia").ToList().Count();
             else
                 anosmia = _context.Trabajadores
@@ -334,15 +356,25 @@ namespace BiPro_Analytics.Controllers
         public JsonResult EmpleadosLLenaronFactoresRiesgos(int? idEmpresa)
         {
             List<PieData> pieDatas = new List<PieData>();
+            List<FactorRiesgo> factorRiesgos;
+            int otros;
 
-            var CC = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(f => f.FactoresRiesgos);
-            var otros = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa)
-                .SelectMany(t => t.RiesgosContagios).Count() - CC.Count();
+            if (idEmpresa == null)
+            {
+                factorRiesgos = _context.FactoresRiesgos.ToList();
+                otros = _context.Trabajadores.Count() - factorRiesgos.Count();
+            }
+            else
+            {
+                factorRiesgos = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(f => f.FactoresRiesgos).ToList();
+                otros = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa)
+                    .SelectMany(t => t.FactoresRiesgos).Count() - factorRiesgos.Count();
+            }
 
             string[] lbls = new string[] { "LLenaron Encuesta", "Sin llenar" };
             int[] cnts = new int[]
             {
-                CC.Count(),
+                factorRiesgos.Count(),
                 otros
             };
 
@@ -356,8 +388,13 @@ namespace BiPro_Analytics.Controllers
         }
         public JsonResult EmpleadosCondicionesConstantes(int? idEmpresa)
         {
-            var factorRiesgos = _context.Trabajadores.Where(t => (idEmpresa == null || t.IdEmpresa == idEmpresa))
-                .SelectMany(f => f.FactoresRiesgos).ToList();
+            List<FactorRiesgo> factorRiesgos;
+
+            if (idEmpresa == null)
+                factorRiesgos = _context.FactoresRiesgos.ToList();
+            else
+                factorRiesgos = _context.Trabajadores.Where(t => (idEmpresa == null || t.IdEmpresa == idEmpresa))
+                    .SelectMany(f => f.FactoresRiesgos).ToList();
 
             string[] lbls = new string[]
             {

@@ -105,5 +105,12 @@ namespace BiPro_Analytics.UnParo
 
             return perfilData;
         }
+
+        public async Task<IEnumerable<Archivos>> GetArchivosAsync(int? id)
+        {
+            var archivos = await _context.Archivos.Where(a => a.IdPrueba == id).ToListAsync();
+            return archivos;
+        }
+
     }
 }

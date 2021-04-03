@@ -17,18 +17,21 @@
         </li>
 
         @*<li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li>
-            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>*@
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>*@
     }
     else
     {
         <li>
-            <a asp-area="Identity" asp-page="/Account/Register">Registrate</a>
+            <a asp-area="Identity" asp-page="/Account/RegistroEmpresa">Registro Empresas</a>
+        </li>
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Register">Registro Trabajadores</a>
         </li>
         <li>
             <a asp-area="Identity" asp-page="/Account/Login">Iniciar Sesión</a>

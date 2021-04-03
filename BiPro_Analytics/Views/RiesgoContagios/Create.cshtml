@@ -14,7 +14,7 @@
 
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <p><strong>En caso de contacto con personas contagiadas de covid y/o de haber viajado marque la casilla corespondiente:</strong></p>
+            <p><strong>¿En las útimas 3 semanas (21 días) has estado en contacto directo con alguna persona contagiada de COVID-19? Seleccione la/las casilla correspondiente</strong></p>
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group form-check">
@@ -37,6 +37,9 @@
                         </label>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-3">
                     <div class="form-group form-check">
                         <label class="form-check-label">

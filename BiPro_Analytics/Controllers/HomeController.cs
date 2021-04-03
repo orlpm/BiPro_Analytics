@@ -9,24 +9,44 @@ using BiPro_Analytics.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using BiPro_Analytics.UnParo;
+using BiPro_Analytics.Data;
 
 namespace BiPro_Analytics.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BiproAnalyticsDBContext _context;
 
         public IServiceProvider _serviceProvider { get; }
 
-        public HomeController(ILogger<HomeController> logger, IServiceProvider serviceProvider)
+        public HomeController(ILogger<HomeController> logger, IServiceProvider serviceProvider, BiproAnalyticsDBContext context)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
             await CreateRolesAsync(_serviceProvider);
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                if (perfilData.IdEmpresa == null)
+                {
+                    return RedirectToAction("Create", "Empresas");
+                }
+            }
+
             return View();
         }
 
@@ -57,7 +77,6 @@ namespace BiPro_Analytics.Controllers
                     await roleManager.CreateAsync(new IdentityRole(item));
                 }
             }
-
             //Guid userId = new Guid();
             //var user = await userManager.FindByIdAsync(userId.ToString());
             //await userManager.AddToRoleAsync(user, "Admin");

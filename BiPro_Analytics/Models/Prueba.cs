@@ -28,29 +28,22 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DisplayName("Diagnostico Covid")]
-        [MaxLength(20)]
+        [MaxLength(200)]
         public string DiagnosticoCovid { get; set; }
 
-        [Required]
-        [DisplayName("Sintomas Covid")]
-        public bool SintomasCovid { get; set; }
-
-        [Required]
-        [DisplayName("Radiografía de Torax")]
-        public bool RadiografiaTorax { get; set; }
-
-        [Required]
-        [DisplayName("Tomografía")]
-        public bool Tomografia { get; set; }
 
         public DateTime FechaHoraRegistro { get; set; }
+
+        public string linkArchivo { get; set; }
 
         [Required]
         public int? IdTrabajador { get; set; }
 
         public Trabajador Trabajador { get; set; }
 
-        [Required]
-        public int UbicacionId { get; set; }
+        //[Required]
+        //public int UbicacionId { get; set; }
+
+        public List<Prueba> Pruebas { get; set; }
     }
 }
