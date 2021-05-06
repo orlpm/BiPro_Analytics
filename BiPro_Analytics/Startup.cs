@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BiPro_Analytics.Services;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics
 {
@@ -30,19 +33,36 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-            //Configuration.GetConnectionString("BiProConnection")));
-            Configuration.GetConnectionString("BiProLocal")));
+            Configuration.GetConnectionString("BiProGearhost")));
+            //Configuration.GetConnectionString("BiProLocal")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password.RequiredLength = 8;
+                options.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<BiproAnalyticsDBContext>();
+                .AddEntityFrameworkStores<BiproAnalyticsDBContext>()
+                .AddErrorDescriber<MyErrorDescriber>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration) ;
 
             services.Configure<IISServerOptions>(options =>
             {
-                options.MaxRequestBodySize = 483647;
+                options.MaxRequestBodySize = 10485760;
             });
             
             services.AddControllersWithViews();
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddSession(opions =>
+            {
+                opions.IdleTimeout = TimeSpan.FromSeconds(1800);
+            });
             
             services.AddRazorPages();
 
@@ -50,6 +70,7 @@ namespace BiPro_Analytics
             {
                 options.Filters.Add(new AuthorizeFilter());
             });
+            services.AddTransient<Util>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +95,8 @@ namespace BiPro_Analytics
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -6,10 +6,10 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
+<section id="registro" class="d-flex align-items-cente min-vh-100 grayTransparent" >
+    <div class="col-md-4" id="tableTransparent">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+            <h4>Crear nueva cuenta.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -32,10 +32,10 @@
                 <input asp-for="Input.CodigoEmpresa" class="form-control" />
                 <span asp-validation-for="Input.CodigoEmpresa" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>
-</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

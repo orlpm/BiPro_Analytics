@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using BiPro_Analytics.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BiPro_Analytics.Areas.Identity.Pages.Account
 {
@@ -56,23 +57,22 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
             public int id { get; set; }
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Correo Electrónico")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La {0} debe de ser al menos {2} y de máximo {1} caracteres de largo.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirma Contraseña")]
+            [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Ingresa codigo de empresa")]
+            [Display(Name = "(Opcional) Ingresa código de empresa")]
             public string CodigoEmpresa { get; set; }
 
         }
@@ -87,27 +87,41 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("/Home/Index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
-                var empresas = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
-
-                if (empresas == null)
-                    return NotFound();
-
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    UsuarioTrabajador usuarioTrabajador = new UsuarioTrabajador
+                    if (Input.CodigoEmpresa != null)
                     {
-                        UserId = Guid.Parse(user.Id),
-                        CodigoEmpresa = Input.CodigoEmpresa
-                    };
+                        var empresa = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+                        
+                        if (empresa != null)
+                        {
+                            UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa
+                            {
+                                IdUsuario = Guid.Parse(user.Id),
+                                IdEmpresa = empresa.IdEmpresa
+                            };
 
-                    _contex.UsuariosTrabajadores.Add(usuarioTrabajador);
-                    await _contex.SaveChangesAsync();
+                            _contex.UsuariosEmpresas.Add(usuarioEmpresa);
+
+                            IdentityUserRole<string> identityUserRole = new IdentityUserRole<string>
+                            {
+                                //Id del Rol trabajador
+                                RoleId = "1a4a4a49-02e6-442b-8b59-16adefed5dc9",
+                                UserId = user.Id
+                            };
+
+                            _contex.UserRoles.Add(identityUserRole);
+
+                            await _contex.SaveChangesAsync();
+                        }
+                    }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -117,8 +131,9 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu correo",
+                        $"Nos da mucho gusto tenerte entre nosostros. El equipo de Mi Red Medica le da una cordial bienvenida.\n" +
+                        $"Por favor confirme su cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>haciendo click aquí</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

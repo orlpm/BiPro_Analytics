@@ -3,31 +3,44 @@
     ViewData["Title"] = "Empresas";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Empresas dentro de Bipro Analytics</h1>
-    
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Por empresa: <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                    <option selected disabled>Seleccionar opción</option>
-                </select>
-                <input type="submit" value="Buscar" class="btn btn-default" />
-                <a asp-action="Index">Regresar lista completa</a>
-            </p>
-            @*@if ()
-            {
-                <p>
-                    Por empresa: <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                        <option selected disabled>Seleccionar opción</option>
-                    </select>
-                    <input type="submit" value="Buscar" class="btn btn-default" /> |
-                    <a asp-action="Index">Regresar lista completa</a>
-                </p>
-            }*@
+<section id="empresas" class="d-flex  min-vh-100">
+    <div class="container">
 
+        <div class="section-title">
+            <h2>Empresas dentro de Bipro Analytics</h2>
         </div>
-    </form>
 
-</div>
 
+        @if (!User.IsInRole("AdminEmpresa"))
+        {
+            @if (ViewBag.EmpresaCreada == 1)
+            {
+                <div class="alert alert-warning" role="alert">Ya cuenta con con datos de empresa creados.</div>
+            }
+            else if (ViewBag.EmpresaCreada == 1)
+            {
+                <div class="alert alert-info" role="alert">Bien ya tienes tus datos de empresa creados</div>
+            }
+        }
+
+        <div class="row text-center">
+            <div class="col">
+                <form asp-action="Index" method="get">
+                    <div class="form-actions no-color">
+                        <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                            <option selected disabled>Seleccionar opción</option>
+                        </select>
+                        <input type="submit" value="Buscar" class="btn btn-secondary" />
+                    </div>
+                </form>
+            </div>
+            <div class="col text-center">
+                <a asp-action="Index" class="btn btn-secondary"> Regresar lista completa</a>
+            </div>
+            <div class="col text-center">
+                <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
+            </div>
+        </div>
+
+    </div>
+</section>

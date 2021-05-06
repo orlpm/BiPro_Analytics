@@ -1,0 +1,98 @@
+﻿@model IEnumerable<BiPro_Analytics.Models.Reincorporado>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+
+
+        <h1>Lista de Reincorporados</h1>
+
+        <p>
+            <a asp-action="Create">Crear Nuevo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr><th>
+                        @Html.DisplayNameFor(model => model.Trabajador)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaDiagnostico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaTerminoIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaRegresoTrabajo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiasIncapacidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EtudiosSecuelasPulmonares)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EtudiosSecuelasNoPulmonares)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FisicamenteCapacitado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MotivadoTrabajo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MedicoSeguimiento)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trabajador.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaDiagnostico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaTerminoIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaRegresoTrabajo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiasIncapacidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EtudiosSecuelasPulmonares)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EtudiosSecuelasNoPulmonares)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FisicamenteCapacitado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MotivadoTrabajo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MedicoSeguimiento)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</section>

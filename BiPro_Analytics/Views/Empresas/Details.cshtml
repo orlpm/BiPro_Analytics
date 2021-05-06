@@ -4,87 +4,152 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Empresa</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreEmpresa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GiroEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GiroEmpresa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubGiroEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubGiroEmpresa)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ciudad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ciudad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CP)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CP)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CantEmpleados)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CantEmpleados)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MinSueldo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MinSueldo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaxSueldo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaxSueldo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaIngreso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaIngreso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HorasLaborales)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HorasLaborales)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiasLaborales)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiasLaborales)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdEmpresa">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<section id="empresas" class="d-flex  min-vh-100">
+    <div class="container">
+        <h1>Detalles</h1>
+
+        <div>
+            <h4>Empresa</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.RazonSocial)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RazonSocial)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.RFC)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RFC)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Aministrador)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Aministrador)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Puesto)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Puesto)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Calle)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Calle)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.NumeroExt)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.NumeroExt)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.NumeroInt)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.NumeroInt)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Colonia)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Colonia)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Ciudad)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ciudad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Municipio)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Municipio)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Estado)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Estado)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CP)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CP)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CantidadEmpleados)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CantidadEmpleados)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SueldoMinimo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SueldoMinimo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SueldoMaximo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SueldoMaximo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaRegistro)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FechaRegistro)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.HorasLaborales)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.HorasLaborales)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DiasLaborales)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DiasLaborales)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CodigoEmpresa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CodigoEmpresa)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.IdEmpresa">Editar</a> |
+            <a asp-action="Index">Regresar</a>
+        </div>
+    </div>
+</section>

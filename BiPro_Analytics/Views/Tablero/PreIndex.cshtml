@@ -1,0 +1,26 @@
+﻿@model BiPro_Analytics.Models.Empresa
+@{
+    ViewData["Title"] = "PreIndex";
+}
+
+<section id="empresas" class="d-flex  min-vh-100">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Seleccione Empresa para ver gráficos</h2>
+        </div>
+
+        <div class="row text-center">
+            <div class="col">
+                <form asp-action="Charts" asp-route-id="" method="get">
+                    <div class="form-actions no-color">
+                        <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                            <option selected disabled>Seleccionar opción</option>
+                        </select>
+                        <input type="submit" value="Buscar" class="btn btn-secondary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

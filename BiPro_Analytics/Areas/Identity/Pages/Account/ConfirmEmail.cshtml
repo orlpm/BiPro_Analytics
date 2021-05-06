@@ -1,0 +1,26 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<section id="registro" class="d-flex align-items-cente min-vh-100 grayTransparent">
+
+    <title>Confirmación de correo</title>
+
+    <div class="col-md-4" id="tableTransparent">
+
+        <div class="row">
+            <h2>¡Gracias por confirmar tu correo!</h2>
+        </div>
+        <br />
+
+        <div class="row">
+            <p>Ahora el siguiente paso es iniciar sesión: </p>
+            <br />
+            <a asp-area="Identity" asp-page="/Account/Login"> Aquí</a>
+        </div>
+    </div>
+</section>
