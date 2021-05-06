@@ -238,3 +238,81 @@ function CrearGrGrR9NoLLenaronF4Mens() {
         });
     }
 }
+
+if ($('#pieSeguimientoSintomas').length) {
+
+    var ctx = document.getElementById("pieSeguimientoSintomas");
+    var data = {
+        datasets: [{
+            data: [],
+            backgroundColor: [
+                "#455C73",
+                "#9B59B6",
+                "#BDC3C7",
+                "#26B99A",
+                "#3498DB"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: []
+    };
+
+    var pieSeguimientoSintomas = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+}
+
+$.ajax({
+    type: 'GET', //post method
+    url: '/SeguimientosCovid/GetSintomasPie', //ajaxformexample url,
+    data: { idEmpresa: varIdEmpresa },
+    dataType: "json",
+    success: function (result, textStatus, jqXHR) {
+        pieSeguimientoSintomas.data.labels = result.labels;
+        pieSeguimientoSintomas.data.datasets[0].data = result.counts;
+        pieSeguimientoSintomas.update();
+    }
+});
+
+if ($('#SeguimientoUbicacionesPie').length) {
+
+    var ctx = document.getElementById("SeguimientoUbicacionesPie");
+    var data = {
+        datasets: [{
+            data: [],
+            backgroundColor: [
+                "#455C73",
+                "#9B59B6",
+                "#BDC3C7",
+                "#26B99A",
+                "#3498DB"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: []
+    };
+
+    var SeguimientoUbicacionesPie = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+}
+
+$.ajax({
+    type: 'GET', //post method
+    url: '/SeguimientosCovid/GetUbicacionesPie', //ajaxformexample url,
+    data: { idEmpresa: varIdEmpresa },
+    dataType: "json",
+    success: function (result, textStatus, jqXHR) {
+        SeguimientoUbicacionesPie.data.labels = result.labels;
+        SeguimientoUbicacionesPie.data.datasets[0].data = result.counts;
+        SeguimientoUbicacionesPie.update();
+    }
+});

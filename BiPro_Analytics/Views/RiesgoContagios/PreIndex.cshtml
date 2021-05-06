@@ -12,7 +12,7 @@
             <h2>Riesgos de contagio dentro de Bipro Analytics</h2>
         </div>
 
-        <a href="#graficos" class="btn btn-info active scrollto" role="button" aria-pressed="true">Graficos y estadisticas</a>
+        <a href="#graficos" class="btn btn-info active scrollto" role="button" aria-pressed="true">Gráficos y estadisticas</a>
 
         <hr />
 
@@ -37,27 +37,49 @@
         <hr />
 
         <div>
-            <h4 class="title">Buscar por Unidad y/o Area</h4>
+            <div class="row">
+                @if (ViewBag.Unidades != null)
+                {
+                    <div class="col-md-3"><h4 class="title"> Buscar por Unidad</h4></div>
+                }
+                @if (ViewBag.Areas != null)
+                {
+                    <div class="col-md-3"><h4 class="title"> Buscar por Área</h4></div>
+                }
+            </div>
+
             <form asp-action="Index" method="get">
                 <div class="form-actions no-color">
                     <div class="form-row">
-                        <div class="col-md-3 form-group">
-                            <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
-                                <option selected disabled>Seleccionar unidad</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
-                                <option selected disabled>Seleccionar Area</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <input type="submit" value="Buscar" class="btn btn-secondary" />
-                        </div>
+                        @if (ViewBag.Unidades != null)
+                        {
+                            <div class="col-md-3 form-group">
+                                <select title="Unidad" name="IdUnidad" asp-items="@(new SelectList(@ViewBag.Unidades,"Id","Unidad"))">
+                                    <option selected disabled>Seleccionar unidad</option>
+                                </select>
+                            </div>
+                        }
+
+                        @if (ViewBag.Areas != null)
+                        {
+                            <div class="col-md-3 form-group">
+                                <select name="IdArea" asp-items="@(new SelectList(@ViewBag.Areas,"Id","Area"))">
+                                    <option selected disabled>Seleccionar Area</option>
+                                </select>
+                            </div>
+                        }
+
+                        @if (ViewBag.Unidades != null || ViewBag.Areas != null)
+                        {
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        }
                     </div>
                 </div>
             </form>
         </div>
+
         <div class="row">
             <div class="col-md-4 form-group">
                 <a class="btn btn-secondary" asp-action="Index">Regresar lista completa</a>
@@ -82,12 +104,21 @@
                     <div class="form-actions no-color">
                         <div class="form-row">
                             <div class="col-md-3 form-group">
-                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                    <option selected disabled>Seleccionar Empresa</option>
-                                </select>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa", @ViewBag.Empresas[0].Id))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
                             </div>
                             <div class="col-md-3 form-group">
-                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                                <input type="submit" value="Descargar" class="btn btn-secondary" />
                             </div>
                         </div>
                     </div>
@@ -107,12 +138,21 @@
                 <div class="form-actions no-color">
                     <div class="form-row">
                         <div class="col-md-3 form-group">
-                            <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                <option selected disabled>Seleccionar Empresa</option>
-                            </select>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa", @ViewBag.Empresas[0].Id))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            }
                         </div>
                         <div class="col-md-3 form-group">
-                            <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            <input type="submit" value="Descargar" class="btn btn-secondary" />
                         </div>
                     </div>
                 </div>
@@ -135,12 +175,21 @@
                     <div class="form-actions no-color">
                         <div class="form-row">
                             <div class="col-md-3 form-group">
-                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                    <option selected disabled>Seleccionar Empresa</option>
-                                </select>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa", @ViewBag.Empresas[0].Id))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
                             </div>
                             <div class="col-md-3 form-group">
-                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                                <input type="submit" value="Descargar" class="btn btn-secondary" />
                             </div>
                         </div>
                     </div>

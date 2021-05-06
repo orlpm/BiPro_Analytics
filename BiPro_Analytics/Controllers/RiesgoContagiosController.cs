@@ -42,6 +42,7 @@ namespace BiPro_Analytics.Controllers
                 {
                     return NotFound("Datos de empresa no encontrados");
                 }
+                ViewBag.IdEmpresa = perfilData.IdEmpresa;
             }
 
             return View();
@@ -59,7 +60,7 @@ namespace BiPro_Analytics.Controllers
                 builder.AppendLine($"{item.Nombre},{item.ContactoCovidCasa},{item.ContactoCovidTrabajo},{item.ContactoCovidFuera},{item.ViajesMultitudes}");
             }
 
-            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalContactoContagioCOVID19.csv");
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalContactoContagioCOVID19.csv");
         }
 
         public async Task<IActionResult> ExportPersonalSintomasCOVID19 (int IdTrabajador)
@@ -75,7 +76,7 @@ namespace BiPro_Analytics.Controllers
                 builder.AppendLine($"{item.Nombre},{item.TosRecurrente},{item.Tos},{item.DificultadRespirar},{item.TempMayor38},{item.Resfriado},{item.Escalofrios},{item.DolorMuscular},{item.NauseaVomito},{item.Diarrea}");
             }
 
-            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalSintomasCOVID19.csv");
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalSintomasCOVID19.csv");
         }
         public async Task<IActionResult> ExportaPersonalAnosmiaHiposmia(int IdTrabajador)
         {
@@ -90,7 +91,7 @@ namespace BiPro_Analytics.Controllers
                 builder.AppendLine($"{item.Nombre},{item.Anosmia}, {item.Hiposmia}");
             }
 
-            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "PersonalAnosmiaHiposmia.csv");
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalAnosmiaHiposmia.csv");
         }
         // GET: RiesgoContagios
         public async Task<IActionResult> Index(int? IdTrabajador, int? IdUnidad, int? IdArea)
@@ -115,24 +116,29 @@ namespace BiPro_Analytics.Controllers
             {
                 if (IdTrabajador != null)
                     return View(await _context.RiesgoContagios
-                        .Where(x => x.IdTrabajador == IdTrabajador).ToListAsync());
+                        .Where(x => x.IdTrabajador == IdTrabajador)
+                        .Include(x => x.Trabajador)
+                        .ToListAsync());
 
                 if (IdUnidad != null && IdArea == null)
                     return View(await _context.Trabajadores
                         .Where(t => t.IdUnidad == IdUnidad)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
 
                 if (IdUnidad == null && IdArea != null)
                     return View(await _context.Trabajadores
                         .Where(t => t.IdArea == IdArea)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
 
                 if (IdUnidad != null && IdArea != null)
                     return View(await _context.Trabajadores
                         .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
             }
             else if (currentUser.IsInRole("AdminEmpresa"))
@@ -142,6 +148,7 @@ namespace BiPro_Analytics.Controllers
                 {
                     return View(await _context.RiesgoContagios
                         .Where(x => x.IdTrabajador == IdTrabajador)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
                 }
                 else if (IdUnidad == null && IdArea == null)
@@ -151,7 +158,9 @@ namespace BiPro_Analytics.Controllers
 
                     riesgoContagios = await _context.Trabajadores
                         .Where(t => t.IdEmpresa == perfilData.IdEmpresa)
-                        .SelectMany(t => t.RiesgosContagios).ToListAsync();
+                        .SelectMany(t => t.RiesgosContagios)
+                        .Include(x => x.Trabajador)
+                        .ToListAsync();
 
                     return View(riesgoContagios);
 
@@ -161,6 +170,7 @@ namespace BiPro_Analytics.Controllers
                     return View(await _context.Trabajadores
                         .Where(t => t.IdUnidad == IdUnidad && t.IdArea == IdArea && t.IdEmpresa == perfilData.IdEmpresa)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
                 }
                 else if (IdUnidad != null && IdArea == null)
@@ -168,6 +178,7 @@ namespace BiPro_Analytics.Controllers
                     var riesgosTrabajadores = await _context.Trabajadores
                         .Where(t => t.IdUnidad == IdUnidad && t.IdEmpresa == perfilData.IdEmpresa)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync();
 
                     return View(riesgosTrabajadores);
@@ -177,13 +188,16 @@ namespace BiPro_Analytics.Controllers
                     return View(await _context.Trabajadores
                         .Where(a => a.IdArea == IdArea)
                         .SelectMany(r => r.RiesgosContagios)
+                        .Include(x => x.Trabajador)
                         .ToListAsync());
                 }
             }
             else
             {
                 var riesgoContagios = await _context.RiesgoContagios
-                    .Where(r => r.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                    .Where(r => r.IdTrabajador == perfilData.IdTrabajador)
+                    .Include(x => x.Trabajador)
+                    .ToListAsync();
 
                 if (riesgoContagios.Count == 0)
                     return NotFound();
@@ -191,7 +205,9 @@ namespace BiPro_Analytics.Controllers
                 return View(riesgoContagios);
             }
 
-            return View(await _context.RiesgoContagios.ToListAsync());
+            return View(await _context.RiesgoContagios
+                .Include(x => x.Trabajador)
+                .ToListAsync());
 
         }
 
@@ -204,6 +220,7 @@ namespace BiPro_Analytics.Controllers
             }
 
             var riesgoContagio = await _context.RiesgoContagios
+                .Include(x => x.Trabajador)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (riesgoContagio == null)
             {
@@ -241,9 +258,15 @@ namespace BiPro_Analytics.Controllers
             if (ModelState.IsValid)
             {
                 if (currentUser.IsInRole("Trabajador"))
+                {
                     riesgoContagio.Trabajador = _context.Trabajadores.Find(perfilData.IdTrabajador);
+                    riesgoContagio.IdTrabajador = perfilData.IdTrabajador;
+                }
                 else
+                {
                     riesgoContagio.Trabajador = _context.Trabajadores.Find(riesgoContagio.IdTrabajador);
+                    riesgoContagio.IdTrabajador = riesgoContagio.IdTrabajador;
+                }
 
                 riesgoContagio.FechaHoraRegistro = DateTime.Now;
 

@@ -1,87 +1,74 @@
 ﻿@model BiPro_Analytics.Models.ReporteContagio
 
 @{
-    ViewData["Title"] = "Borrar";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Borrar</h1>
 
-<h3>Estas seguro de borrar esto</h3>
-<div>
-    <h4>Reportes de Pruebas y Contagios</h4>
-    <hr />
-    <dl class="row">
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Semana)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Semana)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Anio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Anio)
-        </dd>*@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSemPCR)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSemPCR)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSemLG)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSemLG)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSemAntigeno)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSemAntigeno)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSemTAC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSemTAC)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSemNeumoniaNoConfirmadaCOVID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSemNeumoniaNoConfirmadaCOVID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositivosSospechososNeumoniaNoConfirmadaCOVID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositivosSospechososNeumoniaNoConfirmadaCOVID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SospechososDescartados)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SospechososDescartados)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEmpresa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpresa)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Borrar</h1>
+
+        <h3>Estas seguros de borrar esto</h3>
+        <div>
+            <h4>ReporteContagio</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.TipoPrueba)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TipoPrueba)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.NumeroPruebas)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.NumeroPruebas)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Positivos)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Positivos)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Negativos)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Negativos)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaInicio)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FechaInicio)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaFin)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FechaFin)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FechaRegistro)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FechaRegistro)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Empresa)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Empresa.Nombre)
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Borrar" class="btn btn-danger" /> |
+                <a asp-action="Index">Regresar a la lista</a>
+            </form>
+        </div>
+    </div>
+</section>

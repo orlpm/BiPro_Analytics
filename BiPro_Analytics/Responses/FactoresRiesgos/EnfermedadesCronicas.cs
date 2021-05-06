@@ -13,9 +13,10 @@ namespace BiPro_Analytics.Responses
         public string Asma { get; set; }
         public string Sobrepeso { get; set; }
         public string Obesidad { get; set; }
-        public string Embarazo { get; set; }
         public string EnfAutoinmune { get; set; }
-        public string EnfermedadCorazon { get; set; }        
+        public string EnfermedadCorazon { get; set; }
+        public string Cancer { get; set; }
         public string EPOC { get; set; }
+        public string Embarazo { get; set; }
     }
 }

@@ -87,6 +87,7 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("/Home/Index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
@@ -98,6 +99,7 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
                     if (Input.CodigoEmpresa != null)
                     {
                         var empresa = await _contex.Empresas.FirstOrDefaultAsync(e => e.CodigoEmpresa == Input.CodigoEmpresa);
+                        
                         if (empresa != null)
                         {
                             UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa
@@ -121,7 +123,6 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
                         }
                     }
 
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -130,8 +131,9 @@ namespace BiPro_Analytics.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu correo",
+                        $"Nos da mucho gusto tenerte entre nosostros. El equipo de Mi Red Medica le da una cordial bienvenida.\n" +
+                        $"Por favor confirme su cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>haciendo click aquí</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

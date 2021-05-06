@@ -188,7 +188,6 @@
 
 })(jQuery);
 
-
 if ($('#PiramidePoblacional').length) {
     var ctxPiramide = document.getElementById('PiramidePoblacional').getContext('2d');
 
@@ -227,6 +226,9 @@ if ($('#PiramidePoblacional').length) {
     });
 }
 
+
+var varIdEmpresa = document.getElementById("HdnIdEmpresa").value
+
 $.ajax({
     type: 'GET', //post method
     url: '/Tablero/PiramidePoblacional', //ajaxformexample url
@@ -247,7 +249,7 @@ if ($('#CondicionesRiesgoBar').length) {
     var CondicionesRiesgoBar = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Diabetes", "Obesidad", "Embarazo", "Cancer", "Tabaquismo", "Alcoholismo", "Drogas"],
+            labels: ["Diabetes", "Hipertensión", "Asma", "SobrePeso", "Obesidad", "Enf. Autoinmune", "Enf. Corazón", "Cancer", "Tabaquismo", "Consumo Alcohol", "Farmacos o Drogas", "Embarazo"],
             datasets: [{
                 label: 'Mujeres',
                 backgroundColor: "#26B99A",
@@ -270,8 +272,6 @@ if ($('#CondicionesRiesgoBar').length) {
         }
     });
 }
-
-var varIdEmpresa = document.getElementById("HdnIdEmpresa").value
 
 
 $.ajax({
@@ -335,9 +335,8 @@ if ($('#RiesgosExpocisionCasaTransporte').length) {
     var RiesgosExpocisionCasaTransporte = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['> 3 personas vivienda', 'Multiples Familias', 'Transporte Publico'],
+            labels: ['> 3 personas vivienda', 'Múltiples Familias', 'Transporte Público'],
             datasets: [{
-                label: 'Riesgo casa y transporte',
                 data: [12, 19, 3],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -390,8 +389,7 @@ if ($('#RiesgosEspacioLaboral').length) {
         data: {
             labels: ['Espacio de trabajo cerrado', 'Sin ventilaci\u00F3n'],
             datasets: [{
-                label: 'Riesgo Espacion Laboral',
-                data: [12, 19, 3],
+                data: [1, 1],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -432,7 +430,7 @@ $.ajax({
         //piramidePoblacional.data.labels = result.labels;
         RiesgosEspacioLaboral.data.datasets[0].data = result.counts;
 
-        RiesgosExpocisionCasaTransporte.update();
+        RiesgosEspacioLaboral.update();
     }
 });
 
@@ -445,7 +443,7 @@ if ($('#SintomasCOVID').length) {
             labels: ['S\u00EDntomas COVID', 'Otros'],
             datasets: [{
                 label: 'S\u00EDtomas Covid',
-                data: [12, 19, 3],
+                data: [],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -484,9 +482,9 @@ $.ajax({
     dataType: "json",
     success: function (result, textStatus, jqXHR) {
         //piramidePoblacional.data.labels = result.labels;
-        RiesgosEspacioLaboral.data.datasets[0].data = result.counts;
+        SintomasCOVID.data.datasets[0].data = result.counts;
 
-        RiesgosExpocisionCasaTransporte.update();
+        SintomasCOVID.update();
     }
 });
 

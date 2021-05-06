@@ -8,9 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using BiPro_Analytics.Responses;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
+    [Authorize(Roles = "Admin,AdminEmpresa")]
     public class UnidadesController : Controller
     {
         private readonly BiproAnalyticsDBContext _context;
@@ -23,6 +27,28 @@ namespace BiPro_Analytics.Controllers
         // GET: Unidades
         public async Task<IActionResult> Index()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
+
+            var empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+
+            if (empresa == null)
+                return NotFound("Empresa no encotrada");
+
+            ViewBag.SinUnidades = empresa.DescartarUnidades;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                if (perfilData.IdEmpresa == null)
+                    return NotFound("Usuario no asociado a ninguna empresa");
+
+                return View(await _context.Unidades.Where(u => u.IdEmpresa == perfilData.IdEmpresa).ToListAsync());
+            }
+
             return View(await _context.Unidades.ToListAsync());
         }
 
@@ -59,8 +85,29 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdEmpresa")] Unidad unidad)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,IdEmpresa")] Unidad unidad)
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            Empresa empresa;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+                unidad.IdEmpresa = (int)perfilData.IdEmpresa;
+            }
+            else
+            {
+                empresa = await _context.Empresas.FindAsync(unidad.IdEmpresa);
+            }
+
+            if (empresa == null)
+                return NotFound("Empresa no encontrada");
+
+            unidad.Empresa = empresa;
+
             if (ModelState.IsValid)
             {
                 _context.Add(unidad);
@@ -91,12 +138,33 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdEmpresa")] Unidad unidad)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,IdEmpresa")] Unidad unidad)
         {
             if (id != unidad.Id)
             {
                 return NotFound();
             }
+
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            Empresa empresa;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+                unidad.IdEmpresa = (int)perfilData.IdEmpresa;
+            }
+            else
+            {
+                empresa = await _context.Empresas.FindAsync(unidad.IdEmpresa);
+            }
+
+            if (empresa == null)
+                return NotFound("Empresa no encontrada");
+
+            unidad.Empresa = empresa;
 
             if (ModelState.IsValid)
             {
@@ -153,6 +221,25 @@ namespace BiPro_Analytics.Controllers
         private bool UnidadExists(int id)
         {
             return _context.Unidades.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> IndicarSinUnidades()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            var empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+
+            if (empresa.DescartarUnidades)
+                empresa.DescartarUnidades = false;
+            else
+                empresa.DescartarUnidades = true;
+
+            _context.Empresas.Update(empresa);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

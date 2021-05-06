@@ -40,17 +40,24 @@ namespace BiPro_Analytics.Models
         public string Calle { get; set; }
 
         [MaxLength(5)]
-        [DisplayName("Numero Ext")]
+        [DisplayName("Número Ext")]
         [Required]
         public string NumeroExt { get; set; }
 
         [MaxLength(4)]
-        [DisplayName("Numero Int")]
+        [DisplayName("Número Int")]
         public string NumeroInt { get; set; }
 
-        [MaxLength(40)]
-        [Required]
+        [MaxLength(100)]
+        public string Colonia { get; set; }
+
+        [MaxLength(50)]
+        [DisplayName("Ciudad")]
         public string Ciudad { get; set; }
+
+        [MaxLength(50)]
+        [DisplayName("Municipio o delegación")]
+        public string Municipio { get; set; }
 
         [MaxLength(30)]
         [Required]
@@ -70,9 +77,11 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [DisplayName("Teléfono")]
         public string Telefono { get; set; }
 
         [Required]
+        [MaxLength(60)]
         [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
 
@@ -114,6 +123,7 @@ namespace BiPro_Analytics.Models
         [DisplayName("Nombre de agente de seguros")]
         public string NombreAgenteSeguros{ get; set; }
 
+        [Range(0, 24, ErrorMessage = "Ingresar no mas de 24 hrs")]
         [DisplayName("Horas Laborales")]
         [Required]
         public int HorasLaborales { get; set; }
@@ -127,7 +137,12 @@ namespace BiPro_Analytics.Models
         public DateTime FechaRegistro { get; set; }
 
         [Display(AutoGenerateField = false)]
+
+        [DisplayName("Código empresa")]
         public string CodigoEmpresa { get; set; }
+        public bool DescartarUnidades { get; set; }
+        public bool DescartarAreas { get; set; }
+
         public ICollection<Trabajador> Trabajadores { get; set; }
         public ICollection<Unidad> Unidades { get; set; }
         public ICollection<Area> Areas { get; set; }

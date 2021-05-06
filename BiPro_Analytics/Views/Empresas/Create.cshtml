@@ -7,9 +7,8 @@
 <section id="empresas" class="d-flex  min-vh-100">
     <div id="grayTransparent" class="container">
 
-        <h1>Create</h1>
+        <h1>Ingrese datos de su empresa.</h1>
 
-        <h4>Empresa</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
@@ -34,6 +33,11 @@
                         <label asp-for="ActividadPrincipal" class="control-label"></label>
                         <input asp-for="ActividadPrincipal" class="form-control" />
                         <span asp-validation-for="ActividadPrincipal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sector" class="control-label"></label>
+                        <input asp-for="Sector" class="form-control" />
+                        <span asp-validation-for="Sector" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Aministrador" class="control-label"></label>
@@ -71,9 +75,19 @@
                         <span asp-validation-for="NumeroInt" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Colonia" class="control-label"></label>
+                        <input asp-for="Colonia" class="form-control" />
+                        <span asp-validation-for="Colonia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Ciudad" class="control-label"></label>
                         <input asp-for="Ciudad" class="form-control" />
                         <span asp-validation-for="Ciudad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Municipio" class="control-label"></label>
+                        <input asp-for="Municipio" class="form-control" />
+                        <span asp-validation-for="Municipio" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Estado" class="control-label"></label>
@@ -116,7 +130,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CP" class="control-label"></label>
-                        <input asp-for="CP" class="form-control" />
+                        <input type="number" min="0" asp-for="CP" class="form-control" />
                         <span asp-validation-for="CP" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -150,14 +164,44 @@
                         <span asp-validation-for="DiasLaborales" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FechaRegistro" class="control-label"></label>
-                        <input asp-for="FechaRegistro" class="form-control" />
-                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                        <label asp-for="NumeroSucursales" class="control-label"></label>
+                        <input asp-for="NumeroSucursales" class="form-control" />
+                        <span asp-validation-for="NumeroSucursales" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="CodigoEmpresa" class="control-label"></label>
-                        <input asp-for="CodigoEmpresa" class="form-control" />
-                        <span asp-validation-for="CodigoEmpresa" class="text-danger"></span>
+                        <label asp-for="Comedor" class="control-label"></label>
+                        <input asp-for="Comedor" class="form-control" />
+                        <span asp-validation-for="Comedor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TransporteTrabajadores" class="control-label"></label>
+                        <input asp-for="TransporteTrabajadores" class="form-control" />
+                        <span asp-validation-for="TransporteTrabajadores" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ServicioMedico" class="control-label"></label>
+                        <input asp-for="ServicioMedico" class="form-control" />
+                        <span asp-validation-for="ServicioMedico" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SGMM" class="control-label"></label>
+                        <input asp-for="SGMM" class="form-control" />
+                        <span asp-validation-for="SGMM" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TrabajadoresConSGMM" class="control-label"></label>
+                        <input asp-for="TrabajadoresConSGMM" class="form-control" />
+                        <span asp-validation-for="TrabajadoresConSGMM" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreAseguradora" class="control-label"></label>
+                        <input asp-for="NombreAseguradora" class="form-control" />
+                        <span asp-validation-for="NombreAseguradora" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NombreAgenteSeguros" class="control-label"></label>
+                        <input asp-for="NombreAgenteSeguros" class="form-control" />
+                        <span asp-validation-for="NombreAgenteSeguros" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Crear" class="btn btn-primary" />

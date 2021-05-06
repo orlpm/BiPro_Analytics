@@ -8,11 +8,14 @@
 <section id="empresas" class="d-flex  min-vh-100">
     <div class="container">
 
-        <h1>Lista de empresas</h1>
+        <h1>Información de empresa</h1>
 
-        <p>
-            <a asp-action="Create">Crear nuevo</a>
-        </p>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                <a asp-action="Create">Crear nuevo</a>
+            </p>
+        }
         <table id="tableTransparent" class="table">
             <thead>
                 <tr>
@@ -47,7 +50,13 @@
                         @Html.DisplayNameFor(model => model.NumeroInt)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Colonia)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Ciudad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Municipio)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Estado)
@@ -82,73 +91,83 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RazonSocial)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RFC)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Aministrador)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Puesto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Telefono)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Correo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Calle)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NumeroExt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NumeroInt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ciudad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Estado)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CP)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CantidadEmpleados)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SueldoMinimo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SueldoMaximo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaRegistro)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HorasLaborales)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiasLaborales)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CodigoEmpresa)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Editar</a> |
-                            <a asp-action="Details" asp-route-id="@item.IdEmpresa">Detalles</a> |
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RFC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Aministrador)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Puesto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Calle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroExt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroInt)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Colonia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ciudad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Municipio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadEmpleados)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SueldoMinimo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SueldoMaximo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HorasLaborales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiasLaborales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodigoEmpresa)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdEmpresa">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdEmpresa">Detalles</a> |
+
+                        @if (User.IsInRole("Admin"))
+                        {
                             <a asp-action="Delete" asp-route-id="@item.IdEmpresa">Borrar</a>
-                        </td>
-                    </tr>
+                        }
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BiPro_Analytics.Models
 {
@@ -8,53 +9,49 @@ namespace BiPro_Analytics.Models
     {
         public int Id { get; set; }
 
-        //public int Semana { get; set; }
-
-        //[DisplayName("Año")]
-        //[Required]
-        //public int Anio { get; set; }
+        [Required]
+        [DisplayName("Tipo de prueba")]
+        public string TipoPrueba { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [RegularExpression("(.*[0-9].*)|(.*[.].*[0-9].*)")]
+        [DisplayName("Número de pruebas")]
+        public int NumeroPruebas { get; set; }
+
+        [Required]
+        [DisplayName("Positivos")]
+        public int Positivos { get; set; }
+
+        [Required]
+        [DisplayName("Negativos")]
+        public int Negativos { get; set; }
+
+
+        [DisplayName("Fecha de inicio")]
+        public DateTime FechaInicio { get; set; }
+
+        [DisplayName("Fecha de fin")]
+        public DateTime FechaFin { get; set; }
+
+
         [DisplayName("Fecha de Registro")]
         public DateTime FechaRegistro { get; set; }
 
-        [Required]
-        [DisplayName("Positivos Semanales PCR")]
-        public int PositivosSemPCR { get; set; }
 
-        [Required]
-        [DisplayName("Positivos Semanales LG")]
-        public int PositivosSemLG { get; set; }
-
-        [Required]
-        [DisplayName("Positivos Semanales Antigeno")]
-        public int PositivosSemAntigeno { get; set; }
-
-        [Required]
-        [DisplayName("Positivos Semanales TAC")]
-        public int PositivosSemTAC { get; set; }
-
-        [Required]
-        [DisplayName("Positivos Semanales Neumonia No confirmada Covid")]
-        public int PositivosSemNeumoniaNoConfirmadaCOVID { get; set; }
-
-        [Required]
-        [DisplayName("Positivos Sospechosos Neumonia no confirmada Covid")]
-        public int PositivosSospechososNeumoniaNoConfirmadaCOVID { get; set; }
-
-        [Required]
-        [DisplayName("Sospechosos Descartados")]
-        public int SospechososDescartados { get; set; }
-
-        [Required]
-        [RegularExpression("(.*[1-9].*)|(.*[.].*[1-9].*)")]
-        public int IdEmpresa { get; set; }
+        [ForeignKey("Empresa")]
+        public int? IdEmpresa { get; set; }
         public Empresa Empresa { get; set; }
 
-        [Required]
+
         [RegularExpression("(.*[1-9].*)|(.*[.].*[1-9].*)")]
-        public int IdArea { get; set; }
+        [ForeignKey("Unidad")]
+        public int? IdUnidad { get; set; }
+        public Unidad Unidad{ get; set; }
+
+
+        [RegularExpression("(.*[1-9].*)|(.*[.].*[1-9].*)")]
+        [ForeignKey("Area")]
+        public int? IdArea { get; set; }
         public Area Area { get; set; }
     }
 }

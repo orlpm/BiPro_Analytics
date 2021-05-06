@@ -1,6 +1,7 @@
 ﻿using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
 using BiPro_Analytics.Responses;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,18 +25,19 @@ namespace BiPro_Analytics.UnParo
             PerfilData perfilData = new PerfilData();
 
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            UsuarioEmpresa usuarioEmpresa = usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
+
+            UsuarioEmpresa usuarioEmpresa = await _context.UsuariosEmpresas.FirstOrDefaultAsync(u => u.IdUsuario == Guid.Parse(currentUserId));
             UsuarioTrabajador usuarioTrabajador = await _context.UsuariosTrabajadores.FirstOrDefaultAsync(u => u.UserId == Guid.Parse(currentUserId));
 
             if (currentUser.IsInRole("Admin"))
             {
                 List<DDLUnidad> unidades = await _context.Unidades
-                    .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Name }).ToListAsync();
+                    .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Nombre }).ToListAsync();
                 if (unidades.Count > 0)
                     perfilData.DDLUnidades = unidades;
 
                 List<DDLArea> areas = await _context.Areas
-                    .Select(x => new DDLArea { Id = x.Id, Area = x.Name }).ToListAsync();
+                    .Select(x => new DDLArea { Id = x.Id, Area = x.Nombre }).ToListAsync();
                 if (areas.Count > 0)
                     perfilData.DDLAreas = areas;
 
@@ -69,12 +71,12 @@ namespace BiPro_Analytics.UnParo
                 if(usuarioEmpresa != null)
                 {
                     List<DDLUnidad> unidades = await _context.Unidades.Where(u => u.IdEmpresa == usuarioEmpresa.IdEmpresa)
-                        .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Name }).ToListAsync();
+                        .Select(x => new DDLUnidad { Id = x.Id, Unidad = x.Nombre }).ToListAsync();
                     if (unidades.Count > 0)
                         perfilData.DDLUnidades = unidades;
 
                     List<DDLArea> areas = await _context.Areas.Where(a => a.IdEmpresa == usuarioEmpresa.IdEmpresa)
-                        .Select(x => new DDLArea { Id = x.Id, Area = x.Name }).ToListAsync();
+                        .Select(x => new DDLArea { Id = x.Id, Area = x.Nombre }).ToListAsync();
                     if (areas.Count > 0)
                         perfilData.DDLAreas = areas;
 

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BiPro_Analytics.UnParo;
 using BiPro_Analytics.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -32,8 +33,7 @@ namespace BiPro_Analytics.Controllers
         public async Task<IActionResult> Index()
         {
             ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            
             Util util = new Util(_context);
             PerfilData perfilData = await util.DatosUserAsync(currentUser);
 
@@ -45,6 +45,52 @@ namespace BiPro_Analytics.Controllers
                 {
                     return RedirectToAction("Create", "Empresas");
                 }
+
+                var empresa = _context.Empresas.Find(perfilData.IdEmpresa);
+
+                if (!empresa.DescartarUnidades)
+                {
+                    if (perfilData.DDLUnidades == null)
+                    {
+                        return RedirectToAction("Index", "Unidades");
+                    }
+                }
+
+                if (!empresa.DescartarAreas)
+                {
+                    if (perfilData.DDLAreas == null)
+                    {
+                        return RedirectToAction("Index", "Areas");
+                    }
+                }
+
+            }
+            if (currentUser.IsInRole("Trabajador"))
+            {
+                if (perfilData.IdTrabajador == null)
+                {
+                    return RedirectToAction("Create", "Trabajadores");
+                }
+
+                var factoresRiesgo = await _context.FactoresRiesgos.Where(x => x.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                if (factoresRiesgo.Count > 0)
+                    ViewBag.FactoresRiesgo = true;
+
+                var riesgosContagio = await _context.RiesgoContagios.Where(x => x.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                if (riesgosContagio.Count > 0)
+                    ViewBag.RiesgosContagios = true;
+
+                var pruebasExternas = await _context.Pruebas.Where(x => x.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                if (pruebasExternas.Count > 0)
+                    ViewBag.PruebasExternas = true;
+
+                var seguimientoCovid = await _context.SeguimientosCovid.Where(x => x.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                if (seguimientoCovid.Count > 0)
+                    ViewBag.SeguimientoCovid = true;
+
+                var reincorporados = await _context.Reincorporados.Where(x => x.IdTrabajador == perfilData.IdTrabajador).ToListAsync();
+                if (reincorporados.Count > 0)
+                    ViewBag.Reincorporados = true;
             }
 
             return View();
@@ -80,6 +126,39 @@ namespace BiPro_Analytics.Controllers
             //Guid userId = new Guid();
             //var user = await userManager.FindByIdAsync(userId.ToString());
             //await userManager.AddToRoleAsync(user, "Admin");
+        }
+
+        public async Task<IActionResult> CheckRelAreasUnidades (string controller)
+        {
+            ClaimsPrincipal currentUser = this.User;
+            
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            if (perfilData.IdEmpresa == null)
+            {
+                return RedirectToAction("Create", "Empresas");
+            }
+
+            var empresa = _context.Empresas.Find(perfilData.IdEmpresa);
+
+            if (!empresa.DescartarUnidades)
+            {
+                if (perfilData.DDLUnidades == null)
+                {
+                    return RedirectToAction("Index", "Unidades");
+                }
+            }
+
+            if (!empresa.DescartarAreas)
+            {
+                if (perfilData.DDLAreas == null)
+                {
+                    return RedirectToAction("Index", "Areas");
+                }
+            }
+
+            return RedirectToAction("Index", controller);
         }
     }
 }

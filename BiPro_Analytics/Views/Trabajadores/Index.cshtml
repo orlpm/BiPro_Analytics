@@ -6,10 +6,10 @@
 
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
-        <h1>Index</h1>
+        <h1>Lista de trabajadores</h1>
 
         <p>
-            <a asp-action="Create">Crear nuevo</a>
+            <a asp-action="Create">Ingresar nuevo</a>
         </p>
         <table class="table">
             <thead>
@@ -21,8 +21,8 @@
                         @Html.DisplayNameFor(model => model.Genero)
                     </th>
                     @*<th>
-                        @Html.DisplayNameFor(model => model.Edad)
-                    </th>*@
+                            @Html.DisplayNameFor(model => model.Edad)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Telefono)
                     </th>
@@ -54,22 +54,13 @@
                         @Html.DisplayNameFor(model => model.FechaIngreso)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NombreUnidad)
+                        @Html.DisplayNameFor(model => model.Empresa)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NombreArea)
+                        @Html.DisplayNameFor(model => model.Unidad)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdEmpresa)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NombreEmpresa)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdUnidad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdArea)
+                        @Html.DisplayNameFor(model => model.Area)
                     </th>
                     <th></th>
                 </tr>
@@ -85,8 +76,8 @@
                             @Html.DisplayFor(modelItem => item.Genero)
                         </td>
                         @*<td>
-                            @Html.DisplayFor(modelItem => item.Edad)
-                        </td>*@
+                                @Html.DisplayFor(modelItem => item.Edad)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Telefono)
                         </td>
@@ -118,27 +109,18 @@
                             @Html.DisplayFor(modelItem => item.FechaIngreso)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NombreUnidad)
+                            @Html.DisplayFor(modelItem => item.Empresa.Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NombreArea)
+                            @Html.DisplayFor(modelItem => item.Unidad.Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdEmpresa)
+                            @Html.DisplayFor(modelItem => item.Area.Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NombreEmpresa)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdUnidad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdArea)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.IdTrabajador">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.IdTrabajador">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.IdTrabajador">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.IdTrabajador">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.IdTrabajador">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdTrabajador">Borrar</a>
                         </td>
                     </tr>
                 }

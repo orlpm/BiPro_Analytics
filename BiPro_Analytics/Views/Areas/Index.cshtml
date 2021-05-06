@@ -6,41 +6,82 @@
 
 <section id="adminRelaciones" class="d-flex  min-vh-100">
     <div class="container">
-        <h1>Index</h1>
+        <h1>Lista de áreas</h1>
 
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-        <table id="tableTransparent" class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdEmpresa)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        @if (ViewBag.Areas != null)
+        {
+            <div class="alert alert-success">
+                <strong>¡Vamos bien!</strong> Ya tienes áreas, puedes ingresar más.
+            </div>
+        }
+        else
+        {
+            if (!ViewBag.SinAreas)
+            {
+                <div class="alert alert-success">
+                    <strong>¡Vamos bien!</strong> Para tener un mayor margen estadístico ingresa las áreas de tu empresa.
+                </div>
+                <div class="alert alert-info">
+                    <strong>Nota!</strong> Puedes continuar sin especificar áreas
+                    <a class="btn btn-warning" asp-action="IndicarSinAreas">Continuar sin especificar</a>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    <strong>¡Ingresa áreas!</strong> Para tener un mayor margen estadistico ingresa las área de tu empresa.
+                </div>
+                <div class="alert alert-info">
+                    <strong>Nota!</strong> Puedes habilitar las áreas
+                    <a class="btn btn-info" asp-action="IndicarSinAreas">Habilitar áreas</a>
+                </div>
+            }
+        }
+
+        @if (!ViewBag.SinAreas)
+        {
+            <p>
+                <a asp-action="Create">Ingresar nueva área</a>
+            </p>
+            <table id="tableTransparent" class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdEmpresa)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdEmpresa)
+                            </th>
+                        }
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdEmpresa)
+                                </td>
+
+                            }
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
     </div>
 </section>

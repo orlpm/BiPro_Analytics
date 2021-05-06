@@ -52,20 +52,65 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EmpresaIdEmpresa")
+                    b.Property<int?>("IdEmpresa")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEmpresa")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaIdEmpresa");
+                    b.HasIndex("IdEmpresa");
 
                     b.ToTable("Areas");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Catalogs.DiagnosticoCovid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Diagnostico")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diagnosticos");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Catalogs.SintomaCovid", b =>
+                {
+                    b.Property<int>("IdSintoma")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Sintoma")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdSintoma");
+
+                    b.ToTable("SintomasCovid");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Catalogs.TipoPrueba", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TipoDePrueba")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TiposPruebas");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.Empresa", b =>
@@ -99,19 +144,29 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Ciudad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("CodigoEmpresa")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Colonia")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("Comedor")
                         .HasColumnType("bit");
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<bool>("DescartarAreas")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("DescartarUnidades")
+                        .HasColumnType("bit");
 
                     b.Property<int>("DiasLaborales")
                         .HasColumnType("int");
@@ -126,6 +181,10 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<int>("HorasLaborales")
                         .HasColumnType("int");
+
+                    b.Property<string>("Municipio")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -205,24 +264,21 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Alcoholismo")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("Asma")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Cancer")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ContactoLaboral")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<bool>("Diabetes")
+                    b.Property<bool>("ConsumoAlcohol")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Drogas")
+                    b.Property<string>("ContactoLaboral")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Diabetes")
                         .HasColumnType("bit");
 
                     b.Property<bool>("EPOC")
@@ -242,6 +298,9 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(120)")
                         .HasMaxLength(120);
 
+                    b.Property<bool>("FarmacosDrogas")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("FechaHoraRegistro")
                         .HasColumnType("datetime2");
 
@@ -249,7 +308,6 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("IdTrabajador")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("NoPersonasCasa")
@@ -279,20 +337,17 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("TipoTransporte")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("TipoVentilacion")
                         .IsRequired()
                         .HasColumnType("nvarchar(120)")
                         .HasMaxLength(120);
 
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdTrabajador");
 
                     b.ToTable("FactoresRiesgos");
                 });
@@ -311,7 +366,7 @@ namespace BiPro_Analytics.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdTrabajador")
+                    b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
                     b.Property<string>("MotivoIncapacidad")
@@ -324,12 +379,9 @@ namespace BiPro_Analytics.Migrations
                     b.Property<string>("TipoIncapacidad")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
-
                     b.HasKey("IdIncapacidad");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdTrabajador");
 
                     b.ToTable("Incapacidades");
                 });
@@ -343,8 +395,10 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("DiagnosticoCovid")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DiagnosticoCovidId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FechaDiagnostico")
                         .HasColumnType("datetime2");
@@ -352,8 +406,13 @@ namespace BiPro_Analytics.Migrations
                     b.Property<DateTime>("FechaHoraRegistro")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("IdArea")
+                        .HasColumnType("int");
+
                     b.Property<int?>("IdTrabajador")
-                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdUnidad")
                         .HasColumnType("int");
 
                     b.Property<string>("Lugar")
@@ -361,85 +420,125 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
-                    b.Property<int?>("PruebaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TipoPrueba")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(45)")
+                        .HasMaxLength(45);
 
-                    b.Property<int?>("TrabajadorIdTrabajador")
+                    b.Property<int?>("UbicacionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("linkArchivo")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PruebaId");
+                    b.HasIndex("DiagnosticoCovidId");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdArea");
+
+                    b.HasIndex("IdTrabajador");
+
+                    b.HasIndex("IdUnidad");
+
+                    b.HasIndex("UbicacionId");
 
                     b.ToTable("Pruebas");
                 });
 
-            modelBuilder.Entity("BiPro_Analytics.Models.Reincorporaciones", b =>
+            modelBuilder.Entity("BiPro_Analytics.Models.PruebaInterna", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Aislados15Dias")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaDiagnostico")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Aislados30Dias")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaHoraRegistro")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("DiasAcumuladosMenIncapacidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiasAcumuladosTot")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiasPerdidosIncapacidadSemAnt")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmpleadosIncapacidad")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EmpresaIdEmpresa")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdEmpresa")
+                    b.Property<int?>("IdArea")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReincorporanSemAnt")
+                    b.Property<int?>("IdUnidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("RelDiasTrabajoDiasIncapacidad")
+                    b.Property<string>("Lugar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("Resultado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("TipoPrueba")
+                        .HasColumnType("nvarchar(45)")
+                        .HasMaxLength(45);
+
+                    b.Property<int?>("UbicacionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RelTotalTrabajadoresTrabajadoresIncapacidad")
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdArea");
+
+                    b.HasIndex("IdTrabajador");
+
+                    b.HasIndex("IdUnidad");
+
+                    b.HasIndex("UbicacionId");
+
+                    b.ToTable("PruebasInternas");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Reincorporado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiasIncapacidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalReincorporados")
+                    b.Property<bool>("EtudiosSecuelasNoPulmonares")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EtudiosSecuelasPulmonares")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaDiagnostico")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaRegresoTrabajo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaTerminoIncapacidad")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("FisicamenteCapacitado")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
+                    b.Property<bool>("MedicoSeguimiento")
+                        .HasColumnType("bit");
 
-                    b.HasKey("id");
+                    b.Property<bool>("MotivadoTrabajo")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("EmpresaIdEmpresa");
+                    b.HasKey("Id");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdTrabajador");
 
-                    b.ToTable("Reincorporaciones");
+                    b.ToTable("Reincorporados");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.ReporteContagio", b =>
@@ -449,47 +548,44 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AreaId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmpresaIdEmpresa")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdArea")
+                    b.Property<int?>("IdArea")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEmpresa")
+                    b.Property<int?>("IdEmpresa")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositivosSemAntigeno")
+                    b.Property<int?>("IdUnidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositivosSemLG")
+                    b.Property<int>("Negativos")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositivosSemNeumoniaNoConfirmadaCOVID")
+                    b.Property<int>("NumeroPruebas")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositivosSemPCR")
+                    b.Property<int>("Positivos")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositivosSemTAC")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PositivosSospechososNeumoniaNoConfirmadaCOVID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SospechososDescartados")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoPrueba")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaId");
+                    b.HasIndex("IdArea");
 
-                    b.HasIndex("EmpresaIdEmpresa");
+                    b.HasIndex("IdEmpresa");
+
+                    b.HasIndex("IdUnidad");
 
                     b.ToTable("ReporteContagio");
                 });
@@ -526,7 +622,6 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("IdTrabajador")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("NauseaVomito")
@@ -548,15 +643,12 @@ namespace BiPro_Analytics.Migrations
                     b.Property<bool>("TosRecurrente")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("TrabajadorIdTrabajador")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ViajesMultitudes")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdTrabajador");
 
                     b.ToTable("RiesgoContagios");
                 });
@@ -568,35 +660,30 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EstatusEnCasa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EstatusEnHospital")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EstatusPaciente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                    b.Property<DateTime>("FechaHoraRegistro")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaSeguimiento")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("IdSintoma")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int?>("IdTrabajador")
                         .HasColumnType("int");
 
-                    b.Property<bool>("SintomasMayores")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SintomasMenores")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("TrabajadorIdTrabajador")
+                    b.Property<int?>("IdUbicacion")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrabajadorIdTrabajador");
+                    b.HasIndex("IdSintoma");
+
+                    b.HasIndex("IdTrabajador");
+
+                    b.HasIndex("IdUbicacion");
 
                     b.ToTable("SeguimientosCovid");
                 });
@@ -608,9 +695,6 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AreaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CP")
                         .IsRequired()
                         .HasColumnType("nvarchar(6)")
@@ -618,8 +702,8 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("Calle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("Ciudad")
                         .IsRequired()
@@ -628,11 +712,8 @@ namespace BiPro_Analytics.Migrations
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.Property<int?>("EmpresaIdEmpresa")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -658,7 +739,6 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("IdEmpresa")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("IdUnidad")
@@ -674,39 +754,26 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("NombreArea")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NombreEmpresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NombreUnidad")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NumeroExt")
                         .IsRequired()
                         .HasColumnType("nvarchar(5)")
                         .HasMaxLength(5);
 
                     b.Property<string>("NumeroInt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(4)")
-                        .HasMaxLength(4);
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UnidadId")
-                        .HasColumnType("int");
-
                     b.HasKey("IdTrabajador");
 
-                    b.HasIndex("AreaId");
+                    b.HasIndex("IdArea");
 
-                    b.HasIndex("EmpresaIdEmpresa");
+                    b.HasIndex("IdEmpresa");
 
-                    b.HasIndex("UnidadId");
+                    b.HasIndex("IdUnidad");
 
                     b.ToTable("Trabajadores");
                 });
@@ -737,18 +804,16 @@ namespace BiPro_Analytics.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EmpresaIdEmpresa")
+                    b.Property<int?>("IdEmpresa")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEmpresa")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaIdEmpresa");
+                    b.HasIndex("IdEmpresa");
 
                     b.ToTable("Unidades");
                 });
@@ -1006,90 +1071,133 @@ namespace BiPro_Analytics.Migrations
                 {
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany("Areas")
-                        .HasForeignKey("EmpresaIdEmpresa");
+                        .HasForeignKey("IdEmpresa");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.FactorRiesgo", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("FactoresRiesgos")
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .HasForeignKey("IdTrabajador");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.Incapacidad", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("Incapacidades")
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .HasForeignKey("IdTrabajador");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.Prueba", b =>
                 {
-                    b.HasOne("BiPro_Analytics.Models.Prueba", null)
+                    b.HasOne("BiPro_Analytics.Models.Catalogs.DiagnosticoCovid", null)
                         .WithMany("Pruebas")
-                        .HasForeignKey("PruebaId");
+                        .HasForeignKey("DiagnosticoCovidId");
+
+                    b.HasOne("BiPro_Analytics.Models.Area", "Area")
+                        .WithMany("Pruebas")
+                        .HasForeignKey("IdArea");
 
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("Pruebas")
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .HasForeignKey("IdTrabajador");
+
+                    b.HasOne("BiPro_Analytics.Models.Unidad", "Unidad")
+                        .WithMany("Pruebas")
+                        .HasForeignKey("IdUnidad");
+
+                    b.HasOne("BiPro_Analytics.Models.UbicacionActual", "UbicacionActual")
+                        .WithMany("Pruebas")
+                        .HasForeignKey("UbicacionId");
                 });
 
-            modelBuilder.Entity("BiPro_Analytics.Models.Reincorporaciones", b =>
+            modelBuilder.Entity("BiPro_Analytics.Models.PruebaInterna", b =>
                 {
-                    b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
-                        .WithMany()
-                        .HasForeignKey("EmpresaIdEmpresa");
+                    b.HasOne("BiPro_Analytics.Models.Area", "Area")
+                        .WithMany("PruebasInternas")
+                        .HasForeignKey("IdArea");
 
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
-                        .WithMany()
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .WithMany("PruebasInternas")
+                        .HasForeignKey("IdTrabajador");
+
+                    b.HasOne("BiPro_Analytics.Models.Unidad", "Unidad")
+                        .WithMany("PruebasInternas")
+                        .HasForeignKey("IdUnidad");
+
+                    b.HasOne("BiPro_Analytics.Models.UbicacionActual", "UbicacionActual")
+                        .WithMany("PruebasInternas")
+                        .HasForeignKey("UbicacionId");
+                });
+
+            modelBuilder.Entity("BiPro_Analytics.Models.Reincorporado", b =>
+                {
+                    b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
+                        .WithMany("Reincorporados")
+                        .HasForeignKey("IdTrabajador");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.ReporteContagio", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Area", "Area")
                         .WithMany()
-                        .HasForeignKey("AreaId");
+                        .HasForeignKey("IdArea");
 
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany()
-                        .HasForeignKey("EmpresaIdEmpresa");
+                        .HasForeignKey("IdEmpresa");
+
+                    b.HasOne("BiPro_Analytics.Models.Unidad", "Unidad")
+                        .WithMany()
+                        .HasForeignKey("IdUnidad");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.RiesgoContagio", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("RiesgosContagios")
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .HasForeignKey("IdTrabajador");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.SeguimientoCovid", b =>
                 {
+                    b.HasOne("BiPro_Analytics.Models.Catalogs.SintomaCovid", "SintomaCovid")
+                        .WithMany("SeguimientosCovid")
+                        .HasForeignKey("IdSintoma")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BiPro_Analytics.Models.Trabajador", "Trabajador")
                         .WithMany("SeguimientosCovid")
-                        .HasForeignKey("TrabajadorIdTrabajador");
+                        .HasForeignKey("IdTrabajador");
+
+                    b.HasOne("BiPro_Analytics.Models.UbicacionActual", "UbicacionActual")
+                        .WithMany("SeguimientosCovid")
+                        .HasForeignKey("IdUbicacion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.Trabajador", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Area", "Area")
                         .WithMany("Trabajadores")
-                        .HasForeignKey("AreaId");
+                        .HasForeignKey("IdArea");
 
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany("Trabajadores")
-                        .HasForeignKey("EmpresaIdEmpresa");
+                        .HasForeignKey("IdEmpresa");
 
                     b.HasOne("BiPro_Analytics.Models.Unidad", "Unidad")
                         .WithMany("Trabajadores")
-                        .HasForeignKey("UnidadId");
+                        .HasForeignKey("IdUnidad");
                 });
 
             modelBuilder.Entity("BiPro_Analytics.Models.Unidad", b =>
                 {
                     b.HasOne("BiPro_Analytics.Models.Empresa", "Empresa")
                         .WithMany("Unidades")
-                        .HasForeignKey("EmpresaIdEmpresa");
+                        .HasForeignKey("IdEmpresa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

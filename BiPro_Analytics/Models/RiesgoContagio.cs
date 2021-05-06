@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -69,7 +70,7 @@ namespace BiPro_Analytics.Models
         public DateTime FechaHoraRegistro { get; set; }
 
 
-        [Required]
+        [ForeignKey("Trabajador")]
         public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
     }

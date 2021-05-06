@@ -150,44 +150,72 @@ namespace BiPro_Analytics.Controllers
             var diabetesM = factorRiesgosM.Where(x => x.Diabetes).ToList().Count();
             var diabetesH = factorRiesgosH.Where(x => x.Diabetes).ToList().Count();
 
+            var hipertensionM = factorRiesgosM.Where(x => x.Hipertension).ToList().Count();
+            var hipertensionH = factorRiesgosH.Where(x => x.Hipertension).ToList().Count();
+
+            var asmaM = factorRiesgosM.Where(x => x.Asma).ToList().Count();
+            var asmaH = factorRiesgosH.Where(x => x.Asma).ToList().Count();
+
+            var sobrePesoM = factorRiesgosM.Where(x => x.SobrePeso).ToList().Count();
+            var sobrePesoH = factorRiesgosH.Where(x => x.SobrePeso).ToList().Count();
+
             var ObesidadM = factorRiesgosM.Where(x => x.Obesidad).ToList().Count();
             var ObesidadH = factorRiesgosH.Where(x => x.Obesidad).ToList().Count();
 
-            var EmbarazoM = factorRiesgosM.Where(x => x.Embarazo).ToList().Count();
+            var EnfermedadAutoinmuneM = factorRiesgosM.Where(x => x.EnfermedadAutoinmune).ToList().Count();
+            var EnfermedadAutoinmuneH = factorRiesgosH.Where(x => x.EnfermedadAutoinmune).ToList().Count();
 
+            var EnfermedadCorazonM = factorRiesgosM.Where(x => x.EnfermedadCorazon).ToList().Count();
+            var EnfermedadCorazonH = factorRiesgosH.Where(x => x.EnfermedadCorazon).ToList().Count();
 
             var CancerM = factorRiesgosM.Where(x => x.Cancer).ToList().Count();
             var CancerH = factorRiesgosH.Where(x => x.Cancer).ToList().Count();
 
+            var EPOCM = factorRiesgosM.Where(x => x.EPOC).ToList().Count();
+            var EPOCH = factorRiesgosH.Where(x => x.EPOC).ToList().Count();
+
             var TabaquismoM = factorRiesgosM.Where(x => x.Tabaquismo).ToList().Count();
             var TabaquismoH = factorRiesgosH.Where(x => x.Tabaquismo).ToList().Count();
 
-            var AlcoholismoM = factorRiesgosM.Where(x => x.Alcoholismo).ToList().Count();
-            var AlcoholismoH = factorRiesgosH.Where(x => x.Alcoholismo).ToList().Count();
+            var AlcoholismoM = factorRiesgosM.Where(x => x.ConsumoAlcohol).ToList().Count();
+            var AlcoholismoH = factorRiesgosH.Where(x => x.ConsumoAlcohol).ToList().Count();
 
-            var DrogasM = factorRiesgosM.Where(x => x.Drogas).ToList().Count();
-            var DrogasH = factorRiesgosH.Where(x => x.Drogas).ToList().Count();
+            var DrogasM = factorRiesgosM.Where(x => x.FarmacosDrogas).ToList().Count();
+            var DrogasH = factorRiesgosH.Where(x => x.FarmacosDrogas).ToList().Count();
+
+            var EmbarazoM = factorRiesgosM.Where(x => x.Embarazo).ToList().Count();
 
             int[] cntsMujeres = new int[]
                 {
                     diabetesM,
+                    hipertensionM,
+                    sobrePesoM,
                     ObesidadM,
-                    EmbarazoM,
+                    EnfermedadAutoinmuneM,
+                    EnfermedadCorazonM,
                     CancerM,
+                    EPOCM,
                     TabaquismoM,
                     AlcoholismoM,
-                    DrogasM
+                    DrogasM,
+                    EmbarazoM
+
                 };
 
             int[] cntsHombres = new int[]
                 {
                     diabetesH,
+                    hipertensionH,
+                    sobrePesoH,
                     ObesidadH,
-                    0,
+                    EnfermedadAutoinmuneH,
+                    EnfermedadCorazonH,
                     CancerH,
+                    EPOCH,
                     TabaquismoH,
                     AlcoholismoH,
-                    DrogasH
+                    DrogasH,
+                    0
                 };
 
             CondicionesRiesgo condicionesRiesgo = new CondicionesRiesgo();
@@ -208,14 +236,18 @@ namespace BiPro_Analytics.Controllers
             if (idEmpresa == null)
             {
                 mayor3 = _context.FactoresRiesgos.Where(f => f.NoPersonasCasa > 3).Count();
-                multiplesFamilias = _context.FactoresRiesgos.Where(f => f.TipoCasa == "Familias Multiples").Count();
-                transportePublico = _context.FactoresRiesgos.Where(f => f.TipoTransporte == "Publico").Count();
+                multiplesFamilias = _context.FactoresRiesgos
+                    .Where(f => f.TipoCasa != "1" ).Count();
+                transportePublico = _context.FactoresRiesgos
+                    .Where(f => f.TipoTransporte == "Autobús" || f.TipoTransporte == "Metro" || f.TipoTransporte == "Autobus de Empresa" || f.TipoTransporte == "Combi").Count();
             }
             else
             {
                 mayor3 = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.NoPersonasCasa > 3).Count();
-                multiplesFamilias = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoCasa == "Familias Multiples").Count();
-                transportePublico = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoTransporte == "Publico").Count();
+                multiplesFamilias = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos)
+                    .Where(f => f.TipoCasa != "1").Count();
+                transportePublico = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos)
+                    .Where(f => f.TipoTransporte == "Autobús" || f.TipoTransporte == "Metro" || f.TipoTransporte == "Autobus de Empresa" || f.TipoTransporte == "Combi").Count();
             }
 
             pieData.Counts = new int[]
@@ -237,19 +269,21 @@ namespace BiPro_Analytics.Controllers
 
             if (idEmpresa == null)
             {
-                espacioTrabajo = _context.FactoresRiesgos.Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salon").Count();
+                espacioTrabajo = _context.FactoresRiesgos.Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salón amplio").Count();
                 tipoVentilacion = _context.FactoresRiesgos.Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
             }
             else
             {
-                espacioTrabajo = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salon").Count();
-                tipoVentilacion = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
+                espacioTrabajo = _context.Trabajadores
+                    .Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.EspacioTrabajo == "Cuarto" || f.EspacioTrabajo == "Salón amplio").Count();
+                tipoVentilacion = _context.Trabajadores
+                    .Where(t => t.IdEmpresa == idEmpresa).SelectMany(t => t.FactoresRiesgos).Where(f => f.TipoVentilacion == "Sin ventilacion").Count();
             }
 
             pieData.Counts = new int[]
             {
                 espacioTrabajo,
-                espacioTrabajo
+                tipoVentilacion
             };
 
             return Json(pieData);
@@ -267,8 +301,10 @@ namespace BiPro_Analytics.Controllers
                 riesgoContagios = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa)
                 .SelectMany(t => t.RiesgosContagios).Where(r => r.ContactoCovidCasa || r.ContactoCovidFuera || r.ContactoCovidTrabajo).ToList();
 
-            var otros = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa)
-                .SelectMany(t => t.RiesgosContagios).Count() - riesgoContagios.Count();
+            var total = _context.Trabajadores.Where(t => t.IdEmpresa == idEmpresa)
+                .SelectMany(t => t.RiesgosContagios).Count();
+
+            var otros = total - riesgoContagios.Count();
 
             string[] lbls = new string[] { "Contacto Covid", "Otros" };
             int[] cnts = new int[]
@@ -409,12 +445,12 @@ namespace BiPro_Analytics.Controllers
             int[] cnts = new int[]
                 {
                     factorRiesgos.Count(x=>x.NoPersonasCasa >3),
-                    factorRiesgos.Count(x=>x.TipoCasa == "Familias Multiples"),
-                    factorRiesgos.Count(x=>x.TipoTransporte == "Publico"),
+                    factorRiesgos.Count(x=>x.TipoCasa != "1"),
+                    factorRiesgos.Where(f => f.TipoTransporte == "Autobús" || f.TipoTransporte == "Metro" || f.TipoTransporte == "Autobus de Empresa" || f.TipoTransporte == "Combi").Count(),
                     factorRiesgos.Count(x=>x.EspacioTrabajo == "Salon" || x.EspacioTrabajo == "Salón"),
-                    factorRiesgos.Count(x=>x.TipoVentilacion == "Sin ventilacion" || x.TipoVentilacion == "Sin ventilacion"),
-                    factorRiesgos.Count(x=>x.ContactoLaboral == "Menor 2mts"),
-                    factorRiesgos.Count(x=>x.TiempoContacto == "2 hrs")
+                    factorRiesgos.Count(x=>x.TipoVentilacion.Contains("Sin ventilacion")),
+                    factorRiesgos.Count(x=>x.ContactoLaboral == "Mantengo una distancia menor de 1.5 metros"),
+                    factorRiesgos.Count(x=> x.TiempoContacto == "2" )
                 };
 
             BarChartDatos barChartDatos = new BarChartDatos();

@@ -29,8 +29,8 @@ namespace BiPro_Analytics.Models
         public string SeEncuentraEn { get; set; }
 
         [DisplayName("Trabajador")]
-        [ForeignKey("TrabajadorFK")]
-        public int IdTrabajador { get; set; }
+        [ForeignKey("Trabajador")]
+        public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
     }
 }

@@ -3,6 +3,8 @@
     ViewData["Title"] = "Riesgos de contagio";
 }
 
+<input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
+
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
 
@@ -10,7 +12,7 @@
             <h2>Seguimiento de covid</h2>
         </div>
 
-        <a href="#graficos" class="btn btn-info active scrollto" role="button" aria-pressed="true">Graficos y estadisticas</a>
+        <a href="#graficos" class="btn btn-info active scrollto" role="button" aria-pressed="true">Gráficos y estadisticas</a>
         <hr />
 
         <form asp-action="Index" method="get">
@@ -28,7 +30,7 @@
             </div>
         </form>
 
-        <form asp-action="Index" method="get">
+        @*<form asp-action="Index" method="get">
             <div class="form-actions no-color">
                 <div class="form-row">
                     <div class="col-md-3 form-group">
@@ -46,7 +48,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </form>*@
         <div class="form-row">
             <div class="col-md-4 form-group">
                 <a class="btn btn-secondary" asp-action="Index">Regresar lista completa</a>
@@ -71,17 +73,26 @@
         <div class="row">
             <div class="col-md-6 col-sm-6  ">
                 @*T4.A quienes se deben hacer pruebas para regresar a laborar. Asintomaticos con mas de 2 semanas.*@
-                <form asp-action="PruebasParaRegresoALaborar" method="get">
+                <form asp-action="ExportTrabajadoresSeguimientoGralCSV" method="get">
                     <div class="form-actions no-color">
-                        <h3>Descargar quien debe realizar pruebas para laborar</h3>
+                        <h3>Descargar seguimiento general de pacientes</h3>
                         <div class="form-row">
                             <div class="col-md-3 form-group">
-                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                    <option selected disabled>Seleccionar Empresa</option>
-                                </select>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select name="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa", @ViewBag.Empresas[0].Id))">
+                                        <option selected disabled>Seleccionar Empresa</option>
+                                    </select>
+                                }
                             </div>
                             <div class="col-md-3 form-group">
-                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                                <input type="submit" value="Descargar" class="btn btn-secondary" />
                             </div>
                         </div>
                     </div>
@@ -89,31 +100,15 @@
                 @*G4. A quienes se deben hacer pruebas de seguimiento*@
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Pruebas de seguimiento</h3>
+                        <h3>Seguimiento de síntomas</h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <canvas id="GrG4PacientesPruebas"></canvas>
+                        <canvas id="pieSeguimientoSintomas"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-6  ">
-                @*T5. Seguimiento general de pacientes contagiados. Como continuan, con o sin sintomas, hospitalizados*@
-                <form asp-action="TrabajadoresSeguimientoGral" method="get">
-                    <div class="form-actions no-color">
-                        <h3>Descargar seguimiento general de pacientes contagiados</h3>
-                        <div class="form-row">
-                            <div class="col-md-3 form-group">
-                                <select asp-for="IdTrabajador" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
-                                    <option selected disabled>Seleccionar Empresa</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <input type="submit" value="Buscar" class="btn btn-secondary" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
                 @*G5. Seguimiento general de contagiados*@
                 <div class="x_panel">
                     <div class="x_title">
@@ -121,16 +116,16 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <canvas id="GrG5TrabajadoresSeguimientoGral"></canvas>
+                        <canvas id="SeguimientoUbicacionesPie"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 col-sm-6  ">
+        <!--<div class="row">
+            <div class="col-md-6 col-sm-6  ">-->
                 @*M8. Pacientes que llenaron y no llenaron su F4*@
-                <form asp-action="PacientesNoLlenaronRC" method="get">
+                <!--<form asp-action="PacientesNoLlenaronRC" method="get">
                     <div class="form-actions no-color">
                         <h3>Descargar pacientes que llenaron y no llenaron reporte contagio</h3>
                         <div class="form-row">
@@ -144,9 +139,9 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form>-->
                 @*R8. Pacientes que no llenaron su F4*@
-                <div class="x_panel">
+                <!--<div class="x_panel">
                     <div class="x_title">
                         <h3>Pruebas de seguimiento</h3>
                         <div class="clearfix"></div>
@@ -156,9 +151,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6  ">
+            <div class="col-md-6 col-sm-6  ">-->
                 @*M9. AM de seguimiento. Quienes llenaron el seguimiento y quienes no en todo el mes.*@
-                <form asp-action="QuienNoLlenaronSeguimientoCovidMen" method="get">
+                <!--<form asp-action="QuienNoLlenaronSeguimientoCovidMen" method="get">
                     <div class="form-actions no-color">
                         <h3>Descargar quien lleno seguimiento y quien no en todo el mes</h3>
                         <div class="form-row">
@@ -172,9 +167,9 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form>-->
                 @*R9. AM. Quienes no llenaron su F4 en todo el mes.*@
-                <div class="x_panel">
+                <!--<div class="x_panel">
                     <div class="x_title">
                         <h3>Seguimiento general de contagiados</h3>
                         <div class="clearfix"></div>
@@ -184,7 +179,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
 </section>

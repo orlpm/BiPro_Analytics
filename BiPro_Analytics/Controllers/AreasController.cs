@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiPro_Analytics.Data;
 using BiPro_Analytics.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using BiPro_Analytics.UnParo;
 
 namespace BiPro_Analytics.Controllers
 {
+    [Authorize(Roles = "Admin,AdminEmpresa")]
     public class AreasController : Controller
     {
         private readonly BiproAnalyticsDBContext _context;
@@ -22,6 +26,28 @@ namespace BiPro_Analytics.Controllers
         // GET: Areas
         public async Task<IActionResult> Index()
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+            ViewBag.Unidades = perfilData.DDLUnidades;
+            ViewBag.Areas = perfilData.DDLAreas;
+            ViewBag.Empresas = perfilData.DDLEmpresas;
+
+            var empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+
+            if (empresa == null)
+                return NotFound("Empresa no encotrada");
+
+            ViewBag.SinAreas = empresa.DescartarAreas;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                if (perfilData.IdEmpresa == null)
+                    return NotFound("Usuario no asociado a ninguna empresa");
+
+                return View(await _context.Areas.Where(u => u.IdEmpresa == perfilData.IdEmpresa).ToListAsync());
+            }
+
             return View(await _context.Areas.ToListAsync());
         }
 
@@ -54,8 +80,29 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IdEmpresa")] Area area)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,IdEmpresa")] Area area)
         {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            Empresa empresa;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+                area.IdEmpresa = (int)perfilData.IdEmpresa;
+            }
+            else
+            {
+                empresa = await _context.Empresas.FindAsync(area.IdEmpresa);
+            }
+
+            if (empresa == null)
+                return NotFound("Empresa no encontrada");
+
+            area.Empresa = empresa;
+
             if (ModelState.IsValid)
             {
                 _context.Add(area);
@@ -78,6 +125,7 @@ namespace BiPro_Analytics.Controllers
             {
                 return NotFound();
             }
+
             return View(area);
         }
 
@@ -86,12 +134,33 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdEmpresa")] Area area)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,IdEmpresa")] Area area)
         {
             if (id != area.Id)
             {
                 return NotFound();
             }
+
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            Empresa empresa;
+
+            if (currentUser.IsInRole("AdminEmpresa"))
+            {
+                empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+                area.IdEmpresa = (int)perfilData.IdEmpresa;
+            }
+            else
+            {
+                empresa = await _context.Empresas.FindAsync(area.IdEmpresa);
+            }
+
+            if (empresa == null)
+                return NotFound("Empresa no encontrada");
+
+            area.Empresa = empresa;
 
             if (ModelState.IsValid)
             {
@@ -148,6 +217,26 @@ namespace BiPro_Analytics.Controllers
         private bool AreaExists(int id)
         {
             return _context.Areas.Any(e => e.Id == id);
+        }
+
+
+        public async Task<IActionResult> IndicarSinAreas()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            Util util = new Util(_context);
+            PerfilData perfilData = await util.DatosUserAsync(currentUser);
+
+            var empresa = await _context.Empresas.FindAsync(perfilData.IdEmpresa);
+
+            if(empresa.DescartarAreas)
+                empresa.DescartarAreas = false;
+            else
+                empresa.DescartarAreas = true;
+
+            _context.Empresas.Update(empresa);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

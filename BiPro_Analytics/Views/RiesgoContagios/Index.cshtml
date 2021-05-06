@@ -57,7 +57,7 @@
                         @Html.DisplayNameFor(model => model.Olfatometria)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdTrabajador)
+                        @Html.DisplayNameFor(model => model.Trabajador)
                     </th>
                     <th></th>
                 </tr>
@@ -109,7 +109,7 @@
                             @Html.DisplayFor(modelItem => item.Olfatometria)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdTrabajador)
+                            @Html.DisplayFor(modelItem => item.Trabajador.Nombre)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

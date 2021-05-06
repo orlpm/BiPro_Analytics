@@ -33,8 +33,8 @@ namespace BiPro_Analytics
         {
             services.AddDbContext<BiproAnalyticsDBContext>(options =>
                 options.UseSqlServer(
-            //Configuration.GetConnectionString("BiProGearhost")));
-            Configuration.GetConnectionString("BiProLocal")));
+            Configuration.GetConnectionString("BiProGearhost")));
+            //Configuration.GetConnectionString("BiProLocal")));
 
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
@@ -42,10 +42,13 @@ namespace BiPro_Analytics
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequiredLength = 8;
                 options.SignIn.RequireConfirmedEmail = true;
-            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<BiproAnalyticsDBContext>();
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<BiproAnalyticsDBContext>()
+                .AddErrorDescriber<MyErrorDescriber>();
 
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.Configure<AuthMessageSenderOptions>(Configuration) ;
 
             services.Configure<IISServerOptions>(options =>
             {

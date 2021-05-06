@@ -27,6 +27,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
 
+input[disabled] {
+    outline: 1px solid green;
+    // or whatever
+}
+
+
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
@@ -454,7 +460,7 @@ h1, h2, h3, h4, h5, h6 {
   background: url("../img/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
-  margin-bottom: -200px;
+  margin-bottom: -100px;
 }
 
 #hero .container {

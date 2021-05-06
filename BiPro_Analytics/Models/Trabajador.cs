@@ -27,35 +27,35 @@ namespace BiPro_Analytics.Models
             get { return (int)((DateTime.Today - FechaNacimiento).Days / 365.25); }
         }
 
-        [DisplayName("Genero")]
+        [DisplayName("Género")]
         [MaxLength(10)]
         [Required]
         public string Genero { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [DisplayName("Teléfono")]
         public string Telefono { get; set; }
 
         [Required]
-        [MaxLength(30)]
+        [MaxLength(60)]
         [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
 
-        [MaxLength(40)]
+        [MaxLength(80)]
         [DisplayName("Calle")]
         [Required]
         public string Calle { get; set; }
 
         [MaxLength(5)]
-        [DisplayName("Numero Ext")]
+        [DisplayName("Número Ext")]
         [Required]
         public string NumeroExt { get; set; }
 
-        [MaxLength(4)]
-        [DisplayName("Numero Int")]
-        [Required]
+        [MaxLength(8)]
+        [DisplayName("Número Int")]
         public string NumeroInt { get; set; }
-        
+
         [MaxLength(6)]
         [Required]
         public string CP { get; set; }
@@ -81,29 +81,23 @@ namespace BiPro_Analytics.Models
         [DisplayName("Fecha de Registro")]
         public DateTime? FechaRegistro { get; set; }
 
-        [DisplayName("Unidad")]
-        public string NombreUnidad { get; set; }
-
-        [DisplayName("Área")]
-        public string NombreArea { get; set; }
-
         public ICollection<FactorRiesgo> FactoresRiesgos { get; set; }
         public ICollection<RiesgoContagio> RiesgosContagios { get; set; }
         public ICollection<Prueba> Pruebas{ get; set; }
+        public ICollection<PruebaInterna> PruebasInternas { get; set; }
         public ICollection<SeguimientoCovid> SeguimientosCovid { get; set; }
         public ICollection<Incapacidad> Incapacidades { get; set; }
+        public ICollection<Reincorporado> Reincorporados { get; set; }
 
-        [Required]
+        [ForeignKey("Empresa")]
         public int? IdEmpresa { get; set; }
         public Empresa Empresa { get; set; }
 
-        //[Display(AutoGenerateField = false)]
-        [DisplayName("Nombre de Empresa")]
-        public string NombreEmpresa { get; set; }
-
+        [ForeignKey("Unidad")]
         public int? IdUnidad { get; set; }
         public Unidad Unidad { get; set; }
 
+        [ForeignKey("Area")]
         public int? IdArea { get; set; }
         public Area Area { get; set; }
 

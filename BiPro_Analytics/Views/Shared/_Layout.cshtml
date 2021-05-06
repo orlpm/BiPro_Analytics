@@ -81,17 +81,26 @@
                                     <li>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="UsuariosTrabajadores" asp-action="Index">Rel. Usuario Trabajador</a>
                                     </li>
-                                    <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Unidades" asp-action="Index">Unidades por empresas</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Areas" asp-action="Index">Areas por empresas</a>
-                                    </li>
                                 </ul>
                             </li>
                         }
                         @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
                         {
+                            <li class="drop-down">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Empresas" asp-action="PreIndex">Infomación de tu empresa</a>
+                                <ul>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Empresas" asp-action="PreIndex">Empresa</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Unidades" asp-action="Index">Unidades por empresa</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Areas" asp-action="Index">Areas por empresa</a>
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="PreIndex">Trabajadores</a>
                             </li>
@@ -107,13 +116,13 @@
                                 </ul>
                             </li>
                             <li class="drop-down">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas</a>
+                                <a class="nav-link text-dark">Pruebas</a>
                                 <ul>
                                     <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="PreIndex">Pruebas Externas</a>
                                     </li>
                                     <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="PreIndex">Seguimientos Covid</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="PruebasInternas" asp-action="PreIndex">Pruebas Internas</a>
                                     </li>
                                     <li>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="ReportesContagios" asp-action="PreIndex">Reporte de Covid</a>
@@ -121,13 +130,13 @@
                                 </ul>
                             </li>
                             <li class="drop-down">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
+                                <a class="nav-link text-dark">Control de contagios</a>
                                 <ul>
                                     <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="PreIndex">Incapacidades</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="PreIndex">Seguimientos Covid</a>
                                     </li>
                                     <li>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Reincorporaciones" asp-action="PreIndex">Reincorporaciones</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Reincorporados" asp-action="PreIndex">Reincorporados</a>
                                     </li>
                                 </ul>
                             </li>
@@ -138,7 +147,7 @@
                         @if (User.IsInRole("Trabajador"))
                         {
                             <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="VerificaTrabajador">Trabajador</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Trabajadores" asp-action="VerificaTrabajador">Información de trabajador</a>
                             </li>
                             <li class="drop-down">
                                 <a class="nav-link text-dark">Cuestionarios Riesgos</a>
@@ -157,16 +166,21 @@
                                     <li>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="Create">Pruebas</a>
                                     </li>
+                                </ul>
+                            </li>
+                            <li class="drop-down">
+                                <a class="nav-link text-dark">Control de contagios</a>
+                                <ul>
                                     <li>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="Create">Seguimientos Covid19</a>
                                     </li>
+                                    <li>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Reincorporados" asp-action="Create">Reincorporados</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Incapacidades" asp-action="Create">Ingresar incapacidad</a>
-                            </li>
-                        }
 
+                        }
                     }
                     <li>
                         <partial name="_LoginPartial" />
@@ -310,8 +324,11 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
+    <script src="~/assets/js/Pruebas.js"></script>
+    <script src="~/assets/js/PruebasInternas.js"></script>
     <script src="~/assets/js/ReportesContagios.js"></script>
     <script src="~/assets/js/SeguimientosCovid.js"></script>
+
 
     @*<script src="~/assets/js/charts/custom.js"></script>*@
 

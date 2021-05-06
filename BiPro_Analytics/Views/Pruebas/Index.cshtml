@@ -12,7 +12,7 @@
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
 
-        <h1>Control de pruebas Covid19</h1>
+        <h1>Control de pruebas externas Covid19</h1>
         <p>
             <a asp-action="Create">Crear Nuevo</a>
         </p>
@@ -25,14 +25,24 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Lugar)
                     </th>
-                    <th>
+                    @*<th>
                         @Html.DisplayNameFor(model => model.TipoPrueba)
-                    </th>
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.DiagnosticoCovid)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdTrabajador)
+                        @*@Html.DisplayNameFor(model => model.IdTrabajador)*@
+                        Nombre trabajador
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UbicacionActual)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Unidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Area)
                     </th>
                     <th>
 
@@ -55,30 +65,94 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Lugar)
                         </td>
+
+                        <!--<td>
+                        @if (item.TipoPrueba == "1")
+                        {
+                            <label>PCR</label>
+                        }
+                        @if (item.TipoPrueba == "2")
+                        {
+                            <label>Rápida en sangre</label>
+                        }
+                        @if (item.TipoPrueba == "3")
+                        {
+                            <label>Rápida con pinchazo de dedo</label>
+                        }
+                        @if (item.TipoPrueba == "4")
+                        {
+                            <label>Rápida nasal</label>
+                        }
+                        @if (item.TipoPrueba == "5")
+                        {
+                            <label>Tomografía</label>
+                        }
+                        @if (item.TipoPrueba == "6")
+                        {
+                            <label>Diagnostico Médico</label>
+                        }-->
+                        @*@Html.DisplayFor(modelItem => item.TipoPrueba)*@
+                        <!--</td>-->
+
                         <td>
-                            @Html.DisplayFor(modelItem => item.TipoPrueba)
+                            @if (item.DiagnosticoCovid == "1")
+                            {
+                                <label>PCR</label>
+                            }
+                            @if (item.DiagnosticoCovid == "2")
+                            {
+                                <label>Rápida en sangre</label>
+                            }
+                            @if (item.DiagnosticoCovid == "3")
+                            {
+                                <label>Rápida con pinchazo de dedo</label>
+                            }
+                            @if (item.DiagnosticoCovid == "4")
+                            {
+                                <label>Rápida nasal</label>
+                            }
+                            @if (item.DiagnosticoCovid == "5")
+                            {
+                                <label>Tomografía</label>
+                            }
+                            @if (item.DiagnosticoCovid == "6")
+                            {
+                                <label>Diagnostico Médico</label>
+                            }
+                            @*@Html.DisplayFor(modelItem => item.DiagnosticoCovid)*@
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DiagnosticoCovid)
+                            @Html.DisplayFor(modelItem => item.Trabajador.Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdTrabajador)
+                            @Html.DisplayFor(model => item.UbicacionActual.Descripcion)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(model => item.Unidad.Nombre)
                         </td>
                         <td>
+                            @Html.DisplayFor(model => item.Area.Nombre)
+                        </td>
+
+                        <td style="width:50%">
                             <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                             <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
-                            <a asp-action="AdministrarArchivos" asp-route-id="@item.Id">Administrar Archivos</a>
+                            @if (!User.IsInRole("Trabajador"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                            }
+                            @*<a asp-action="AdministrarArchivos" asp-route-id="@item.Id">Administrar Archivos</a>*@
                         </td>
-                        <td>
+                        <td style="width:100%">
                             <div class="row">
                                 <form method="post" enctype="multipart/form-data" asp-controller="Pruebas" asp-action="SubirArchivos" asp-route-id="@item.Id">
                                     <div class="form-group">
-                                        <label> Select File </label>
+                                        <label> Selecciona Archivo</label>
                                         <input class="form-control" name="files" multiple="multiple" type="file" />
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-success" type="submit" value="Submit" />
+                                        <input class="btn btn-success" type="submit" value="Subir" />
                                     </div>
                                 </form>
                             </div>
@@ -93,11 +167,12 @@
                                     <a href="@i.Url">@i.NombreArchivo</a>
                                 }
                             }
-
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+
+        <a asp-action="PreIndex">Regresar</a>
     </div>
 </section>

@@ -4,92 +4,91 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Lista de reportes</h1>
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Lista reportes de contagios</h1>
 
-<p>
-    <a asp-action="Create">Crear nuevo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Semana)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Anio)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSemPCR)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSemLG)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSemAntigeno)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSemTAC)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSemNeumoniaNoConfirmadaCOVID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositivosSospechososNeumoniaNoConfirmadaCOVID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SospechososDescartados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEmpresa)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Semana)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Anio)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSemPCR)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSemLG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSemAntigeno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSemTAC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSemNeumoniaNoConfirmadaCOVID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositivosSospechososNeumoniaNoConfirmadaCOVID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SospechososDescartados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEmpresa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <p>
+            <a asp-action="Create">Crear Nuevo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoPrueba)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumeroPruebas)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Positivos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Negativos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaInicio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaFin)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaRegistro)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Empresa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Unidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Area)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoPrueba)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroPruebas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Positivos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Negativos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaFin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Empresa.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unidad.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area.Nombre)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

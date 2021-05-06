@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,10 +47,12 @@ namespace BiPro_Analytics.Models
         public bool Tabaquismo { get; set; }
 
         [Required]
-        public bool Alcoholismo { get; set; }
+        [DisplayName("Consumo de alcohol")]
+        public bool ConsumoAlcohol { get; set; }
 
         [Required]
-        public bool Drogas { get; set; }
+        [DisplayName("Farmacos o drogas")]
+        public bool FarmacosDrogas { get; set; }
 
         [Required]
         [DisplayName("No. Personas en vivienda")]
@@ -66,7 +69,7 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DisplayName("Tipo de transporte")]
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string TipoTransporte { get; set; }
 
         [Required]
@@ -81,18 +84,19 @@ namespace BiPro_Analytics.Models
 
         [Required]
         [DisplayName("Contacto Laboral")]
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string ContactoLaboral { get; set; }
 
         [Required]
         [DisplayName("Tiempo de Contacto")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = " hrs")]
         [MaxLength(15)]
         public string TiempoContacto  { get; set; }
 
         [DisplayName("Fecha y Hora de Registro")]
         public DateTime FechaHoraRegistro { get; set; }
 
-        [Required]
+        [ForeignKey("Trabajador")]
         public int? IdTrabajador { get; set; }
         public Trabajador Trabajador { get; set; }
     }
