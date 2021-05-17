@@ -32,31 +32,25 @@
                             <span asp-validation-for="TipoPrueba" class="text-danger"></span>
                         </div>
                     }
-
                     <div class="form-group">
-                        <label asp-for="NumeroPruebas" class="control-label"></label>
-                        <input asp-for="NumeroPruebas" class="form-control" />
-                        <span asp-validation-for="NumeroPruebas" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Positivos" class="control-label"></label>
-                        <input asp-for="Positivos" class="form-control" />
+                        <label asp-for="Positivos" class="control-label">Número de positivos</label>
+                        <input id="Positivos" asp-for="Positivos" onkeyup="sum()" class="form-control" />
                         <span asp-validation-for="Positivos" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Negativos" class="control-label"></label>
-                        <input asp-for="Negativos" class="form-control" />
+                        <label asp-for="Negativos" class="control-label">Número de negativos</label>
+                        <input id="Negativos" asp-for="Negativos" onkeyup="sum()" class="form-control" />
                         <span asp-validation-for="Negativos" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FechaInicio" class="control-label"></label>
-                        <input asp-for="FechaInicio" class="form-control" />
-                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        <label asp-for="NumeroPruebas" class="control-label">Total de pruebas</label>
+                        <input id="NumeroPruebas" asp-for="NumeroPruebas" class="form-control" />
+                        <span asp-validation-for="NumeroPruebas" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="FechaFin" class="control-label"></label>
-                        <input asp-for="FechaFin" class="form-control" />
-                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                        <label asp-for="NumeroSemana" class="control-label"></label>
+                        <input asp-for="NumeroSemana" class="form-control" />
+                        <span asp-validation-for="NumeroSemana" class="text-danger"></span>
                     </div>
                     @if (User.IsInRole("Admin"))
                     {
@@ -101,6 +95,24 @@
     </div>
 
 </section>
+
+<script>
+
+    function sum() {
+        var txtFirstNumberValue = document.getElementById('Positivos').value;
+        var txtSecondNumberValue = document.getElementById('Negativos').value;
+        if (txtFirstNumberValue == "")
+            txtFirstNumberValue = 0;
+        if (txtSecondNumberValue == "")
+            txtSecondNumberValue = 0;
+
+        var result = parseInt(txtFirstNumberValue) + parseInt(txtSecondNumberValue);
+        if (!isNaN(result)) {
+            document.getElementById('NumeroPruebas').value = result;
+        }
+    }
+
+</script>
 
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

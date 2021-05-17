@@ -47,52 +47,6 @@ namespace BiPro_Analytics.Controllers
 
             return View();
         }
-        public async Task<IActionResult> ExportPersonalContactoContagioCOVID19(int IdTrabajador)
-        {
-            int idEmpresa = IdTrabajador;
-            var personalContactoContagioCOVID19 = await GetPersonalContactoContagioCOVID19(idEmpresa);
-
-            var builder = new StringBuilder();
-            builder.AppendLine("Nombre,ContactoCovidCasa,ContactoCovidTrabajo,ContactoCovidFuera,ViajesMultitudes");
-
-            foreach (var item in personalContactoContagioCOVID19)
-            {
-                builder.AppendLine($"{item.Nombre},{item.ContactoCovidCasa},{item.ContactoCovidTrabajo},{item.ContactoCovidFuera},{item.ViajesMultitudes}");
-            }
-
-            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalContactoContagioCOVID19.csv");
-        }
-
-        public async Task<IActionResult> ExportPersonalSintomasCOVID19 (int IdTrabajador)
-        {
-            int idEmpresa = IdTrabajador;
-            var PersonalSintomasCOVID19 = await GetPersonalSintomasCOVID19(idEmpresa);
-
-            var builder = new StringBuilder();
-            builder.AppendLine("Nombre,TosRecurrente,Tos,DificultadRespirar,TempMayor38,Resfriado,Escalofrios,DolorMuscular,NauseaVomito,Diarrea");
-
-            foreach (var item in PersonalSintomasCOVID19)
-            {
-                builder.AppendLine($"{item.Nombre},{item.TosRecurrente},{item.Tos},{item.DificultadRespirar},{item.TempMayor38},{item.Resfriado},{item.Escalofrios},{item.DolorMuscular},{item.NauseaVomito},{item.Diarrea}");
-            }
-
-            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalSintomasCOVID19.csv");
-        }
-        public async Task<IActionResult> ExportaPersonalAnosmiaHiposmia(int IdTrabajador)
-        {
-            int idEmpresa = IdTrabajador;
-            var PersonalAnosmiaHiposmia = await GetPersonalAnosmiaHiposmia(idEmpresa);
-
-            var builder = new StringBuilder();
-            builder.AppendLine("Nombre,Anosmia,Hiposmia");
-
-            foreach (var item in PersonalAnosmiaHiposmia)
-            {
-                builder.AppendLine($"{item.Nombre},{item.Anosmia}, {item.Hiposmia}");
-            }
-
-            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalAnosmiaHiposmia.csv");
-        }
         // GET: RiesgoContagios
         public async Task<IActionResult> Index(int? IdTrabajador, int? IdUnidad, int? IdArea)
         {
@@ -382,6 +336,49 @@ namespace BiPro_Analytics.Controllers
             return _context.RiesgoContagios.Any(e => e.Id == id);
         }
 
+        public async Task<IActionResult> ExportPersonalContactoContagioCOVID19(int idEmpresa)
+        {
+            var personalContactoContagioCOVID19 = await GetPersonalContactoContagioCOVID19(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,ContactoCovidCasa,ContactoCovidTrabajo,ContactoCovidFuera,ViajesMultitudes");
+
+            foreach (var item in personalContactoContagioCOVID19)
+            {
+                builder.AppendLine($"{item.Nombre},{ BoolToDicotomia(item.ContactoCovidCasa)},{ BoolToDicotomia(item.ContactoCovidTrabajo)},{BoolToDicotomia(item.ContactoCovidFuera)},{BoolToDicotomia( item.ViajesMultitudes)}");
+            }
+
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalContactoContagioCOVID19.csv");
+        }
+        public async Task<IActionResult> ExportPersonalSintomasCOVID19(int idEmpresa)
+        {
+            var PersonalSintomasCOVID19 = await GetPersonalSintomasCOVID19(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,TosRecurrente,Tos,DificultadRespirar,TempMayor38,Resfriado,Escalofrios,DolorMuscular,NauseaVomito,Diarrea");
+
+            foreach (var item in PersonalSintomasCOVID19)
+            {
+                builder.AppendLine($"{item.Nombre},{BoolToDicotomia( item.TosRecurrente)},{BoolToDicotomia( item.Tos)},{BoolToDicotomia( item.DificultadRespirar)},{ BoolToDicotomia( item.TempMayor38)},{BoolToDicotomia( item.Resfriado)},{BoolToDicotomia( item.Escalofrios)},{BoolToDicotomia(item.DolorMuscular)},{BoolToDicotomia( item.NauseaVomito)},{BoolToDicotomia(item.Diarrea)}");
+            }
+
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalSintomasCOVID19.csv");
+        }
+        public async Task<IActionResult> ExportaPersonalAnosmiaHiposmia(int idEmpresa)
+        {
+            var PersonalAnosmiaHiposmia = await GetPersonalAnosmiaHiposmia(idEmpresa);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Nombre,Anosmia,Hiposmia");
+
+            foreach (var item in PersonalAnosmiaHiposmia)
+            {
+                builder.AppendLine($"{item.Nombre},{BoolToDicotomia(item.Anosmia)}, { BoolToDicotomia(item.Hiposmia)}");
+            }
+
+            return File(Encoding.UTF32.GetBytes(builder.ToString()), "text/csv", "PersonalAnosmiaHiposmia.csv");
+        }
+
         public async Task<IEnumerable<PersonalContactoContagioCOVID19>> GetPersonalContactoContagioCOVID19(int IdEmpresa)
         {
             var PCCC = await _context.Trabajadores
@@ -449,6 +446,11 @@ namespace BiPro_Analytics.Controllers
                 }).ToListAsync();
 
             return PCCC;
+        }
+
+        public string BoolToDicotomia (bool value)
+        {
+            return value ? "Sí" : "No";
         }
     }
 }

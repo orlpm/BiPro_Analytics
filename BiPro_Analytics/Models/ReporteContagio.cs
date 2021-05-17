@@ -26,13 +26,9 @@ namespace BiPro_Analytics.Models
         [DisplayName("Negativos")]
         public int Negativos { get; set; }
 
-
-        [DisplayName("Fecha de inicio")]
-        public DateTime FechaInicio { get; set; }
-
-        [DisplayName("Fecha de fin")]
-        public DateTime FechaFin { get; set; }
-
+        [Required]
+        [DisplayName("Número de semana")]
+        public int NumeroSemana { get; set; }
 
         [DisplayName("Fecha de Registro")]
         public DateTime FechaRegistro { get; set; }

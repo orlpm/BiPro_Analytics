@@ -11,6 +11,8 @@ using System.Security.Claims;
 using BiPro_Analytics.UnParo;
 using BiPro_Analytics.Responses;
 using Microsoft.AspNetCore.Authorization;
+using BiPro_Analytics.Responses.Pruebas;
+using System.Globalization;
 
 namespace BiPro_Analytics.Controllers
 {
@@ -27,8 +29,6 @@ namespace BiPro_Analytics.Controllers
         public async Task<IActionResult> PreIndex()
         {
             ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             Util util = new Util(_context);
             PerfilData perfilData = await util.DatosUserAsync(currentUser);
             ViewBag.Unidades = perfilData.DDLUnidades;
@@ -127,7 +127,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TipoPrueba,NumeroPruebas,Positivos,Negativos,FechaInicio,FechaFin,FechaRegistro,IdEmpresa,IdUnidad,IdArea")] ReporteContagio reporteContagio)
+        public async Task<IActionResult> Create([Bind("Id,TipoPrueba,NumeroPruebas,Positivos,Negativos,NumeroSemana,FechaRegistro,IdEmpresa,IdUnidad,IdArea")] ReporteContagio reporteContagio)
         {
             ClaimsPrincipal currentUser = this.User;
             Util util = new Util(_context);
@@ -180,7 +180,7 @@ namespace BiPro_Analytics.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TipoPrueba,NumeroPruebas,Positivos,Negativos,FechaInicio,FechaFin,FechaRegistro,IdEmpresa,IdUnidad,IdArea")] ReporteContagio reporteContagio)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TipoPrueba,NumeroPruebas,Positivos,Negativos,NumeroSemana,FechaRegistro,IdEmpresa,IdUnidad,IdArea")] ReporteContagio reporteContagio)
         {
             ClaimsPrincipal currentUser = this.User;
             Util util = new Util(_context);
@@ -253,5 +253,43 @@ namespace BiPro_Analytics.Controllers
         {
             return _context.ReporteContagio.Any(e => e.Id == id);
         }
+
+        public JsonResult PositivosNegativosPerWeek(int? IdEmpresa)
+        {
+            PositivosSospechosos positivosSospechosos = new PositivosSospechosos();
+
+            List<ReporteContagio> reporteContagios;
+            Stack<int> cntsNegativos = new Stack<int>();
+            Stack<int> cntsPositivos = new Stack<int>();
+            Stack<string> weekLabels = new Stack<string>();
+            
+            if (IdEmpresa != null)
+            {
+                reporteContagios = _context.ReporteContagio.Where(t => t.IdEmpresa == IdEmpresa).ToList();
+                Calendar cal = new CultureInfo("en-US").Calendar;
+                int week = cal.GetWeekOfYear(DateTime.Today, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+
+                for (int i = 0; i<6; i++)
+                {
+                    cntsNegativos.Push(reporteContagios.Where(r=>r.NumeroSemana == week - i)
+                        .Sum(r => r.Negativos));
+                    cntsPositivos.Push(reporteContagios.Where(r => r.NumeroSemana == week - i)
+                        .Sum(r => r.Positivos));
+                    weekLabels.Push("Semana " + (week - i));
+                }                               
+            }
+            else
+            {
+                reporteContagios = _context.ReporteContagio.ToList();       
+            }
+
+            positivosSospechosos.CountsPositivos = cntsPositivos.ToArray();
+            positivosSospechosos.CountsNegativos = cntsNegativos.ToArray();
+            positivosSospechosos.Labels = weekLabels.ToArray();
+
+            return Json(positivosSospechosos);
+        }
+
+
     }
 }

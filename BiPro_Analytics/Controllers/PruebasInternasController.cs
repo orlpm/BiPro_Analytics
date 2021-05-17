@@ -468,7 +468,7 @@ namespace BiPro_Analytics.Controllers
 
         public JsonResult ResultadoPruebasInternas(int? IdEmpresa)
         {
-            ResultadoPruebas resultadoPruebas = new ResultadoPruebas();
+            PositivosSospechosos resultadoPruebas = new PositivosSospechosos();
 
             List<PruebaInterna> PCR;
             List<PruebaInterna> Rapidaensangre;

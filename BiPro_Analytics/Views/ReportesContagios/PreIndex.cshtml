@@ -3,6 +3,8 @@
     ViewData["Title"] = "Trabajadores";
 }
 
+<input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
+
 <section id="trabajadores" class="d-flex align-items-cente min-vh-100">
     <div class="container">
         <div class="section-title">
@@ -70,15 +72,15 @@
                 @*G6. Positivos y sospechosos semanales*@
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Positivos y sospechosos semanales</h3>
+                        <h3>Positivos y negativos semanales</h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <canvas id="GrG6PositivosSospechososSem"></canvas>
+                        <canvas id="PositivosNegativosPorSemana"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6  ">
+            <div class="col-md-6 col-sm-6">
                 @*T.7 Numero semanal de positivos y sospechosos por área.*@
                 <form asp-action="PositivosSospechososSemanalesXArea" method="get">
                     <div class="form-actions no-color">
