@@ -1,0 +1,63 @@
+﻿@model BiPro_Analytics.Models.SeguimientoCovid
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Editar</h1>
+        <h4>Seguimiento Covid</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="IdSintoma" class="control-label"></label>
+                        <input asp-for="IdSintoma" class="form-control" />
+                        <span asp-validation-for="IdSintoma" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdUbicacion" class="control-label"></label>
+                        <select asp-for="IdUbicacion" class="form-control" asp-items="ViewBag.IdUbicacion">
+                            <option selected disabled>Seleccionar opción</option>
+                        </select>
+                        <span asp-validation-for="IdUbicacion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaSeguimiento" class="control-label"></label>
+                        <input asp-for="FechaSeguimiento" class="form-control" />
+                        <span asp-validation-for="FechaSeguimiento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaHoraRegistro" class="control-label"></label>
+                        <input asp-for="FechaHoraRegistro" class="form-control" />
+                        <span asp-validation-for="FechaHoraRegistro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdTrabajador" class="control-label"></label>
+                        <select asp-for="IdTrabajador" class="form-control" asp-items="ViewBag.IdTrabajador"></select>
+                        <span asp-validation-for="IdTrabajador" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
+        {
+            <div>
+                <a asp-action="Index">Regresar a la lista</a>
+            </div>
+        }
+    </div>
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
