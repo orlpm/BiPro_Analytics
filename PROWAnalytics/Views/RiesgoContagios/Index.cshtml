@@ -1,0 +1,124 @@
+﻿@model IEnumerable<PROWAnalytics.Models.RiesgoContagio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Index</h1>
+
+        <p>
+            <a asp-action="Create">Crear Nueva</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactoCovidCasa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactoCovidTrabajo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactoCovidFuera)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ViajesMultitudes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TosRecurrente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DificultadRespirar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TempMayor38)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Resfriado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Escalofrios)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DolorMuscular)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NauseaVomito)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Diarrea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Olfatometria)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Trabajador)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactoCovidCasa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactoCovidTrabajo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactoCovidFuera)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ViajesMultitudes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TosRecurrente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tos)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DificultadRespirar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TempMayor38)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Resfriado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Escalofrios)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DolorMuscular)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NauseaVomito)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Diarrea)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Olfatometria)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trabajador.Nombre)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

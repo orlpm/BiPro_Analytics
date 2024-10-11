@@ -1,0 +1,34 @@
+﻿@model PROWAnalytics.Models.Prueba
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <h1>Crear</h1>
+
+        <h4>Resultados de Pruebas</h4>
+        <hr />
+
+        <form asp-action="adjuntar">
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+            </div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="file"  class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <div>
+            <a asp-action="Index">Regresar a la lista</a>
+        </div>
+    </div>
+</section>

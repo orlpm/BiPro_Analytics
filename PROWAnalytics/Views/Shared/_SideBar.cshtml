@@ -1,0 +1,390 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <aside id="sidebar" class="sidebar fixed-top">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-grid"></i>
+                    @*<span>Dashboard</span>*@
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-heading">Modulos</li>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-clipboard-data"></i><span>Administración</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="admin-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-controller="Empresas" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Empresas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="UsuariosEmpresas" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>Rel. Usuario Empresa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="UsuariosTrabajadores" asp-action="Index">
+                                <i class="bi bi-circle"></i><span>Rel. Usuario Trabajador</span>
+                            </a>
+                        </li>
+
+                        @*Admin de empresa*@
+                        <li>
+                            <a asp-controller="Empresas" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Programa Prow Personalizado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Unidades" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Programa Prow Personalizado</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Areas" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Programa Prow Personalizado</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("AdminEmpresa"))
+            {
+
+            }
+
+
+            @if (User.IsInRole("Intermedio") || User.IsInRole("Admin") || User.IsInRole("Avanzado"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#empresarial-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-building"></i><span>Modelaje de empresa</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="empresarial-nav" class="sub-menu nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" data-bs-target="#tableroemp-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-menu-button-wide-fill"></i><span>Tablero</span><i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul id="tableroemp-nav" class="nav-content collapse " data-bs-parent="#sub-menu">
+                                <li>
+                                    <a asp-controller="TypeForm" asp-action="RegistroEmpresa">
+                                        <i class="bi bi-circle"></i><span>Descripción empresarial</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="TypeForm" asp-action="">
+                                        <i class="bi bi-circle"></i><span>Evaluación diagnóstica de salud</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Panel salaria</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Programa Prow Personalizado</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" data-bs-target="#formulariosEmp-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-menu-button-wide-fill"></i><span>Formularios</span><i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul id="formulariosEmp-nav" class="nav-content collapse " data-bs-parent="#sub-menu">
+                                <li>
+                                    <a asp-controller="TypeForm" asp-action="RegistroEmpresa">
+                                        <i class="bi bi-circle"></i><span>Registro de empresa </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="TypeForm" asp-action="Psicosocial">
+                                        <i class="bi bi-circle"></i><span>Evaluación de salud general</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Registro de empresas </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Registro de empresas (typeform) y Evaluación de salud general</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole("Intermedio") || User.IsInRole("Admin") || User.IsInRole("Avanzado") || User.IsInRole("Premium"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#evaluacionesMod-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-calendar-event"></i><span>Evaluaciones modulares</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="evaluacionesMod-nav" class="sub-menu nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" data-bs-target="#tableroEvalMod-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-menu-button-wide-fill"></i><span>Tablero</span><i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+
+                            <ul id="tableroEvalMod-nav" class="nav-content collapse " data-bs-parent="#evaluacionesMod-nav">
+                                <li>
+                                    <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Reporte de CDD</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Reporte modular</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Semáforo NOMS</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Índice PROW</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <a class="nav-link collapsed" data-bs-target="#formularioEvalMod-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-menu-button-wide-fill"></i><span>Formulario</span><i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+
+                            <ul id="formularioEvalMod-nav" class="nav-content collapse " data-bs-parent="#evaluacionesMod-nav">
+                                <li>
+                                    <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>CDD por especialidad</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>(Google Scholar, llenado por el proveedor, etc.)*</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Formularios de los reportes modulares</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+            }
+
+            @if (User.IsInRole("Intermedio") || User.IsInRole("Admin") || User.IsInRole("Avanzado") || User.IsInRole("Premium"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#integrecionAnual-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-calendar3"></i><span>Integreción Anual</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="integrecionAnual-nav" class="sub-menu nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" data-bs-target="#tableroIntegrecionAnual-nav" data-bs-toggle="collapse" href="#">
+                                <i class="bi bi-menu-button-wide-fill"></i><span>Tablero</span><i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+
+                            <ul id="tableroIntegrecionAnual-nav" class="nav-content collapse " data-bs-parent="#integrecionAnual-nav">
+                                <li>
+                                    <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Reporte de CDD</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Reporte modular</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Semáforo NOMS</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                        <i class="bi bi-circle"></i><span>Índice PROW</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#metadatos-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-clipboard-data"></i><span>Metadatos</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="metadatos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Descripción empresarial</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Evaluación diagnóstica de salud</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Panel salaria</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Programa Prow Personalizado</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Premium"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#tablerospremium-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-bookmark-plus"></i><span>Tableros Premium</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="tablerospremium-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Comparativa de mercado de prob. de salud</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Comparativa de mercado incapacidades</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>Comparativa de mercado indice pro</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                                <i class="bi bi-circle"></i><span>ndicadores de riesgo de enfermedades</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+
+
+
+            <!--<li class="nav-item">
+        <a class="nav-link collapsed" asp-controller="TypeForm" asp-action="RegistroEmpresa">
+            <i class="bi bi-person"></i>
+            <span>Registrar Empresa</span>
+        </a>
+    </li>-->
+            <!-- End Profile Page Nav -->
+            <!--<li class="nav-item">
+        <a class="nav-link collapsed" asp-controller="TypeForm" asp-action="Psicosocial">
+            <i class="bi bi-question-circle"></i>
+            <span>Psicosocial</span>
+        </a>
+    </li>-->
+            <!-- End F.A.Q Page Nav -->
+            <!--<li class="nav-item">
+        <a class="nav-link collapsed" asp-controller="TypeForm" asp-action="SaludFisica">
+            <i class="bi bi-envelope"></i>
+            <span>Salud Fisica</span>
+        </a>
+    </li>-->
+            <!-- End Contact Page Nav -->
+            <!--<li class="nav-item">
+        <a class="nav-link collapsed" asp-controller="TypeForm" asp-action="ModuloGastro">
+            <i class="bi bi-envelope"></i>
+            <span>Modulo Gastro</span>
+        </a>
+    </li>-->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Post-Covid</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-controller="FactoresRiesgos" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Factores de Riesgo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="RiesgoContagios" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Riesgos de contagio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Pruebas" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Pruebas Externas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="PruebasInternas" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Pruebas Internas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="ReportesContagios" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Reportes Covid</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="SeguimientosCovid" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Seguimiento covid</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Reincorporados" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Reincorporados</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Dashboard">
+                            <i class="bi bi-circle"></i><span>Tablero</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- End Contact Page Nav -->
+            <!-- End Blank Page Nav -->
+
+        </ul>
+
+</aside><!-- End Sidebar-->
+
+}
+

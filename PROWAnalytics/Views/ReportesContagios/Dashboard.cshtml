@@ -1,0 +1,266 @@
+﻿@model PROWAnalytics.Models.ReporteContagio
+@{
+    ViewData["Title"] = "Trabajadores";
+}
+
+<input type="hidden" id="HdnIdEmpresa" value="@ViewBag.IdEmpresa" />
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+        <div class="section-title">
+            <h2>Reportes de contagios</h2>
+        </div>
+
+        <a href="#graficos" class="btn btn-warning active scrollto" role="button" aria-pressed="true">Gráficos y estadísticas</a>
+
+        <hr />
+
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <select asp-for="IdEmpresa" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                <option selected disabled>Seleccionar Empresa</option>
+                            </select>
+                        </div>
+                        <div class="col form-group">
+                            <input type="submit" value="Buscar" class="btn btn-secondary" />
+                        </div>
+                    </div>
+                }
+                <div class="form-row">
+                    <div class="col form-group">
+                        <a class="btn btn-secondary" asp-action="Index">Regresar lista completa</a>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col form-group">
+                        <a class="btn btn-secondary" asp-action="Create">Crear nuevo</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<hr />
+
+<section id="graficos">
+    <input type="hidden" id="HdnIdEmpresasGraph" value="@ViewBag.Empresas" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                @*T6. Numero semanal de positivos y sospechosos*@
+                <form asp-action="PositivosSospechososSemanales" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar numero semanal de positivos y sospechosos</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*G6. Positivos y sospechosos semanales*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Positivos y negativos semanales</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="PositivosNegativosPorSemana"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                @*T.7 Numero semanal de positivos y sospechosos por área.*@
+                <form asp-action="PositivosSospechososSemanalesXArea" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar numero semanal de positivos y sospechosos por área</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*G7. Número semanal de positivos y sospechosos por área*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Positivos y sospechosos por área</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrG7PositivosSospechososSemXArea"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                @*M11. AM. Positivos y sospechosos mensuales*@
+                <form asp-action="PositivosSospechososMensuales" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar positivos y sospechosos mensuales</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*R11. AM. Positivos y sospechosos*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Positivos y sospechosos mensuales</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrR11PositivosSospechososMen"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  ">
+                @*M12. AT Positivos y sospechosos y descartados desde el inicio del registro*@
+                <form asp-action="PositivosSospechososEmpresa" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar positivos, sospechosos y descartados</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*R12. AT. Positivos, sospechosos y descartados.*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Positivos, sospechosos y descartados</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrR12PositivosSospechososTotal"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                @*M13. Distribución de positivos por área. Para identificación temprana de brotes.*@
+                <form asp-action="PositivosSemanalXArea" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar distribución de positivos por área</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*R13. Distribución de positivos por área.*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Distribución de positivos por área</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrR13PositivosXArea"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6  ">
+                @*M14. AM Distribución por área*@
+                <form asp-action="PositivosMensualXArea" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar distribución mensual por área</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*R14. AM Distribución por área.*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Distribución mensual por área</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrR14PositivosMenXArea"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                @*M15. AT Distribución por área*@
+                <form asp-action="PositivosTotalXArea" method="get">
+                    <div class="form-actions no-color">
+                        <h3>Descargar distribución total por área</h3>
+                        <div class="form-row">
+                            <div class="col-md-3 form-group">
+                                <select asp-for="IdEmpresa" class="form-control" asp-items="@(new SelectList(@ViewBag.Empresas,"Id","Empresa"))">
+                                    <option selected disabled>Seleccionar Empresa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <input type="submit" value="Buscar" class="btn btn-secondary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*R15. AT Distribución por área*@
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Distribución total por área</h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="GrR15PositivosTotalXArea"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6"></div>
+        </div>
+
+    </div>
+
+</section>
+

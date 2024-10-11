@@ -1,0 +1,150 @@
+﻿@model IEnumerable<PROWAnalytics.Models.FactorRiesgo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section id="trabajadores" class="d-flex align-items-cente min-vh-100">
+    <div class="container">
+
+        <h1>Factores de Riesgos</h1>
+
+        <p>
+            <a asp-action="Create">Crear Nuevo</a>
+        </p>
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Diabetes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Hipertension)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Asma)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SobrePeso)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Obesidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Embarazo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cancer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tabaquismo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ConsumoAlcohol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FarmacosDrogas)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NoPersonasCasa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoCasa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoTransporte)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EspacioTrabajo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoVentilacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactoLaboral)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TiempoContacto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Trabajador)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Diabetes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hipertension)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Asma)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SobrePeso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Obesidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Embarazo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cancer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tabaquismo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ConsumoAlcohol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FarmacosDrogas)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoPersonasCasa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoCasa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoTransporte)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EspacioTrabajo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoVentilacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactoLaboral)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TiempoContacto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trabajador.Nombre)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+
+                            @if (!User.IsInRole("Trabajador"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-action="Dashboard">Regresar</a>
+
+    </div>
+</section>

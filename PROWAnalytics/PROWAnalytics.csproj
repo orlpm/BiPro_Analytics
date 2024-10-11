@@ -1,0 +1,386 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-PROWAnalytics-3EA9F6C7-4C18-4DC6-AA8C-FBD226DA1E07</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\__EmpresasController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.8.1" />
+    <PackageReference Include="CsvHelper" Version="13.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="20.2.0" />
+    <PackageReference Include="SendGrid" Version="9.22.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\img\ImgMRM\" />
+    <Folder Include="wwwroot\assets\img\Logo\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\vendor\apexcharts\apexcharts.amd.js" />
+    <None Include="wwwroot\assets\vendor\apexcharts\apexcharts.common.js" />
+    <None Include="wwwroot\assets\vendor\apexcharts\apexcharts.esm.js" />
+    <None Include="wwwroot\assets\vendor\apexcharts\apexcharts.js" />
+    <None Include="wwwroot\assets\vendor\apexcharts\apexcharts.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\css\bootstrap-datepicker.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\css\bootstrap-datepicker.standalone.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\css\bootstrap-datepicker3.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker-en-CA.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ar-tn.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ar.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.az.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.bg.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.bm.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.bn.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.br.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.bs.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ca.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.cs.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.cy.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.da.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.de.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.el.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-AU.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-CA.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-GB.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-IE.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-NZ.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.en-ZA.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.eo.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.es.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.et.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.eu.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.fa.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.fi.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.fo.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.fr.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.gl.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.he.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.hi.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.hr.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.hu.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.hy.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.id.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.is.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.it-CH.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.it.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ja.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ka.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.kh.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.kk.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.km.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ko.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.kr.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.lt.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.lv.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.me.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.mk.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.mn.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ms.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.nl.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.no.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.oc.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.pl.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.pt.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ro.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.rs.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ru.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.si.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sk.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sl.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sq.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sr.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sv.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.sw.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.ta.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.tg.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.th.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.tk.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.tr.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.uk.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.uz-cyrl.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.uz-latn.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.vi.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-datepicker\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap-icons\bootstrap-icons.scss" />
+    <None Include="wwwroot\assets\vendor\bootstrap-icons\fonts\bootstrap-icons.woff2" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.esm.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.js.map" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.min.js" />
+    <None Include="wwwroot\assets\vendor\bootstrap\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\assets\vendor\boxicons\fonts\boxicons.svg" />
+    <None Include="wwwroot\assets\vendor\boxicons\fonts\boxicons.woff2" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.cjs" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.cjs.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.js" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.js.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.umd.js" />
+    <None Include="wwwroot\assets\vendor\chart.js\chart.umd.js.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\chunks\helpers.segment.cjs" />
+    <None Include="wwwroot\assets\vendor\chart.js\chunks\helpers.segment.cjs.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\chunks\helpers.segment.js" />
+    <None Include="wwwroot\assets\vendor\chart.js\chunks\helpers.segment.js.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\helpers.cjs" />
+    <None Include="wwwroot\assets\vendor\chart.js\helpers.cjs.map" />
+    <None Include="wwwroot\assets\vendor\chart.js\helpers.js" />
+    <None Include="wwwroot\assets\vendor\chart.js\helpers.js.map" />
+    <None Include="wwwroot\assets\vendor\counterup\counterup.min.js" />
+    <None Include="wwwroot\assets\vendor\font-awesome\.gitignore" />
+    <None Include="wwwroot\assets\vendor\font-awesome\.npmignore" />
+    <None Include="wwwroot\assets\vendor\font-awesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\assets\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\assets\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\animated.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\bordered-pulled.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\core.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\fixed-width.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\font-awesome.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\icons.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\larger.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\list.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\mixins.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\path.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\rotated-flipped.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\screen-reader.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\stacked.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\less\variables.less" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\font-awesome.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_animated.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_bordered-pulled.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_core.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_fixed-width.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_icons.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_larger.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_list.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_mixins.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_path.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_rotated-flipped.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_screen-reader.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_stacked.scss" />
+    <None Include="wwwroot\assets\vendor\font-awesome\scss\_variables.scss" />
+    <None Include="wwwroot\assets\vendor\icofont\fonts\icofont.woff2" />
+    <None Include="wwwroot\assets\vendor\jquery.easing\jquery.easing.min.js" />
+    <None Include="wwwroot\assets\vendor\jquery\jquery.min.js" />
+    <None Include="wwwroot\assets\vendor\jquery\jquery.min.map" />
+    <None Include="wwwroot\assets\vendor\owl.carousel\LICENSE" />
+    <None Include="wwwroot\assets\vendor\owl.carousel\owl.carousel.js" />
+    <None Include="wwwroot\assets\vendor\owl.carousel\owl.carousel.min.js" />
+    <None Include="wwwroot\assets\vendor\owl.carousel\README.md" />
+    <None Include="wwwroot\assets\vendor\php-email-form\validate.js" />
+    <None Include="wwwroot\assets\vendor\quill\quill.core.js" />
+    <None Include="wwwroot\assets\vendor\quill\quill.js" />
+    <None Include="wwwroot\assets\vendor\quill\quill.min.js" />
+    <None Include="wwwroot\assets\vendor\quill\quill.min.js.map" />
+    <None Include="wwwroot\assets\vendor\remixicon\remixicon.less" />
+    <None Include="wwwroot\assets\vendor\remixicon\remixicon.svg" />
+    <None Include="wwwroot\assets\vendor\remixicon\remixicon.symbol.svg" />
+    <None Include="wwwroot\assets\vendor\remixicon\remixicon.woff2" />
+    <None Include="wwwroot\assets\vendor\tinymce\CHANGELOG.md" />
+    <None Include="wwwroot\assets\vendor\tinymce\icons\default\icons.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\icons\default\icons.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\icons\default\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\models\dom\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\models\dom\model.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\models\dom\model.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\accordion\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\accordion\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\accordion\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\advlist\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\advlist\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\advlist\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\anchor\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\anchor\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\anchor\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autolink\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autolink\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autolink\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autoresize\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autoresize\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autoresize\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autosave\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autosave\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\autosave\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\charmap\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\charmap\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\charmap\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\codesample\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\codesample\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\codesample\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\code\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\code\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\code\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\directionality\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\directionality\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\directionality\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\js\emojiimages.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\js\emojiimages.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\js\emojis.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\js\emojis.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\emoticons\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\fullscreen\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\fullscreen\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\fullscreen\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ar.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\bg_BG.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ca.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\cs.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\da.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\de.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\el.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\en.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\es.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\eu.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\fa.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\fi.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\fr_FR.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\he_IL.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\hi.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\hr.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\hu_HU.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\id.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\it.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ja.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\kk.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ko_KR.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ms.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\nb_NO.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\nl.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\pl.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\pt_BR.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\pt_PT.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ro.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\ru.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\sk.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\sl_SI.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\sv_SE.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\th_TH.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\tr.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\uk.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\vi.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\zh_CN.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\js\i18n\keynav\zh_TW.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\help\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\image\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\image\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\image\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\importcss\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\importcss\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\importcss\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\insertdatetime\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\insertdatetime\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\link\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\link\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\link\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\lists\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\lists\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\lists\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\media\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\media\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\media\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\nonbreaking\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\nonbreaking\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\pagebreak\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\pagebreak\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\pagebreak\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\preview\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\preview\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\preview\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\quickbars\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\quickbars\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\quickbars\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\save\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\save\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\save\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\searchreplace\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\searchreplace\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\searchreplace\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\table\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\table\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\table\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\template\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\template\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\template\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualblocks\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualblocks\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualblocks\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualchars\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualchars\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\visualchars\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\wordcount\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\wordcount\plugin.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\plugins\wordcount\plugin.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\README.md" />
+    <None Include="wwwroot\assets\vendor\tinymce\themes\silver\index.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\themes\silver\theme.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\themes\silver\theme.min.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\tinymce.js" />
+    <None Include="wwwroot\assets\vendor\tinymce\tinymce.min.js" />
+    <None Include="wwwroot\assets\vendor\venobox\venobox.js" />
+    <None Include="wwwroot\assets\vendor\venobox\venobox.min.js" />
+    <None Include="wwwroot\assets\vendor\waypoints\jquery.waypoints.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\assets\vendor\tinymce\tinymce.d.ts" />
+  </ItemGroup>
+
+</Project>
